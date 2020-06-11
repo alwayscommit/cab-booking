@@ -7,52 +7,55 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import com.assignment.cab_booking.constants.EntityColumnConstants;
+import com.assignment.cab_booking.constants.EntityConstants;
 import com.assignment.cab_booking.constants.ValidationConstants;
 
 @Entity
+@Table(name=EntityConstants.USER_ACCOUNT)
 public class UserAccountEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	@Column(name = EntityConstants.ID)
+	private Long userId;
 
 	@NotEmpty(message = ValidationConstants.FIRST_NAME_INVALID_MESSAGE)
-	@Column(name = EntityColumnConstants.FIRST_NAME)
+	@Column(name = EntityConstants.FIRST_NAME)
 	private String firstName;
 
 	@NotEmpty(message = ValidationConstants.LAST_NAME_INVALID_MESSAGE)
-	@Column(name = EntityColumnConstants.LAST_NAME)
+	@Column(name = EntityConstants.LAST_NAME)
 	private String lastName;
 
 	@NotEmpty(message = ValidationConstants.PASSWORD_INVALID_MESSAGE)
-	@Column(name = EntityColumnConstants.ENCRYPTED_PASSWORD)
+	@Column(name = EntityConstants.ENCRYPTED_PASSWORD)
 	private String encryptedPassword;
 
 	@Pattern(regexp = "[\\d]{10}", message = ValidationConstants.MOBILE_NUMBER_INVALID_MESSAGE)
-	@Column(name = EntityColumnConstants.MOBILE_NUMBER, unique = true)
+	@Column(name = EntityConstants.MOBILE_NUMBER, unique = true)
 	private String mobileNumber;
 
 	@NotNull(message = ValidationConstants.ACCOUNT_TYPE_INVALID_MESSAGE)
-	@Column(name = EntityColumnConstants.ACCOUNT_TYPE)
+	@Column(name = EntityConstants.ACCOUNT_TYPE)
 	private AccountType accountType;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = EntityColumnConstants.CREATION_DATE)
+	@Column(name = EntityConstants.CREATION_DATE)
 	private Date creationDate;
 
-	public Long getId() {
-		return id;
+	public Long getUserId() {
+		return userId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 	public String getFirstName() {
