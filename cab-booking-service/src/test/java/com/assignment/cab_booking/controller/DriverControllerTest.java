@@ -21,8 +21,10 @@ import com.assignment.cab_booking.entity.CarStatus;
 import com.assignment.cab_booking.service.DriverService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@WebMvcTest(DriverRegistrationController.class)
-class DriverRegistrationControllerTest {
+@WebMvcTest(DriverController.class)
+class DriverControllerTest {
+
+	private static final String DRIVER_CONTROLLER_MAPPING = "/driver";
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -38,7 +40,7 @@ class DriverRegistrationControllerTest {
 		DriverDTO driverDTO = new DriverDTO("Aakash", "Audi", CarStatus.AVAILABLE, "MH04JP0222", "7506500444",
 				"19.231309", "72.982752");
 		Mockito.when(driverService.registerDriver(Mockito.any())).thenReturn(driverDTO);
-		this.mockMvc.perform(post("/cab-service/driver").contentType(MediaType.APPLICATION_JSON)
+		this.mockMvc.perform(post(DRIVER_CONTROLLER_MAPPING).contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(driverDTO))).andExpect(status().isOk());
 		Mockito.verify(driverService, times(1)).registerDriver(Mockito.any());
 	}
@@ -51,7 +53,7 @@ class DriverRegistrationControllerTest {
 		Mockito.when(driverService.registerDriver(Mockito.any())).thenReturn(driverDTO);
 
 		this.mockMvc
-				.perform(post("/cab-service/driver").contentType(MediaType.APPLICATION_JSON)
+				.perform(post(DRIVER_CONTROLLER_MAPPING).contentType(MediaType.APPLICATION_JSON)
 						.content(objectMapper.writeValueAsString(driverDTO)))
 				.andExpect(status().isOk()).andExpect(jsonPath("$.driverName", is(driverDTO.getDriverName())))
 				.andExpect(jsonPath("$.driverNumber", is(driverDTO.getDriverNumber())))
