@@ -1,15 +1,5 @@
 package com.assignment.cab_booking.constants;
 
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.validation.constraints.NotNull;
-
-import com.assignment.cab_booking.entity.BookingState;
-import com.assignment.cab_booking.entity.CarEntity;
-import com.assignment.cab_booking.entity.Location;
-import com.assignment.cab_booking.entity.UserAccountEntity;
-
 public interface ValidationConstants {
 
 	// UserAccount
