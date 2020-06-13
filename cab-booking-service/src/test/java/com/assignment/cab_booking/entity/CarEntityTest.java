@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.assignment.cab_booking.constants.ValidationConstants;
+import com.assignment.cab_booking.model.CarStatus;
 
 class CarEntityTest {
 

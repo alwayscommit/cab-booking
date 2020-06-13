@@ -16,6 +16,7 @@ import javax.validation.constraints.Pattern;
 
 import com.assignment.cab_booking.constants.EntityConstants;
 import com.assignment.cab_booking.constants.ValidationConstants;
+import com.assignment.cab_booking.model.AccountType;
 
 @Entity
 @Table(name=EntityConstants.USER_ACCOUNT)
@@ -24,7 +25,7 @@ public class UserAccountEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = EntityConstants.ID)
-	private Long id;
+	private Long userId;
 
 	@NotEmpty(message = ValidationConstants.FIRST_NAME_INVALID_MESSAGE)
 	@Column(name = EntityConstants.FIRST_NAME)
@@ -50,13 +51,12 @@ public class UserAccountEntity {
 	@Column(name = EntityConstants.CREATED_ON)
 	private Date createdOn;
 
-
-	public Long getId() {
-		return id;
+	public Long getUserId() {
+		return userId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 	public String getFirstName() {

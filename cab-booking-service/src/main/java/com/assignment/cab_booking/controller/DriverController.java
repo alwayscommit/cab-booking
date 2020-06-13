@@ -1,6 +1,7 @@
 package com.assignment.cab_booking.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.assignment.cab_booking.model.dto.DriverDTO;
+import com.assignment.cab_booking.model.dto.CarDriverDTO;
 import com.assignment.cab_booking.model.request.DriverRequest;
 import com.assignment.cab_booking.model.response.DriverRest;
 import com.assignment.cab_booking.service.DriverService;
@@ -33,25 +34,34 @@ public class DriverController {
 	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<DriverRest> registerDriver(@RequestBody DriverRequest driverRequest) {
 		ModelMapper modelMapper = new ModelMapper();
-		DriverDTO driverDTO = modelMapper.map(driverRequest, DriverDTO.class);
-		
-		DriverDTO savedDriver = driverService.registerDriver(driverDTO);
-		
+		CarDriverDTO driverDTO = modelMapper.map(driverRequest, CarDriverDTO.class);
+
+		CarDriverDTO savedDriver = driverService.registerDriver(driverDTO);
+
 		DriverRest driverResponse = modelMapper.map(savedDriver, DriverRest.class);
-		
+
 		return new ResponseEntity<DriverRest>(driverResponse, HttpStatus.CREATED);
 	}
 
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<DriverDTO>> getAllDrivers() {
-		List<DriverDTO> driverList = driverService.getDrivers();
-		return new ResponseEntity<List<DriverDTO>>(driverList, HttpStatus.OK);
+	public ResponseEntity<List<DriverRest>> getAvailableDrivers() {
+		List<CarDriverDTO> driverList = driverService.getAvailableDrivers();
+
+		List<DriverRest> availableDriverList = driverList.stream().map(driverDTO -> mapToDriverRest(driverDTO))
+				.collect(Collectors.toList());
+
+		return new ResponseEntity<List<DriverRest>>(availableDriverList, HttpStatus.OK);
 	}
-	
+
+	private DriverRest mapToDriverRest(CarDriverDTO driverDTO) {
+		ModelMapper modelMapper = new ModelMapper();
+		return modelMapper.map(driverDTO, DriverRest.class);
+	}
+
 	@GetMapping(path = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<DriverDTO> getDriver(@PathVariable String id) {
-		DriverDTO driver = driverService.getDriver(id);
-		return new ResponseEntity<DriverDTO>(driver, HttpStatus.OK);
+	public ResponseEntity<CarDriverDTO> getDriver(@PathVariable String id) {
+		CarDriverDTO driver = driverService.getDriver(id);
+		return new ResponseEntity<CarDriverDTO>(driver, HttpStatus.OK);
 	}
-	
+
 }

@@ -2,8 +2,6 @@ package com.assignment.cab_booking.entity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 
 import javax.validation.Validation;
@@ -15,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.assignment.cab_booking.constants.ValidationConstants;
+import com.assignment.cab_booking.model.AccountType;
 
 class UserAccountValidationTest {
 

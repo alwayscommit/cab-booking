@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
 
 import com.assignment.cab_booking.constants.EntityConstants;
 import com.assignment.cab_booking.constants.ValidationConstants;
+import com.assignment.cab_booking.model.BookingState;
 
 @Entity
 @Table(name = EntityConstants.BOOKING)

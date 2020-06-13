@@ -2,17 +2,18 @@ package com.assignment.cab_booking.model.dto;
 
 import java.util.Date;
 
-import com.assignment.cab_booking.entity.AccountType;
-import com.assignment.cab_booking.entity.CarStatus;
+import com.assignment.cab_booking.model.AccountType;
+import com.assignment.cab_booking.model.CarStatus;
 
-public class DriverDTO {
+public class CarDriverDTO {
 
-	private Long id;
+	private Long userId;//Id from car table
 	private String mobileNumber;
 	private String firstName;
 	private String lastName;
 	private String password;
 	private AccountType accountType;
+	private Long carId;
 	private String carName;
 	private CarStatus carStatus;
 	private String carNumber;
@@ -20,7 +21,7 @@ public class DriverDTO {
 	private String longitude;
 	private Date createdOn;
 	
-	public DriverDTO(Long id, String mobileNumber, String firstName, String lastName, String password,
+	public CarDriverDTO(String mobileNumber, String firstName, String lastName, String password,
 			AccountType accountType, String carName, CarStatus carStatus, String carNumber, String latitude,
 			String longitude, Date createdOn) {
 		this.mobileNumber = mobileNumber;
@@ -52,7 +53,7 @@ public class DriverDTO {
 		this.accountType = accountType;
 	}
 
-	public DriverDTO() {
+	public CarDriverDTO() {
 	}
 
 	public String getPassword() {
@@ -77,14 +78,6 @@ public class DriverDTO {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getCarName() {
@@ -135,11 +128,28 @@ public class DriverDTO {
 		this.longitude = longitude;
 	}
 
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public Long getCarId() {
+		return carId;
+	}
+
+	public void setCarId(Long carId) {
+		this.carId = carId;
+	}
+
 	@Override
 	public String toString() {
-		return "DriverDTO [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", password=" + password
-				+ ", carName=" + carName + ", carStatus=" + carStatus + ", carNumber=" + carNumber + ", mobileNumber="
-				+ mobileNumber + ", latitude=" + latitude + ", longitude=" + longitude + "]";
+		return "DriverDTO [userId=" + userId + ", mobileNumber=" + mobileNumber + ", firstName=" + firstName
+				+ ", lastName=" + lastName + ", password=" + password + ", accountType=" + accountType + ", carId="
+				+ carId + ", carName=" + carName + ", carStatus=" + carStatus + ", carNumber=" + carNumber
+				+ ", latitude=" + latitude + ", longitude=" + longitude + ", createdOn=" + createdOn + "]";
 	}
 
 }

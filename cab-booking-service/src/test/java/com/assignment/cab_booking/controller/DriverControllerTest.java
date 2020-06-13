@@ -20,9 +20,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.assignment.cab_booking.entity.AccountType;
-import com.assignment.cab_booking.entity.CarStatus;
-import com.assignment.cab_booking.model.dto.DriverDTO;
+import com.assignment.cab_booking.model.AccountType;
+import com.assignment.cab_booking.model.CarStatus;
+import com.assignment.cab_booking.model.dto.CarDriverDTO;
 import com.assignment.cab_booking.model.request.DriverRequest;
 import com.assignment.cab_booking.service.DriverService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -46,7 +46,7 @@ class DriverControllerTest {
 		DriverRequest driverRequest = new DriverRequest("Aakash", "Audi", "MH04JP0222", "7506500444", "19.231309",
 				"72.982752");
 
-		DriverDTO driverDTO = new DriverDTO(1L, "7506500444", "Aakash", "Ranglani" ,"aakash", AccountType.DRIVER, "Audi",
+		CarDriverDTO driverDTO = new CarDriverDTO("7506500444", "Aakash", "Ranglani" ,"aakash", AccountType.DRIVER, "Audi",
 				CarStatus.AVAILABLE, "MH04JP0222", "19.231309", "72.982752", new Date());
 
 		Mockito.when(driverService.registerDriver(Mockito.any())).thenReturn(driverDTO);
@@ -57,7 +57,7 @@ class DriverControllerTest {
 
 	@Test
 	public void testCreateDriver() throws Exception {
-		DriverDTO driverDTO = new DriverDTO(1L, "7506500444", "Aakash", "Ranglani" ,"aakash", AccountType.DRIVER, "Audi",
+		CarDriverDTO driverDTO = new CarDriverDTO("7506500444", "Aakash", "Ranglani" ,"aakash", AccountType.DRIVER, "Audi",
 				CarStatus.AVAILABLE, "MH04JP0222", "19.231309", "72.982752", new Date());
 
 		Mockito.when(driverService.registerDriver(Mockito.any())).thenReturn(driverDTO);
@@ -74,19 +74,19 @@ class DriverControllerTest {
 	@Test
 	public void testGetDrivers() throws Exception {
 		
-		DriverDTO driverDTO1 = new DriverDTO(1L, "7506500444", "Aakash", "Ranglani" ,"aakash", AccountType.DRIVER, "Audi",
+		CarDriverDTO driverDTO1 = new CarDriverDTO("7506500444", "Aakash", "Ranglani" ,"aakash", AccountType.DRIVER, "Audi",
 				CarStatus.AVAILABLE, "MH04JP0222", "19.231309", "72.982752", new Date());
-		DriverDTO driverDTO2 = new DriverDTO(1L, "7506500444", "Aakash", "Ranglani" ,"aakash", AccountType.DRIVER, "Audi",
+		CarDriverDTO driverDTO2 = new CarDriverDTO("7506500444", "Aakash", "Ranglani" ,"aakash", AccountType.DRIVER, "Audi",
 				CarStatus.AVAILABLE, "MH04JP0222", "19.231309", "72.982752", new Date());
-		DriverDTO driverDTO3 = new DriverDTO(1L, "7506500444", "Aakash", "Ranglani" ,"aakash", AccountType.DRIVER, "Audi",
+		CarDriverDTO driverDTO3 = new CarDriverDTO("7506500444", "Aakash", "Ranglani" ,"aakash", AccountType.DRIVER, "Audi",
 				CarStatus.AVAILABLE, "MH04JP0222", "19.231309", "72.982752", new Date());
 
-		List<DriverDTO> driverList = new ArrayList<DriverDTO>();
+		List<CarDriverDTO> driverList = new ArrayList<CarDriverDTO>();
 		driverList.add(driverDTO1);
 		driverList.add(driverDTO2);
 		driverList.add(driverDTO3);
 
-		Mockito.when(driverService.getDrivers()).thenReturn(driverList);
+		Mockito.when(driverService.getAvailableDrivers()).thenReturn(driverList);
 
 		this.mockMvc
 				.perform(get(DRIVER_CONTROLLER_MAPPING).contentType(MediaType.APPLICATION_JSON)
@@ -99,14 +99,14 @@ class DriverControllerTest {
 				.andExpect(jsonPath("$.[1].lastName", CoreMatchers.is(driverDTO2.getLastName())))
 				.andExpect(jsonPath("$.[1].carNumber", CoreMatchers.is(driverDTO2.getCarNumber())));
 
-		verify(driverService, times(1)).getDrivers();
+		verify(driverService, times(1)).getAvailableDrivers();
 	}
 
 	@Test
 	public void testGetDriver() throws Exception {
-		DriverDTO driverDTO = new DriverDTO(1L, "7506500444", "Aakash", "Ranglani" ,"aakash", AccountType.DRIVER, "Audi",
+		CarDriverDTO driverDTO = new CarDriverDTO("7506500444", "Aakash", "Ranglani" ,"aakash", AccountType.DRIVER, "Audi",
 				CarStatus.AVAILABLE, "MH04JP0222", "19.231309", "72.982752", new Date());
-		driverDTO.setId(123L);
+		driverDTO.setUserId(123L);
 		Mockito.when(driverService.getDriver(Mockito.anyString())).thenReturn(driverDTO);
 
 		this.mockMvc

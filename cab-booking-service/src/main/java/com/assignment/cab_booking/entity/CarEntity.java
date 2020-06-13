@@ -1,5 +1,7 @@
 package com.assignment.cab_booking.entity;
 
+import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,13 +10,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.assignment.cab_booking.constants.EntityConstants;
 import com.assignment.cab_booking.constants.ValidationConstants;
+import com.assignment.cab_booking.model.AccountType;
+import com.assignment.cab_booking.model.CarStatus;
 
 @Entity
 @Table(name = EntityConstants.CAR)
@@ -23,7 +26,7 @@ public class CarEntity {
 	@Id
 	@GeneratedValue
 	@Column(name = EntityConstants.ID)
-	private long id;
+	private Long carId;
 
 	@NotEmpty(message=ValidationConstants.CAR_NAME_MESSAGE)
 	@Column(name = EntityConstants.CAR_NAME)
@@ -38,20 +41,28 @@ public class CarEntity {
 	@Column(name = EntityConstants.CAR_STATUS)
 	private CarStatus carStatus;
 
-	@OneToOne(cascade = CascadeType.PERSIST)
+	@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
 	@JoinColumn(name="DRIVEN_BY_ACCOUNT")
 	private UserAccountEntity drivenBy;
 
 	@OneToOne
 	@JoinColumn(name = EntityConstants.LOCATION)
 	private Location location;
-
-	public long getId() {
-		return id;
+	
+	public Long getCarId() {
+		return carId;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setCarId(Long carId) {
+		this.carId = carId;
+	}
+
+	public Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 
 	public String getCarName() {

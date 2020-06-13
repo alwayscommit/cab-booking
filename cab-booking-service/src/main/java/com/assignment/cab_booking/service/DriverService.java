@@ -2,14 +2,14 @@ package com.assignment.cab_booking.service;
 
 import java.util.List;
 
-import com.assignment.cab_booking.model.dto.DriverDTO;
+import com.assignment.cab_booking.model.dto.CarDriverDTO;
 
 public interface DriverService {
 	
-	public DriverDTO registerDriver(DriverDTO driverDTO);
+	public CarDriverDTO registerDriver(CarDriverDTO driverDTO);
 
-	public List<DriverDTO> getDrivers();
+	public List<CarDriverDTO> getAvailableDrivers();
 
-	public DriverDTO getDriver(String id); 
+	public CarDriverDTO getDriver(String id); 
 
 }

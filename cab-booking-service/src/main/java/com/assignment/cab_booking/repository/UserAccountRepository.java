@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 import com.assignment.cab_booking.entity.UserAccountEntity;
 
 @Repository
-public interface UserAccountRepository extends CrudRepository<UserAccountEntity, Long>{
+public interface UserAccountRepository extends CrudRepository<UserAccountEntity, Long> {
+
+	UserAccountEntity findByMobileNumber(String mobileNumber);
 
 }
