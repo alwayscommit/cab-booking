@@ -24,7 +24,7 @@ public class UserAccountEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = EntityConstants.ID)
-	private Long userId;
+	private Long id;
 
 	@NotEmpty(message = ValidationConstants.FIRST_NAME_INVALID_MESSAGE)
 	@Column(name = EntityConstants.FIRST_NAME)
@@ -47,15 +47,16 @@ public class UserAccountEntity {
 	private AccountType accountType;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = EntityConstants.CREATION_DATE)
-	private Date creationDate;
+	@Column(name = EntityConstants.CREATED_ON)
+	private Date createdOn;
 
-	public Long getUserId() {
-		return userId;
+
+	public Long getId() {
+		return id;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getFirstName() {
@@ -98,12 +99,12 @@ public class UserAccountEntity {
 		this.accountType = accountType;
 	}
 
-	public Date getCreationDate() {
-		return creationDate;
+	public Date getCreatedOn() {
+		return createdOn;
 	}
 
-	public void setCreationDate(Date creationDate) {
-		this.creationDate = creationDate;
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
 	}
 
 }

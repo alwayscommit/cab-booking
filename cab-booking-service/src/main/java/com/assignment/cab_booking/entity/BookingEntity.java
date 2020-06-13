@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -23,19 +25,23 @@ public class BookingEntity {
 	private Long id;
 
 	@NotNull(message = ValidationConstants.START_LOCATION_MESSAGE)
-	@Column(name = EntityConstants.START_LOCATION)
+	@OneToOne
+	@JoinColumn(name = EntityConstants.START_LOCATION)
 	private Location startLocation;
 
 	@NotNull(message=ValidationConstants.DROP_LOCATION_MESSAGE)
-	@Column(name = EntityConstants.DROP_LOCATION)
+	@OneToOne
+	@JoinColumn(name = EntityConstants.DROP_LOCATION)
 	private Location dropLocation;
 
 	@NotNull(message=ValidationConstants.CAR_DETAILS_MESSAGE)
-	@Column(name = EntityConstants.CAR_DETAILS)
-	private CarEntity carDetails;
+	@OneToOne
+	@JoinColumn(name="CAR_ID")
+	private CarEntity carEntity;
 
 	@NotNull(message = ValidationConstants.CUSTOMER_DETAILS_MESSAGE)
-	@Column(name = EntityConstants.CUSTOMER_DETAILS)
+	@OneToOne
+	@JoinColumn(name="ACCOUNT_ID")
 	private UserAccountEntity customerDetails;
 
 	@NotNull(message = ValidationConstants.BOOKING_STATE_MESSAGE)
@@ -74,12 +80,12 @@ public class BookingEntity {
 		this.dropLocation = dropLocation;
 	}
 
-	public CarEntity getCarDetails() {
-		return carDetails;
+	public CarEntity getCarEntity() {
+		return carEntity;
 	}
 
-	public void setCarDetails(CarEntity carDetails) {
-		this.carDetails = carDetails;
+	public void setCarEntity(CarEntity carEntity) {
+		this.carEntity = carEntity;
 	}
 
 	public UserAccountEntity getCustomerDetails() {

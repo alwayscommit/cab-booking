@@ -31,7 +31,7 @@ class BookingEntityTest {
 	void contextLoads() {
 		bookingEntity = new BookingEntity();
 		bookingEntity.setBookingTime(Date.from(Instant.now()));
-		bookingEntity.setCarDetails(new CarEntity());
+		bookingEntity.setCarEntity(new CarEntity());
 		bookingEntity.setCost(100);
 		bookingEntity.setCustomerDetails(new UserAccountEntity());
 		bookingEntity.setStartLocation(new Location());
@@ -65,7 +65,7 @@ class BookingEntityTest {
 	@Test
 	public void invalidCarDetailsTest() {
 
-		bookingEntity.setCarDetails(null);
+		bookingEntity.setCarEntity(null);
 		assertEquals(ValidationConstants.CAR_DETAILS_MESSAGE,
 				validator.validate(this.bookingEntity).iterator().next().getMessage());
 		

@@ -16,7 +16,7 @@ public interface EntityConstants {
 	public static final String ENCRYPTED_PASSWORD = "ENCRYPTED_PASSWORD";
 	public static final String MOBILE_NUMBER = "MOBILE_NUMBER";
 	public static final String ACCOUNT_TYPE = "ACCOUNT_TYPE";
-	public static final String CREATION_DATE = "CREATION_DATE";
+	public static final String CREATED_ON = "CREATED_ON";
 	
 	
 	//Car

@@ -1,6 +1,5 @@
 package com.assignment.cab_booking.controller;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -9,10 +8,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.hamcrest.CoreMatchers;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +20,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.assignment.cab_booking.dto.DriverDTO;
+import com.assignment.cab_booking.entity.AccountType;
 import com.assignment.cab_booking.entity.CarStatus;
+import com.assignment.cab_booking.model.dto.DriverDTO;
+import com.assignment.cab_booking.model.request.DriverRequest;
 import com.assignment.cab_booking.service.DriverService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -42,18 +43,22 @@ class DriverControllerTest {
 
 	@Test
 	public void testCreateDriverMock() throws Exception {
-		DriverDTO driverDTO = new DriverDTO("Aakash", "Audi", CarStatus.AVAILABLE, "MH04JP0222", "7506500444",
-				"19.231309", "72.982752");
+		DriverRequest driverRequest = new DriverRequest("Aakash", "Audi", "MH04JP0222", "7506500444", "19.231309",
+				"72.982752");
+
+		DriverDTO driverDTO = new DriverDTO(1L, "7506500444", "Aakash", "Ranglani" ,"aakash", AccountType.DRIVER, "Audi",
+				CarStatus.AVAILABLE, "MH04JP0222", "19.231309", "72.982752", new Date());
+
 		Mockito.when(driverService.registerDriver(Mockito.any())).thenReturn(driverDTO);
 		this.mockMvc.perform(post(DRIVER_CONTROLLER_MAPPING).contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(driverDTO))).andExpect(status().isCreated());
+				.content(objectMapper.writeValueAsString(driverRequest))).andExpect(status().isCreated());
 		verify(driverService, times(1)).registerDriver(Mockito.any());
 	}
 
 	@Test
-	public void testCreate() throws Exception {
-		DriverDTO driverDTO = new DriverDTO("Aakash", "Audi", CarStatus.AVAILABLE, "MH04JP0222", "7506500444",
-				"19.231309", "72.982752");
+	public void testCreateDriver() throws Exception {
+		DriverDTO driverDTO = new DriverDTO(1L, "7506500444", "Aakash", "Ranglani" ,"aakash", AccountType.DRIVER, "Audi",
+				CarStatus.AVAILABLE, "MH04JP0222", "19.231309", "72.982752", new Date());
 
 		Mockito.when(driverService.registerDriver(Mockito.any())).thenReturn(driverDTO);
 
@@ -61,19 +66,20 @@ class DriverControllerTest {
 				.perform(post(DRIVER_CONTROLLER_MAPPING).contentType(MediaType.APPLICATION_JSON)
 						.content(objectMapper.writeValueAsString(driverDTO)))
 				.andExpect(status().isCreated())
-				.andExpect(jsonPath("$.driverName", CoreMatchers.is(driverDTO.getDriverName())))
-				.andExpect(jsonPath("$.driverNumber", CoreMatchers.is(driverDTO.getDriverNumber())))
+				.andExpect(jsonPath("$.firstName", CoreMatchers.is(driverDTO.getFirstName())))
+				.andExpect(jsonPath("$.mobileNumber", CoreMatchers.is(driverDTO.getMobileNumber())))
 				.andExpect(jsonPath("$.carNumber", CoreMatchers.is(driverDTO.getCarNumber())));
 	}
 
 	@Test
 	public void testGetDrivers() throws Exception {
-		DriverDTO driverDTO1 = new DriverDTO("Aakash", "Audi", CarStatus.AVAILABLE, "MH04JP0222", "7506500444",
-				"19.231309", "72.982752");
-		DriverDTO driverDTO2 = new DriverDTO("Aakash1", "Audi1", CarStatus.AVAILABLE, "MH04JP0221", "7506500442",
-				"18.231309", "73.982752");
-		DriverDTO driverDTO3 = new DriverDTO("Aakash2", "Audi2", CarStatus.AVAILABLE, "MH04JP0223", "7506500443",
-				"20.231309", "71.982752");
+		
+		DriverDTO driverDTO1 = new DriverDTO(1L, "7506500444", "Aakash", "Ranglani" ,"aakash", AccountType.DRIVER, "Audi",
+				CarStatus.AVAILABLE, "MH04JP0222", "19.231309", "72.982752", new Date());
+		DriverDTO driverDTO2 = new DriverDTO(1L, "7506500444", "Aakash", "Ranglani" ,"aakash", AccountType.DRIVER, "Audi",
+				CarStatus.AVAILABLE, "MH04JP0222", "19.231309", "72.982752", new Date());
+		DriverDTO driverDTO3 = new DriverDTO(1L, "7506500444", "Aakash", "Ranglani" ,"aakash", AccountType.DRIVER, "Audi",
+				CarStatus.AVAILABLE, "MH04JP0222", "19.231309", "72.982752", new Date());
 
 		List<DriverDTO> driverList = new ArrayList<DriverDTO>();
 		driverList.add(driverDTO1);
@@ -87,10 +93,10 @@ class DriverControllerTest {
 						.content(objectMapper.writeValueAsString(driverList)))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.[0].carName", CoreMatchers.is(driverDTO1.getCarName())))
-				.andExpect(jsonPath("$.[0].driverName", CoreMatchers.is(driverDTO1.getDriverName())))
+				.andExpect(jsonPath("$.[0].firstName", CoreMatchers.is(driverDTO1.getFirstName())))
 				.andExpect(jsonPath("$.[0].carNumber", CoreMatchers.is(driverDTO1.getCarNumber())))
 				.andExpect(jsonPath("$.[1].carName", CoreMatchers.is(driverDTO2.getCarName())))
-				.andExpect(jsonPath("$.[1].driverName", CoreMatchers.is(driverDTO2.getDriverName())))
+				.andExpect(jsonPath("$.[1].lastName", CoreMatchers.is(driverDTO2.getLastName())))
 				.andExpect(jsonPath("$.[1].carNumber", CoreMatchers.is(driverDTO2.getCarNumber())));
 
 		verify(driverService, times(1)).getDrivers();
@@ -98,17 +104,17 @@ class DriverControllerTest {
 
 	@Test
 	public void testGetDriver() throws Exception {
-		DriverDTO driverDTO = new DriverDTO("Aakash", "Audi", CarStatus.AVAILABLE, "MH04JP0222", "7506500444",
-				"19.231309", "72.982752");
-		driverDTO.setDriverId("123");
+		DriverDTO driverDTO = new DriverDTO(1L, "7506500444", "Aakash", "Ranglani" ,"aakash", AccountType.DRIVER, "Audi",
+				CarStatus.AVAILABLE, "MH04JP0222", "19.231309", "72.982752", new Date());
+		driverDTO.setId(123L);
 		Mockito.when(driverService.getDriver(Mockito.anyString())).thenReturn(driverDTO);
 
 		this.mockMvc
 				.perform(get(DRIVER_CONTROLLER_MAPPING + "/123").contentType(MediaType.APPLICATION_JSON)
 						.content(objectMapper.writeValueAsString(driverDTO)))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.driverName", CoreMatchers.is(driverDTO.getDriverName())))
-				.andExpect(jsonPath("$.driverNumber", CoreMatchers.is(driverDTO.getDriverNumber())))
+				.andExpect(jsonPath("$.firstName", CoreMatchers.is(driverDTO.getFirstName())))
+				.andExpect(jsonPath("$.mobileNumber", CoreMatchers.is(driverDTO.getMobileNumber())))
 				.andExpect(jsonPath("$.carNumber", CoreMatchers.is(driverDTO.getCarNumber())));
 
 		verify(driverService, times(1)).getDriver(Mockito.anyString());

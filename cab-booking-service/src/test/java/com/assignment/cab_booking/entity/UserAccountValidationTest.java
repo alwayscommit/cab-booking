@@ -34,7 +34,7 @@ class UserAccountValidationTest {
 		userAccount.setFirstName("Aakash");
 		userAccount.setLastName("Ranglani");
 		userAccount.setAccountType(AccountType.CUSTOMER);
-		userAccount.setCreationDate(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+		userAccount.setCreatedOn(new Date());
 		userAccount.setEncryptedPassword("okbye");
 		userAccount.setMobileNumber("7506020591");
 	}

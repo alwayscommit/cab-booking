@@ -1,9 +1,12 @@
 package com.assignment.cab_booking.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
@@ -28,17 +31,19 @@ public class CarEntity {
 
 	@NotEmpty(message=ValidationConstants.CAR_NUMBER_MESSAGE)
 	@Size(max = 10, message=ValidationConstants.CAR_NUMBER_MAX_LENGTH_MESSAGE)
-	@Column(name = EntityConstants.CAR_NUMBER)
+	@Column(name = EntityConstants.CAR_NUMBER, unique=true)
 	private String carNumber;
 
 	@NotNull(message=ValidationConstants.CAR_STATUS_MESSAGE)
 	@Column(name = EntityConstants.CAR_STATUS)
 	private CarStatus carStatus;
 
-	@Column(name = EntityConstants.DRIVEN_BY)
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name="DRIVEN_BY_ACCOUNT")
 	private UserAccountEntity drivenBy;
 
-	@Column(name = EntityConstants.LOCATION)
+	@OneToOne
+	@JoinColumn(name = EntityConstants.LOCATION)
 	private Location location;
 
 	public long getId() {
