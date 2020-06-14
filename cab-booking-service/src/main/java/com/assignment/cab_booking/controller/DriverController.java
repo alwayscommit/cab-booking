@@ -11,12 +11,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.assignment.cab_booking.model.dto.CarDriverDTO;
+import com.assignment.cab_booking.model.dto.LocationDTO;
 import com.assignment.cab_booking.model.request.DriverRequest;
+import com.assignment.cab_booking.model.request.LocationRequest;
 import com.assignment.cab_booking.model.response.DriverRest;
 import com.assignment.cab_booking.service.DriverService;
 
@@ -58,9 +61,19 @@ public class DriverController {
 		return modelMapper.map(driverDTO, DriverRest.class);
 	}
 
-	@GetMapping(path = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<DriverRest> getDriver(@PathVariable String id) {
-		CarDriverDTO driver = driverService.getDriver(id);
+	@GetMapping(path = "/{driverNumber}", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<DriverRest> getDriver(@PathVariable String driverNumber) {
+		CarDriverDTO driver = driverService.getDriver(driverNumber);
+		DriverRest driverResponse = mapToDriverRest(driver);
+		return new ResponseEntity<DriverRest>(driverResponse, HttpStatus.OK);
+	}
+
+	@PutMapping(path = "/{driverNumber}/location", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<DriverRest> updateDriverCarLocation(@PathVariable String driverNumber,
+			@RequestBody LocationRequest locationRequest) {
+		ModelMapper modelMapper = new ModelMapper();
+		LocationDTO locationDto = modelMapper.map(locationRequest, LocationDTO.class);
+		CarDriverDTO driver = driverService.updateDriverCarLocation(driverNumber, locationDto);
 		DriverRest driverResponse = mapToDriverRest(driver);
 		return new ResponseEntity<DriverRest>(driverResponse, HttpStatus.OK);
 	}

@@ -5,12 +5,12 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.assignment.cab_booking.entity.BookingEntity;
 import com.assignment.cab_booking.entity.CarEntity;
 import com.assignment.cab_booking.entity.UserAccountEntity;
+import com.assignment.cab_booking.exception.CabServiceException;
 import com.assignment.cab_booking.mapper.BookingMapper;
 import com.assignment.cab_booking.model.AccountType;
 import com.assignment.cab_booking.model.BookingState;
@@ -21,6 +21,7 @@ import com.assignment.cab_booking.repository.CarRepository;
 import com.assignment.cab_booking.repository.UserAccountRepository;
 import com.assignment.cab_booking.service.BookingService;
 import com.assignment.cab_booking.utils.Utils;
+import com.assignment.cab_booking.view.CabSummary;
 
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -56,20 +57,20 @@ public class BookingServiceImpl implements BookingService {
 		// get user
 		UserAccountEntity customerAccount = userAccountRepo.findByMobileNumberAndAccountType(
 				bookingDTO.getCustomerDto().getMobileNumber(), AccountType.CUSTOMER.toString());
-		
-		/*if(customerAccount==null) {
+
+		if (customerAccount == null) {
 			throw new CabServiceException("You are not a registered customer!");
-		}*/
-		
+		}
+
 		BookingEntity bookingEntity = mapper.map(bookingDTO, BookingEntity.class);
 
 		// find best car
 		CarEntity availableCab = findCab(bookingEntity.getStartLatitude(), bookingEntity.getStartLongitude());
 
-		/*if(availableCab==null) {
+		if (availableCab == null) {
 			throw new CabServiceException("No cabs available! Please try again later.");
-		}*/
-		
+		}
+
 		BookingEntity saveBooking = setupBookingDetails(bookingEntity, availableCab, customerAccount);
 
 		BookingEntity bookedCar = bookingRepo.save(saveBooking);
@@ -78,7 +79,6 @@ public class BookingServiceImpl implements BookingService {
 		availableCab.setCarStatus(CarStatus.BUSY.toString());
 		carRepo.save(availableCab);
 
-		
 		BookingDTO bookedCarDto = mapper.map(bookedCar, BookingDTO.class);
 		return bookedCarDto;
 	}
@@ -89,7 +89,7 @@ public class BookingServiceImpl implements BookingService {
 		bookingEntity.setCustomerDetails(customerAccount);
 		bookingEntity.setReferenceNo(utils.generatedBookingReference(10));
 		bookingEntity.setBookingTime(LocalDateTime.now().toString());
-		bookingEntity.setState(BookingState.ACTIVE);
+		bookingEntity.setState(BookingState.ACTIVE.toString());
 		return bookingEntity;
 	}
 
@@ -101,10 +101,8 @@ public class BookingServiceImpl implements BookingService {
 	}
 
 	@Override
-	public List<BookingEntity> findAllCabs(Pageable pageable) {
-		
-		List<BookingEntity> bookingEntityList = bookingRepo.findAllCabs();
-		return bookingEntityList;
+	public List<CabSummary> findAllCabs() {
+		return bookingRepo.findCabDetails();
 	}
 
 }

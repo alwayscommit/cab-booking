@@ -16,6 +16,7 @@ import com.assignment.cab_booking.entity.UserAccountEntity;
 import com.assignment.cab_booking.model.AccountType;
 import com.assignment.cab_booking.model.CarStatus;
 import com.assignment.cab_booking.model.dto.CarDriverDTO;
+import com.assignment.cab_booking.model.dto.LocationDTO;
 import com.assignment.cab_booking.repository.CarRepository;
 import com.assignment.cab_booking.repository.UserAccountRepository;
 import com.assignment.cab_booking.service.DriverService;
@@ -73,6 +74,18 @@ public class DriverServiceImpl implements DriverService {
 		ModelMapper modelMapper = new ModelMapper();
 		CarDriverDTO driverDTO = modelMapper.map(driverDetails, CarDriverDTO.class);
 		return driverDTO;
+	}
+
+	@Override
+	public CarDriverDTO updateDriverCarLocation(String driverNumber, LocationDTO locationDto) {
+		CarEntity carEntity = carRepo.findByDrivenByMobileNumber(driverNumber);
+		carEntity.setLatitude(locationDto.getLatitude());
+		carEntity.setLongitude(locationDto.getLongitude());
+		ModelMapper modelMapper = new ModelMapper();
+		CarEntity updatedCarLocation = carRepo.save(carEntity);
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
+		CarDriverDTO updatedCarLocationDto = modelMapper.map(updatedCarLocation, CarDriverDTO.class);
+		return updatedCarLocationDto;
 	}
 
 }

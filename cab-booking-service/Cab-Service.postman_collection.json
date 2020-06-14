@@ -1,0 +1,124 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Cab-Service",
+		"_postman_id": "3a534fa2-f4a0-4b72-0cb2-e7cfbf704250",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Driver",
+			"request": {
+				"url": "localhost:8080/cab-service/driver",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t \"mobileNumber\":\"7506500591\",\r\n\t \"password\":\"aakash\",\r\n\t \"firstName\":\"Aakash\",\r\n\t \"lastName\":\"Ranglani\",\r\n\t \"carName\":\"Maruti Swift\",\r\n\t \"carNumber\":\"MH04LM8666\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Update Driver Location",
+			"request": {
+				"url": "localhost:8080/cab-service/driver/7506500591/location",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"latitude\":19.2094491,\n\t\"longitude\":72.9455951\n\t\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Create Customer",
+			"request": {
+				"url": "localhost:8080/cab-service/customer",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t \"mobileNumber\":\"7506500594\",\r\n\t \"password\":\"aakash\",\r\n\t \"firstName\":\"Aakash\",\r\n\t \"lastName\":\"Ranglani\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Fetch available drivers",
+			"request": {
+				"url": "localhost:8080/cab-service/driver",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Driver",
+			"request": {
+				"url": "localhost:8080/cab-service/driver/7506500591",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Make Booking",
+			"request": {
+				"url": "localhost:8080/cab-service/booking",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"startLatitude\":19.2309696,\r\n\t\"startLongitude\":72.9824377,\r\n\t\"endLatitude\":19.1087175,\r\n\t\"endLongitude\":72.1693232,\r\n\t\"customerMobileNumber\":\"7506500594\",\r\n\t\"numberOfPassengers\":\"2\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Cabs Summary",
+			"request": {
+				"url": "localhost:8080/cab-service/booking/cabs",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

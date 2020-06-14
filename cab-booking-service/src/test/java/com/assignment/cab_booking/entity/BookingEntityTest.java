@@ -39,7 +39,7 @@ class BookingEntityTest {
 		bookingEntity.setEndLatitude(19.209449150428703);
 		bookingEntity.setEndLongitude(72.94559519727788);
 		bookingEntity.setNumberOfPassengers(2);
-		bookingEntity.setState(BookingState.ACTIVE);
+		bookingEntity.setState(BookingState.ACTIVE.toString());
 	}
 
 	@Test

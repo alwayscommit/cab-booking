@@ -1,11 +1,14 @@
 package com.assignment.cab_booking.entity;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
@@ -14,6 +17,7 @@ import javax.validation.constraints.Size;
 
 import com.assignment.cab_booking.constants.EntityConstants;
 import com.assignment.cab_booking.constants.ValidationConstants;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = EntityConstants.CAR)
@@ -41,12 +45,24 @@ public class CarEntity {
 	@JoinColumn(name="DRIVEN_BY_ACCOUNT")
 	private UserAccountEntity drivenBy;
 	
+	@OneToMany(mappedBy="carEntity")
+	@JsonIgnoreProperties("carEntity")
+	private List<BookingEntity> booking;
+	
 	@Column(name = EntityConstants.LATITUDE)
 	private Double latitude;
 	
 	@Column(name = EntityConstants.LONGITUDE)
 	private Double longitude;
 	
+	public List<BookingEntity> getBooking() {
+		return booking;
+	}
+
+	public void setBooking(List<BookingEntity> booking) {
+		this.booking = booking;
+	}
+
 	public Double getLatitude() {
 		return latitude;
 	}
@@ -102,5 +118,5 @@ public class CarEntity {
 	public void setDrivenBy(UserAccountEntity drivenBy) {
 		this.drivenBy = drivenBy;
 	}
-
+	
 }

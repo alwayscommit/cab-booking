@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.assignment.cab_booking.entity.BookingEntity;
+import com.assignment.cab_booking.entity.CarEntity;
 import com.assignment.cab_booking.mapper.BookingMapper;
 import com.assignment.cab_booking.model.dto.BookingDTO;
 import com.assignment.cab_booking.model.request.BookingRequest;
 import com.assignment.cab_booking.model.response.BookingRest;
 import com.assignment.cab_booking.service.BookingService;
+import com.assignment.cab_booking.view.CabSummary;
 
 @RestController
 @RequestMapping("/booking")
@@ -49,8 +51,8 @@ public class BookingController {
 	}
 
 	@GetMapping("/cabs")
-	public List<BookingEntity> getCabs(Pageable pageable) {
-		return bookingService.findAllCabs(pageable);
+	public List<CabSummary> getCabs() {
+		return bookingService.findAllCabs();
 	}
 
 }

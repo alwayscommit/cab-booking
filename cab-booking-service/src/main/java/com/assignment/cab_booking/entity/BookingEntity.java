@@ -57,7 +57,7 @@ public class BookingEntity {
 
 	@NotNull(message = ValidationConstants.BOOKING_STATE_MESSAGE)
 	@Column(name = EntityConstants.STATE)
-	private BookingState state;
+	private String state;
 
 	@NotNull(message = ValidationConstants.BOOKING_TIME_MESSAGE)
 	@Column(name = EntityConstants.BOOKING_TIME)
@@ -131,11 +131,11 @@ public class BookingEntity {
 		this.customerDetails = customerDetails;
 	}
 
-	public BookingState getState() {
+	public String getState() {
 		return state;
 	}
 
-	public void setState(BookingState state) {
+	public void setState(String state) {
 		this.state = state;
 	}
 
