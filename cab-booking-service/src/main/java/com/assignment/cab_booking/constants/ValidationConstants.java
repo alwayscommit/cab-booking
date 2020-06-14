@@ -27,5 +27,7 @@ public interface ValidationConstants {
 	public static final String BOOKING_STATE_MESSAGE = "booking state cannot be null";
 	public static final String BOOKING_TIME_MESSAGE = "booking time cannot be null";
 	public static final String BOOKING_COST_MESSAGE = "booking cost cannot be null";
+	public static final String NUMBER_OF_PASSENGERS_MESSAGE = "number of passengers cannot be null";
+	public static final String BOOKING_REFERENE_MESSAGE = "Booking reference cannot be null";
 	
 }

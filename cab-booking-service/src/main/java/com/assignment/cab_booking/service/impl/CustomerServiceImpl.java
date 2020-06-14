@@ -30,7 +30,7 @@ public class CustomerServiceImpl implements CustomerService {
 		ModelMapper modelMapper = new ModelMapper();
 		UserAccountEntity customerAccount = modelMapper.map(customerDTO, UserAccountEntity.class);
 		customerAccount.setEncryptedPassword(passwordEncoder.encode(customerDTO.getPassword()));
-		customerAccount.setAccountType(AccountType.CUSTOMER);
+		customerAccount.setAccountType(AccountType.CUSTOMER.toString());
 		customerAccount.setCreatedOn(Date.from(Instant.now()));
 		UserAccountEntity savedCustomer = userAccountRepo.save(customerAccount);
 		CustomerDTO customerDto = modelMapper.map(savedCustomer, CustomerDTO.class);

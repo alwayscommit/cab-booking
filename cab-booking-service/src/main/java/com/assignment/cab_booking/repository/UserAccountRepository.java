@@ -10,4 +10,6 @@ public interface UserAccountRepository extends CrudRepository<UserAccountEntity,
 
 	UserAccountEntity findByMobileNumber(String mobileNumber);
 
+	UserAccountEntity findByMobileNumberAndAccountType(String mobileNumber, String accountType);
+	
 }

@@ -2,6 +2,11 @@ package com.assignment.cab_booking.model.response;
 
 import java.util.Date;
 
+import com.assignment.cab_booking.model.CarStatus;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+@JsonInclude(Include.NON_NULL)
 public class DriverRest {
 
 	private String mobileNumber;
@@ -10,9 +15,27 @@ public class DriverRest {
 	private String accountType;
 	private String carName;
 	private String carNumber;
-	private String carStatus;
+	private CarStatus carStatus;
 	private Date createdOn;
+	private Double latitude;
+	private Double longitude;
 	
+	public Double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	}
+
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	}
+
 	public DriverRest() {}
 	
 	public Date getCreatedOn() {
@@ -31,17 +54,13 @@ public class DriverRest {
 		this.accountType = accountType;
 	}
 
-	public String getCarStatus() {
+	public CarStatus getCarStatus() {
 		return carStatus;
 	}
 
-
-
-	public void setCarStatus(String carStatus) {
+	public void setCarStatus(CarStatus carStatus) {
 		this.carStatus = carStatus;
 	}
-
-
 
 	public String getMobileNumber() {
 		return mobileNumber;

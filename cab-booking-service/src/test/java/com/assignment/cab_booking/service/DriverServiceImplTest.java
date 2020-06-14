@@ -56,7 +56,7 @@ class DriverServiceImplTest {
 	@Test
 	public void testMockRegisterDriver() {
 		CarDriverDTO carDriverDTO = new CarDriverDTO("7506500444", "Aakash", "Ranglani", "aakash", AccountType.DRIVER,
-				"Audi", CarStatus.AVAILABLE, "MH04JP0222", "19.231309", "72.982752", new Date());
+				"Audi", CarStatus.AVAILABLE, "MH04JP0222", 19.231309, 72.982752, new Date());
 
 		Mockito.when(passwordEncoder.encode(anyString())).thenReturn("Encrypted Password");
 		Mockito.when(carRepo.save(Mockito.any())).thenReturn(new CarEntity());
@@ -79,7 +79,7 @@ class DriverServiceImplTest {
 
 		UserAccountEntity userAccount = new UserAccountEntity();
 		userAccount.setUserId(321L);
-		userAccount.setAccountType(AccountType.DRIVER);
+		userAccount.setAccountType(AccountType.DRIVER.toString());
 		userAccount.setCreatedOn(new Date());
 		userAccount.setFirstName("Aakash666");
 		userAccount.setLastName("Ranglani666");
@@ -88,7 +88,7 @@ class DriverServiceImplTest {
 		carDriver.setCarId(123L);
 		carDriver.setCarName("Maruti Swift666");
 		carDriver.setCarNumber("MH04MB22222");
-		carDriver.setCarStatus(CarStatus.AVAILABLE);
+		carDriver.setCarStatus(CarStatus.AVAILABLE.toString());
 		carDriver.setDrivenBy(userAccount);
 
 		Mockito.when(passwordEncoder.encode(anyString())).thenReturn("Encrypted Password");
@@ -129,7 +129,7 @@ class DriverServiceImplTest {
 	public void testGetDriver() {
 		UserAccountEntity expectedAccount = new UserAccountEntity();
 		expectedAccount.setUserId(321L);
-		expectedAccount.setAccountType(AccountType.DRIVER);
+		expectedAccount.setAccountType(AccountType.DRIVER.toString());
 		expectedAccount.setCreatedOn(new Date());
 		expectedAccount.setFirstName("Aakash666");
 		expectedAccount.setLastName("Ranglani666");
@@ -147,7 +147,7 @@ class DriverServiceImplTest {
 			String carName, String carNumber) {
 		UserAccountEntity userAccount = new UserAccountEntity();
 		userAccount.setUserId(userId);
-		userAccount.setAccountType(AccountType.DRIVER);
+		userAccount.setAccountType(AccountType.DRIVER.toString());
 		userAccount.setCreatedOn(new Date());
 		userAccount.setFirstName(firstName);
 		userAccount.setLastName(lastName);
@@ -156,7 +156,7 @@ class DriverServiceImplTest {
 		carDriver.setCarId(carId);
 		carDriver.setCarName(carName);
 		carDriver.setCarNumber(carNumber);
-		carDriver.setCarStatus(CarStatus.AVAILABLE);
+		carDriver.setCarStatus(CarStatus.AVAILABLE.toString());
 		carDriver.setDrivenBy(userAccount);
 		return carDriver;
 	}

@@ -31,12 +31,14 @@ class BookingEntityTest {
 	@BeforeEach
 	void contextLoads() {
 		bookingEntity = new BookingEntity();
-		bookingEntity.setBookingTime(Date.from(Instant.now()));
+		bookingEntity.setBookingTime(Date.from(Instant.now()).toString());
 		bookingEntity.setCarEntity(new CarEntity());
-		bookingEntity.setCost(100);
 		bookingEntity.setCustomerDetails(new UserAccountEntity());
-		bookingEntity.setStartLocation(new Location());
-		bookingEntity.setDropLocation(new Location());
+		bookingEntity.setStartLatitude(19.209449150428703);
+		bookingEntity.setStartLongitude(72.94559519727788);
+		bookingEntity.setEndLatitude(19.209449150428703);
+		bookingEntity.setEndLongitude(72.94559519727788);
+		bookingEntity.setNumberOfPassengers(2);
 		bookingEntity.setState(BookingState.ACTIVE);
 	}
 
@@ -44,67 +46,85 @@ class BookingEntityTest {
 	public void validBookingEntityTest() {
 		assertEquals(false, validator.validate(this.bookingEntity).iterator().hasNext());
 	}
-	
+
 	@Test
 	public void invalidBookingTimeTest() {
 
 		bookingEntity.setBookingTime(null);
 		assertEquals(ValidationConstants.BOOKING_TIME_MESSAGE,
 				validator.validate(this.bookingEntity).iterator().next().getMessage());
-		
-	}
-	
-	@Test
-	public void invalidBookingCostTest() {
 
-		bookingEntity.setCost(null);
-		assertEquals(ValidationConstants.BOOKING_COST_MESSAGE,
-				validator.validate(this.bookingEntity).iterator().next().getMessage());
-		
 	}
-	
+
 	@Test
 	public void invalidCarDetailsTest() {
 
 		bookingEntity.setCarEntity(null);
 		assertEquals(ValidationConstants.CAR_DETAILS_MESSAGE,
 				validator.validate(this.bookingEntity).iterator().next().getMessage());
-		
+
 	}
-	
+
 	@Test
 	public void invalidCustomerDetailsTest() {
 
 		bookingEntity.setCustomerDetails(null);
 		assertEquals(ValidationConstants.CUSTOMER_DETAILS_MESSAGE,
 				validator.validate(this.bookingEntity).iterator().next().getMessage());
-		
+
 	}
-	
+
 	@Test
 	public void invalidStartLocationTest() {
 
-		bookingEntity.setStartLocation(null);
+		bookingEntity.setStartLatitude(null);
 		assertEquals(ValidationConstants.START_LOCATION_MESSAGE,
 				validator.validate(this.bookingEntity).iterator().next().getMessage());
-		
+
 	}
-	
+
 	@Test
 	public void invalidDropLocationTest() {
 
-		bookingEntity.setDropLocation(null);
-		assertEquals(ValidationConstants.DROP_LOCATION_MESSAGE,
+		bookingEntity.setStartLongitude(null);
+		assertEquals(ValidationConstants.START_LOCATION_MESSAGE,
 				validator.validate(this.bookingEntity).iterator().next().getMessage());
-		
+
 	}
 	
+	@Test
+	public void invalidEndLocationLat() {
+
+		bookingEntity.setEndLatitude(null);
+		assertEquals(ValidationConstants.DROP_LOCATION_MESSAGE,
+				validator.validate(this.bookingEntity).iterator().next().getMessage());
+
+	}
+
+	@Test
+	public void invalidEndLocationLong() {
+
+		bookingEntity.setEndLongitude(null);
+		assertEquals(ValidationConstants.DROP_LOCATION_MESSAGE,
+				validator.validate(this.bookingEntity).iterator().next().getMessage());
+
+	}
+
 	@Test
 	public void invalidBookingState() {
 
 		bookingEntity.setState(null);
 		assertEquals(ValidationConstants.BOOKING_STATE_MESSAGE,
 				validator.validate(this.bookingEntity).iterator().next().getMessage());
-		
+
+	}
+	
+	@Test
+	public void invalidNumberOfPassengers() {
+
+		bookingEntity.setNumberOfPassengers(null);
+		assertEquals(ValidationConstants.NUMBER_OF_PASSENGERS_MESSAGE,
+				validator.validate(this.bookingEntity).iterator().next().getMessage());
+
 	}
 }

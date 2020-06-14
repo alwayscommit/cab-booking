@@ -32,7 +32,7 @@ class UserAccountValidationTest {
 		userAccount = new UserAccountEntity();
 		userAccount.setFirstName("Aakash");
 		userAccount.setLastName("Ranglani");
-		userAccount.setAccountType(AccountType.CUSTOMER);
+		userAccount.setAccountType(AccountType.CUSTOMER.toString());
 		userAccount.setCreatedOn(new Date());
 		userAccount.setEncryptedPassword("okbye");
 		userAccount.setMobileNumber("7506020591");

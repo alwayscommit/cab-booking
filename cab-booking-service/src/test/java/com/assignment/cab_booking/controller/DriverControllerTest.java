@@ -47,7 +47,7 @@ class DriverControllerTest {
 				"72.982752");
 
 		CarDriverDTO driverDTO = new CarDriverDTO("7506500444", "Aakash", "Ranglani" ,"aakash", AccountType.DRIVER, "Audi",
-				CarStatus.AVAILABLE, "MH04JP0222", "19.231309", "72.982752", new Date());
+				CarStatus.AVAILABLE, "MH04JP0222", 19.231309, 72.982752, new Date());
 
 		Mockito.when(driverService.registerDriver(Mockito.any())).thenReturn(driverDTO);
 		this.mockMvc.perform(post(DRIVER_CONTROLLER_MAPPING).contentType(MediaType.APPLICATION_JSON)
@@ -58,7 +58,7 @@ class DriverControllerTest {
 	@Test
 	public void testCreateDriver() throws Exception {
 		CarDriverDTO driverDTO = new CarDriverDTO("7506500444", "Aakash", "Ranglani" ,"aakash", AccountType.DRIVER, "Audi",
-				CarStatus.AVAILABLE, "MH04JP0222", "19.231309", "72.982752", new Date());
+				CarStatus.AVAILABLE, "MH04JP0222", 19.231309, 72.982752, new Date());
 
 		Mockito.when(driverService.registerDriver(Mockito.any())).thenReturn(driverDTO);
 
@@ -75,11 +75,11 @@ class DriverControllerTest {
 	public void testGetDrivers() throws Exception {
 		
 		CarDriverDTO driverDTO1 = new CarDriverDTO("7506500444", "Aakash", "Ranglani" ,"aakash", AccountType.DRIVER, "Audi",
-				CarStatus.AVAILABLE, "MH04JP0222", "19.231309", "72.982752", new Date());
+				CarStatus.AVAILABLE, "MH04JP0222", 19.231309, 72.982752, new Date());
 		CarDriverDTO driverDTO2 = new CarDriverDTO("7506500444", "Aakash", "Ranglani" ,"aakash", AccountType.DRIVER, "Audi",
-				CarStatus.AVAILABLE, "MH04JP0222", "19.231309", "72.982752", new Date());
+				CarStatus.AVAILABLE, "MH04JP0222", 19.231309, 72.982752, new Date());
 		CarDriverDTO driverDTO3 = new CarDriverDTO("7506500444", "Aakash", "Ranglani" ,"aakash", AccountType.DRIVER, "Audi",
-				CarStatus.AVAILABLE, "MH04JP0222", "19.231309", "72.982752", new Date());
+				CarStatus.AVAILABLE, "MH04JP0222", 19.231309, 72.982752, new Date());
 
 		List<CarDriverDTO> driverList = new ArrayList<CarDriverDTO>();
 		driverList.add(driverDTO1);
@@ -89,8 +89,7 @@ class DriverControllerTest {
 		Mockito.when(driverService.getAvailableDrivers()).thenReturn(driverList);
 
 		this.mockMvc
-				.perform(get(DRIVER_CONTROLLER_MAPPING).contentType(MediaType.APPLICATION_JSON)
-						.content(objectMapper.writeValueAsString(driverList)))
+				.perform(get(DRIVER_CONTROLLER_MAPPING))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.[0].carName", CoreMatchers.is(driverDTO1.getCarName())))
 				.andExpect(jsonPath("$.[0].firstName", CoreMatchers.is(driverDTO1.getFirstName())))
@@ -105,13 +104,12 @@ class DriverControllerTest {
 	@Test
 	public void testGetDriver() throws Exception {
 		CarDriverDTO driverDTO = new CarDriverDTO("7506500444", "Aakash", "Ranglani" ,"aakash", AccountType.DRIVER, "Audi",
-				CarStatus.AVAILABLE, "MH04JP0222", "19.231309", "72.982752", new Date());
+				CarStatus.AVAILABLE, "MH04JP0222", 19.231309, 72.982752, new Date());
 		driverDTO.setUserId(123L);
 		Mockito.when(driverService.getDriver(Mockito.anyString())).thenReturn(driverDTO);
 
 		this.mockMvc
-				.perform(get(DRIVER_CONTROLLER_MAPPING + "/123").contentType(MediaType.APPLICATION_JSON)
-						.content(objectMapper.writeValueAsString(driverDTO)))
+				.perform(get(DRIVER_CONTROLLER_MAPPING + "/123"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.firstName", CoreMatchers.is(driverDTO.getFirstName())))
 				.andExpect(jsonPath("$.mobileNumber", CoreMatchers.is(driverDTO.getMobileNumber())))

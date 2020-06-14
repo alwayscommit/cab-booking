@@ -43,7 +43,7 @@ class CustomerControllerTest {
 				"72.982752");
 
 		CustomerDTO customerDTO = new CustomerDTO(1L, "7506500444", "Aakash", "Ranglani", "aakash",
-				AccountType.CUSTOMER, "19.231309", "72.982752", new Date());
+				AccountType.CUSTOMER, 19.231309, 72.982752, new Date());
 
 		Mockito.when(customerService.registerCustomer(Mockito.any())).thenReturn(customerDTO);
 		this.mockMvc.perform(post(CUSTOMER_CONTROLLER_MAPPING).contentType(MediaType.APPLICATION_JSON)
@@ -54,7 +54,7 @@ class CustomerControllerTest {
 	@Test
 	public void testCreateDriver() throws Exception {
 		CustomerDTO customerDto = new CustomerDTO(1L, "7506500444", "Aakash", "Ranglani", "aakash",
-				AccountType.CUSTOMER, "19.231309", "72.982752", new Date());
+				AccountType.CUSTOMER, 19.231309, 72.982752, new Date());
 
 		Mockito.when(customerService.registerCustomer(Mockito.any())).thenReturn(customerDto);
 

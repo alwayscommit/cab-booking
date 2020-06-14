@@ -37,6 +37,12 @@ public interface EntityConstants {
 	public static final String STATE = "STATE";
 	public static final String BOOKING_TIME = "BOOKING_TIME";
 	public static final String COST = "COST";
+	public static final String NUMBER_OF_PASSENGERS = "NUMBER_OF_PASSENGERS";
+	public static final String START_LATITUDE = "START_LATITUDE";
+	public static final String START_LONGITUDE = "START_LONGITUDE";
+	public static final String END_LATITUDE = "END_LATITUDE";
+	public static final String END_LONGITUDE = "END_LONGITUDE";
+	public static final String REFERENCE_NO = "REFERENCE_NO";
 	
 
 }

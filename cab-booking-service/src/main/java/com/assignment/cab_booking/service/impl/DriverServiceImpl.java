@@ -43,11 +43,11 @@ public class DriverServiceImpl implements DriverService {
 		ModelMapper modelMapper = new ModelMapper();
 		UserAccountEntity driverAccount = modelMapper.map(carDriverDTO, UserAccountEntity.class);
 		driverAccount.setEncryptedPassword(passwordEncoder.encode(carDriverDTO.getPassword()));
-		driverAccount.setAccountType(AccountType.DRIVER);
+		driverAccount.setAccountType(AccountType.DRIVER.toString());
 		driverAccount.setCreatedOn(Date.from(Instant.now()));
 
 		CarEntity carEntity = modelMapper.map(carDriverDTO, CarEntity.class);
-		carEntity.setCarStatus(CarStatus.AVAILABLE);
+		carEntity.setCarStatus(CarStatus.AVAILABLE.toString());
 		carEntity.setDrivenBy(driverAccount);
 
 		CarEntity savedCar = carRepo.save(carEntity);
@@ -59,7 +59,7 @@ public class DriverServiceImpl implements DriverService {
 
 	@Override
 	public List<CarDriverDTO> getAvailableDrivers() {
-		List<CarEntity> availableCarList = carRepo.findAllByCarStatus(CarStatus.AVAILABLE);
+		List<CarEntity> availableCarList = carRepo.findAllByCarStatus(CarStatus.AVAILABLE.toString());
 		ModelMapper modelMapper = new ModelMapper();
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
 		List<CarDriverDTO> availableDriversDTO = modelMapper.map(availableCarList, new TypeToken<List<CarDriverDTO>>() {

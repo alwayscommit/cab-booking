@@ -45,7 +45,7 @@ public class UserAccountEntity {
 
 	@NotNull(message = ValidationConstants.ACCOUNT_TYPE_INVALID_MESSAGE)
 	@Column(name = EntityConstants.ACCOUNT_TYPE)
-	private AccountType accountType;
+	private String accountType;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = EntityConstants.CREATED_ON)
@@ -91,11 +91,11 @@ public class UserAccountEntity {
 		this.mobileNumber = mobileNumber;
 	}
 
-	public AccountType getAccountType() {
+	public String getAccountType() {
 		return accountType;
 	}
 
-	public void setAccountType(AccountType accountType) {
+	public void setAccountType(String accountType) {
 		this.accountType = accountType;
 	}
 

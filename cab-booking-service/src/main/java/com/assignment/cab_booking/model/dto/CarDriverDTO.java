@@ -17,13 +17,13 @@ public class CarDriverDTO {
 	private String carName;
 	private CarStatus carStatus;
 	private String carNumber;
-	private String latitude;
-	private String longitude;
+	private Double latitude;
+	private Double longitude;
 	private Date createdOn;
 	
 	public CarDriverDTO(String mobileNumber, String firstName, String lastName, String password,
-			AccountType accountType, String carName, CarStatus carStatus, String carNumber, String latitude,
-			String longitude, Date createdOn) {
+			AccountType accountType, String carName, CarStatus carStatus, String carNumber, Double latitude,
+			Double longitude, Date createdOn) {
 		this.mobileNumber = mobileNumber;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -92,8 +92,8 @@ public class CarDriverDTO {
 		return carStatus;
 	}
 
-	public void setCarStatus(CarStatus carStatus) {
-		this.carStatus = carStatus;
+	public void setCarStatus(String carStatus) {
+		this.carStatus = CarStatus.valueOf(carStatus);
 	}
 
 	public String getMobileNumber() {
@@ -112,19 +112,19 @@ public class CarDriverDTO {
 		this.carNumber = carNumber;
 	}
 
-	public String getLatitude() {
+	public Double getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(String latitude) {
+	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
 	}
 
-	public String getLongitude() {
+	public Double getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(String longitude) {
+	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
 

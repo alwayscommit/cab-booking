@@ -1,0 +1,35 @@
+Create 5 Driver Accounts
+
+INSERT INTO user_account VALUES 
+(1, "DRIVER", "2020-06-03", "encryptedPassword", "Aakash", "Ranglani", "7506500500"),
+(2, "DRIVER", "2020-06-04", "encryptedPassword", "Tom", "Jerry", "7506600600"),
+(3, "DRIVER", "2020-06-05", "encryptedPassword", "Mathew", "Hayden", "7506700700"),
+(4, "DRIVER", "2020-06-06", "encryptedPassword", "Vengeful", "Spirit", "7506800800"),
+(5, "DRIVER", "2020-06-07", "encryptedPassword", "Skywrath", "Mage", "7506900900");
+
+
+Create 5 Cars for Driver Accounts
+
+INSERT INTO car VALUES
+(11,"Maruti Suzuki Alto","MH041991","AVAILABLE",19.2094491,72.9455951,1),
+(12,"Ford Figo","MH042002","AVAILABLE",19.2482543,73.0139546,2),
+(13,"Maruti Suzuki Swift","MH041902","AVAILABLE",19.2148211,72.9747739,3),
+(14,"Maruti Wagon R","MH042000","AVAILABLE",19.2230629,72.9629145,4),
+(15,"Maruti Ciaz","MH042020","AVAILABLE",19.2272266,72.9509195,5);
+
+
+//Some available, some not
+INSERT INTO user_account VALUES 
+(1, "DRIVER", "2020-06-03", "encryptedPassword", "Aakash", "Ranglani", "7506500500"),
+(2, "DRIVER", "2020-06-04", "encryptedPassword", "Tom", "Jerry", "7506600600"),
+(3, "DRIVER", "2020-06-05", "encryptedPassword", "Mathew", "Hayden", "7506700700"),
+(4, "DRIVER", "2020-06-06", "encryptedPassword", "Vengeful", "Spirit", "7506800800"),
+(5, "DRIVER", "2020-06-07", "encryptedPassword", "Skywrath", "Mage", "7506900900");
+
+
+INSERT INTO car VALUES
+(11,"Maruti Suzuki Alto","MH041991","AVAILABLE",19.2094491,72.9455951,1),
+(12,"Ford Figo","MH042002","AVAILABLE",19.2482543,73.0139546,2),
+(13,"Maruti Suzuki Swift","MH041902","AVAILABLE",19.2919031,72.9978129,3),
+(14,"Maruti Wagon R","MH042000","BUSY",19.3001690,72.9299875,4),
+(15,"Maruti Ciaz","MH042020","BUSY,19.2272266,72.9509195,5);

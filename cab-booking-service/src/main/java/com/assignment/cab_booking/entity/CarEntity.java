@@ -1,7 +1,5 @@
 package com.assignment.cab_booking.entity;
 
-import java.util.Date;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,13 +14,11 @@ import javax.validation.constraints.Size;
 
 import com.assignment.cab_booking.constants.EntityConstants;
 import com.assignment.cab_booking.constants.ValidationConstants;
-import com.assignment.cab_booking.model.AccountType;
-import com.assignment.cab_booking.model.CarStatus;
 
 @Entity
 @Table(name = EntityConstants.CAR)
 public class CarEntity {
-
+	
 	@Id
 	@GeneratedValue
 	@Column(name = EntityConstants.ID)
@@ -39,30 +35,40 @@ public class CarEntity {
 
 	@NotNull(message=ValidationConstants.CAR_STATUS_MESSAGE)
 	@Column(name = EntityConstants.CAR_STATUS)
-	private CarStatus carStatus;
+	private String carStatus;
 
 	@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
 	@JoinColumn(name="DRIVEN_BY_ACCOUNT")
 	private UserAccountEntity drivenBy;
-
-	@OneToOne
-	@JoinColumn(name = EntityConstants.LOCATION)
-	private Location location;
 	
+	@Column(name = EntityConstants.LATITUDE)
+	private Double latitude;
+	
+	@Column(name = EntityConstants.LONGITUDE)
+	private Double longitude;
+	
+	public Double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	}
+
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	}
+
 	public Long getCarId() {
 		return carId;
 	}
 
 	public void setCarId(Long carId) {
 		this.carId = carId;
-	}
-
-	public Location getLocation() {
-		return location;
-	}
-
-	public void setLocation(Location location) {
-		this.location = location;
 	}
 
 	public String getCarName() {
@@ -81,11 +87,11 @@ public class CarEntity {
 		this.carNumber = carNumber;
 	}
 
-	public CarStatus getCarStatus() {
+	public String getCarStatus() {
 		return carStatus;
 	}
 
-	public void setCarStatus(CarStatus carStatus) {
+	public void setCarStatus(String carStatus) {
 		this.carStatus = carStatus;
 	}
 

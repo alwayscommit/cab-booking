@@ -30,7 +30,7 @@ class CarEntityTest {
 		car = new CarEntity();
 		car.setCarName("Ford W");
 		car.setCarNumber("MH04XX1123");
-		car.setCarStatus(CarStatus.AVAILABLE);
+		car.setCarStatus(CarStatus.AVAILABLE.toString());
 		car.setDrivenBy(new UserAccountEntity());
 	}
 

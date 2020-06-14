@@ -59,9 +59,10 @@ public class DriverController {
 	}
 
 	@GetMapping(path = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<CarDriverDTO> getDriver(@PathVariable String id) {
+	public ResponseEntity<DriverRest> getDriver(@PathVariable String id) {
 		CarDriverDTO driver = driverService.getDriver(id);
-		return new ResponseEntity<CarDriverDTO>(driver, HttpStatus.OK);
+		DriverRest driverResponse = mapToDriverRest(driver);
+		return new ResponseEntity<DriverRest>(driverResponse, HttpStatus.OK);
 	}
 
 }
