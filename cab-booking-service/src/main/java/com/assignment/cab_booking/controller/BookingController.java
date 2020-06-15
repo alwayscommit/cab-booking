@@ -21,7 +21,7 @@ import com.assignment.cab_booking.model.dto.BookingDTO;
 import com.assignment.cab_booking.model.request.BookingRequest;
 import com.assignment.cab_booking.model.response.BookingRest;
 import com.assignment.cab_booking.service.BookingService;
-import com.assignment.cab_booking.view.CabSummary;
+import com.assignment.cab_booking.view.CabStatus;
 
 @RestController
 @RequestMapping("/booking")
@@ -51,7 +51,7 @@ public class BookingController {
 	}
 
 	@GetMapping("/cabs")
-	public List<CabSummary> getCabs() {
+	public List<CabStatus> getCabs() {
 		return bookingService.findAllCabs();
 	}
 

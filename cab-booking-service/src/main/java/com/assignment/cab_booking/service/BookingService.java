@@ -5,12 +5,12 @@ import java.util.List;
 import com.assignment.cab_booking.entity.BookingEntity;
 import com.assignment.cab_booking.entity.CarEntity;
 import com.assignment.cab_booking.model.dto.BookingDTO;
-import com.assignment.cab_booking.view.CabSummary;
+import com.assignment.cab_booking.view.CabStatus;
 
 public interface BookingService {
 
 	BookingDTO bookCab(BookingDTO bookingDTO);
 
-	List<CabSummary> findAllCabs();
+	List<CabStatus> findAllCabs();
 	
 }

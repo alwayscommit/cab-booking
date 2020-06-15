@@ -21,7 +21,7 @@ import com.assignment.cab_booking.repository.CarRepository;
 import com.assignment.cab_booking.repository.UserAccountRepository;
 import com.assignment.cab_booking.service.BookingService;
 import com.assignment.cab_booking.utils.Utils;
-import com.assignment.cab_booking.view.CabSummary;
+import com.assignment.cab_booking.view.CabStatus;
 
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -54,9 +54,16 @@ public class BookingServiceImpl implements BookingService {
 		mapper.addMappings(bookingMapper.bookingDtoToEntity());
 		mapper.addMappings(bookingMapper.bookingEntityToDTOMapping());
 
+		String customerNumber = bookingDTO.getCustomerDto().getMobileNumber();
+
+		if (bookingRepo.findByCustomerDetailsMobileNumberAndState(customerNumber,
+				BookingState.ACTIVE.toString()) != null) {
+			throw new CabServiceException("Simultaneous bookings are not allowed!");
+		}
+
 		// get user
-		UserAccountEntity customerAccount = userAccountRepo.findByMobileNumberAndAccountType(
-				bookingDTO.getCustomerDto().getMobileNumber(), AccountType.CUSTOMER.toString());
+		UserAccountEntity customerAccount = userAccountRepo.findByMobileNumberAndAccountType(customerNumber,
+				AccountType.CUSTOMER.toString());
 
 		if (customerAccount == null) {
 			throw new CabServiceException("You are not a registered customer!");
@@ -101,7 +108,7 @@ public class BookingServiceImpl implements BookingService {
 	}
 
 	@Override
-	public List<CabSummary> findAllCabs() {
+	public List<CabStatus> findAllCabs() {
 		return bookingRepo.findCabDetails();
 	}
 
