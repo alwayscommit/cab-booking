@@ -7,7 +7,7 @@ public class BookingDTO {
 	private Double endLongitude;
 	private Double startLatitude;
 	private Double startLongitude;
-	private Integer numberOfPassengers;
+	private String numberOfPassengers;
 	private CustomerDTO customerDto;
 	private CabDriverDTO carDriverDTO;
 
@@ -27,11 +27,11 @@ public class BookingDTO {
 		this.endLongitude = endLongitude;
 	}
 
-	public Integer getNumberOfPassengers() {
+	public String getNumberOfPassengers() {
 		return numberOfPassengers;
 	}
 
-	public void setNumberOfPassengers(Integer numberOfPassengers) {
+	public void setNumberOfPassengers(String numberOfPassengers) {
 		this.numberOfPassengers = numberOfPassengers;
 	}
 

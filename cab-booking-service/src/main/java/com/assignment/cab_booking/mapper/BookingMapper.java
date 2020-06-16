@@ -1,14 +1,12 @@
 package com.assignment.cab_booking.mapper;
 
-import java.time.LocalDateTime;
-
-import org.apache.tomcat.util.net.SocketEvent;
+import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
+import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.assignment.cab_booking.entity.BookingEntity;
-import com.assignment.cab_booking.model.BookingState;
-import com.assignment.cab_booking.model.CarStatus;
 import com.assignment.cab_booking.model.dto.BookingDTO;
 import com.assignment.cab_booking.model.request.BookingRequest;
 import com.assignment.cab_booking.model.response.BookingRest;
@@ -16,12 +14,40 @@ import com.assignment.cab_booking.model.response.BookingRest;
 @Component
 public class BookingMapper {
 
+	@Autowired
+	private ModelMapper modelMapper;
+
+	public BookingDTO mapToDTO(BookingRequest bookingRequest) {
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STANDARD);
+		return modelMapper.map(bookingRequest, BookingDTO.class);
+	}
+
+	public BookingRest mapToRest(BookingDTO bookedCar) {
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STANDARD);
+		return modelMapper.map(bookedCar, BookingRest.class);
+	}
+	
+	public BookingEntity mapToEntity(BookingDTO bookingDTO) {
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STANDARD);
+		return modelMapper.map(bookingDTO, BookingEntity.class);
+	}
+
+	public BookingDTO mapToDTO(BookingEntity bookingEntity) {
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STANDARD);
+		return modelMapper.map(bookingEntity, BookingDTO.class);
+	}
+
 	private PropertyMap<BookingRequest, BookingDTO> bookingReqToDTO = new PropertyMap<BookingRequest, BookingDTO>() {
 		protected void configure() {
 
 			// customer's mobile number
 			map().getCustomerDto().setMobileNumber(source.getCustomerMobileNumber());
-
+/*			map().setStartLatitude(source.getStartLatitude());
+			map().setStartLongitude(source.getStartLongitude());
+			map().setEndLatitude(source.getEndLatitude());
+			map().setEndLongitude(source.getEndLongitude());
+			map().setNumberOfPassengers(source.getNumberOfPassengers());
+*/
 		}
 	};
 
@@ -63,7 +89,7 @@ public class BookingMapper {
 			map().getCarDriverDTO().setCarName(source.getCarEntity().getCarName());
 			map().getCarDriverDTO().setCarNumber(source.getCarEntity().getCarNumber());
 			map().getCarDriverDTO().setCarStatus(source.getCarEntity().getCarStatus());
-			
+
 			map().getCarDriverDTO().setLatitude(source.getCarEntity().getLatitude());
 			map().getCarDriverDTO().setLongitude(source.getCarEntity().getLongitude());
 			map().getCarDriverDTO().setMobileNumber(source.getCarEntity().getDrivenBy().getMobileNumber());
@@ -87,20 +113,20 @@ public class BookingMapper {
 		}
 	};
 
-	public PropertyMap<BookingRequest, BookingDTO> bookingReqToDTOMapping() {
-		return bookingReqToDTO;
-	}
-
-	public PropertyMap<BookingDTO, BookingRest> bookingDTOtoRestMapping() {
+	public PropertyMap<BookingDTO, BookingRest> bookingDtoToRestMapping() {
 		return bookingDtoToRest;
 	}
 
-	public PropertyMap<BookingEntity, BookingDTO> bookingEntityToDTOMapping() {
+	public PropertyMap<BookingEntity, BookingDTO> bookingEntityToDtoMapping() {
 		return bookingEntityToDTO;
 	}
 
 	public PropertyMap<BookingDTO, BookingEntity> bookingDtoToEntity() {
 		return bookingDtoToEntity;
+	}
+	
+	public PropertyMap<BookingRequest, BookingDTO> bookingReqToDto() {
+		return bookingReqToDTO;
 	}
 
 }

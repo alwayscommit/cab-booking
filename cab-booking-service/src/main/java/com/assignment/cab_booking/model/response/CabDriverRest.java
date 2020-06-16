@@ -1,7 +1,5 @@
 package com.assignment.cab_booking.model.response;
 
-import java.util.Date;
-
 import com.assignment.cab_booking.model.CarStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;

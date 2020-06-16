@@ -13,7 +13,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.assignment.cab_booking.constants.ValidationConstants;
@@ -43,7 +42,7 @@ class BookingEntityTest {
 		bookingEntity.setStartLongitude(72.94559519727788);
 		bookingEntity.setEndLatitude(19.209449150428703);
 		bookingEntity.setEndLongitude(72.94559519727788);
-		bookingEntity.setNumberOfPassengers(2);
+		bookingEntity.setNumberOfPassengers("2");
 		bookingEntity.setState(BookingState.ACTIVE.toString());
 		bookingEntity.setReferenceNo("abcd1234");
 	}

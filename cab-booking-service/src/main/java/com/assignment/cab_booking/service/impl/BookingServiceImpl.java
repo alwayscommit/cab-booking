@@ -3,7 +3,6 @@ package com.assignment.cab_booking.service.impl;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +37,6 @@ public class BookingServiceImpl implements BookingService {
 
 	private BookingRepository bookingRepo;
 
-	@Autowired
 	private BookingMapper bookingMapper;
 
 	@Autowired
@@ -46,10 +44,11 @@ public class BookingServiceImpl implements BookingService {
 
 	@Autowired
 	public BookingServiceImpl(UserAccountRepository userAccountRepository, CarDriverRepository carRepository,
-			BookingRepository bookingRepo) {
+			BookingRepository bookingRepo, BookingMapper bookingMapper) {
 		this.userAccountRepo = userAccountRepository;
 		this.carRepo = carRepository;
 		this.bookingRepo = bookingRepo;
+		this.bookingMapper = bookingMapper;
 	}
 
 	@Override
@@ -69,26 +68,39 @@ public class BookingServiceImpl implements BookingService {
 			throw new BookingServiceException(ExceptionConstants.CUSTOMER_NOT_REGISTERED_MESSAGE);
 		}
 
-		BookingEntity bookingEntity = mapToBookingEntity(bookingDTO);
 		// find best car
-		CarDriverEntity availableCab = findBestCab(bookingEntity.getStartLatitude(), bookingEntity.getStartLongitude());
+		CarDriverEntity availableCab = findBestCab(bookingDTO.getStartLatitude(), bookingDTO.getStartLongitude());
 
 		if (availableCab == null) {
 			LOGGER.info("Cabs not found around the required location...");
 			throw new BookingServiceException(ExceptionConstants.NO_CABS_AVAILABLE_MESSAGE);
 		}
 
-		BookingEntity saveBooking = setupBookingDetails(bookingEntity, availableCab, customerAccount);
+		
+		BookingEntity saveBooking = setupBookingDetails(bookingDTO, availableCab, customerAccount);
 
 		BookingEntity bookedCar = bookingRepo.save(saveBooking);
 
-		BookingDTO bookedCarDto = mapToBookingDTO(bookedCar);
-		return bookedCarDto;
+		return bookingMapper.mapToDTO(bookedCar);
 	}
 
 	@Override
 	public List<CabBookingStatus> findAllCabBookingStatus() {
 		return bookingRepo.findCabDetails();
+	}
+
+	private BookingEntity setupBookingDetails(BookingDTO bookingDTO, CarDriverEntity availableCab,
+			UserAccountEntity customerAccount) {
+		availableCab.setCarStatus(CarStatus.BUSY.toString());
+		
+		BookingEntity bookingEntity = bookingMapper.mapToEntity(bookingDTO);
+		bookingEntity.setCarEntity(availableCab);
+		bookingEntity.setCustomerDetails(customerAccount);
+		bookingEntity.setReferenceNo(utils.generatedBookingReference(10));
+		bookingEntity.setBookingTime(LocalDateTime.now().toString());
+		bookingEntity.setState(BookingState.ACTIVE.toString());
+		
+		return bookingEntity;
 	}
 
 	private boolean accountNotExist(UserAccountEntity customerAccount) {
@@ -104,17 +116,6 @@ public class BookingServiceImpl implements BookingService {
 				BookingState.ACTIVE.toString()) != null;
 	}
 
-	private BookingEntity setupBookingDetails(BookingEntity bookingEntity, CarDriverEntity availableCab,
-			UserAccountEntity customerAccount) {
-		bookingEntity.setCarEntity(availableCab);
-		bookingEntity.setCustomerDetails(customerAccount);
-		bookingEntity.setReferenceNo(utils.generatedBookingReference(10));
-		bookingEntity.setBookingTime(LocalDateTime.now().toString());
-		bookingEntity.setState(BookingState.ACTIVE.toString());
-		availableCab.setCarStatus(CarStatus.BUSY.toString());
-		return bookingEntity;
-	}
-
 	// Can be replaced with another Microservice that uses Kafka to track locations
 	// of the cabs
 	// Or an in-memory cache like Redis that also supports GeoSpatial Queries.
@@ -123,15 +124,4 @@ public class BookingServiceImpl implements BookingService {
 		return carRepo.findBestCab(latitude, longitude, ApplicationConstants.SEARCH_RADIUS_IN_KILOMETERS);
 	}
 
-	private BookingEntity mapToBookingEntity(BookingDTO bookingDTO) {
-		ModelMapper mapper = new ModelMapper();
-		mapper.addMappings(bookingMapper.bookingDtoToEntity());
-		return mapper.map(bookingDTO, BookingEntity.class);
-	}
-
-	private BookingDTO mapToBookingDTO(BookingEntity bookingEntity) {
-		ModelMapper mapper = new ModelMapper();
-		mapper.addMappings(bookingMapper.bookingEntityToDTOMapping());
-		return mapper.map(bookingEntity, BookingDTO.class);
-	}
 }

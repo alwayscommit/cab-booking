@@ -2,7 +2,6 @@ package com.assignment.cab_booking.exception;
 
 import java.util.Date;
 
-import org.junit.platform.commons.util.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -23,7 +22,6 @@ public class ApplicationExceptionsHandler {
 	@ExceptionHandler(value = { BookingServiceException.class })
 	public ResponseEntity<Object> handleCabServiceException(BookingServiceException ex, WebRequest request) {
 		LOGGER.error("BookingServiceException occurred :: " + ex);
-
 		ErrorMessage error = new ErrorMessage(new Date(), ex.getMessage());
 		return new ResponseEntity<Object>(error, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
@@ -31,7 +29,7 @@ public class ApplicationExceptionsHandler {
 	@ExceptionHandler(value = { Exception.class })
 	public ResponseEntity<Object> handleOtherException(Exception ex, WebRequest request) {
 		LOGGER.error("Exception occurred :: " + ex);
-		
+		ex.printStackTrace();
 		ErrorMessage error = new ErrorMessage(new Date(), ex.getMessage());
 		return new ResponseEntity<Object>(error, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}

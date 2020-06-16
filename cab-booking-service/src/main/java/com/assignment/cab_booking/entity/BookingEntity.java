@@ -14,7 +14,6 @@ import javax.validation.constraints.NotNull;
 
 import com.assignment.cab_booking.constants.EntityConstants;
 import com.assignment.cab_booking.constants.ValidationConstants;
-import com.assignment.cab_booking.model.BookingState;
 
 @Entity
 @Table(name = EntityConstants.BOOKING)
@@ -65,7 +64,7 @@ public class BookingEntity {
 
 	@NotNull(message = ValidationConstants.NUMBER_OF_PASSENGERS_MESSAGE)
 	@Column(name = EntityConstants.NUMBER_OF_PASSENGERS)
-	private Integer numberOfPassengers;
+	private String numberOfPassengers;
 
 	public Double getStartLatitude() {
 		return startLatitude;
@@ -107,11 +106,11 @@ public class BookingEntity {
 		this.bookingId = id;
 	}
 
-	public Integer getNumberOfPassengers() {
+	public String getNumberOfPassengers() {
 		return numberOfPassengers;
 	}
 
-	public void setNumberOfPassengers(Integer numberOfPassengers) {
+	public void setNumberOfPassengers(String numberOfPassengers) {
 		this.numberOfPassengers = numberOfPassengers;
 	}
 

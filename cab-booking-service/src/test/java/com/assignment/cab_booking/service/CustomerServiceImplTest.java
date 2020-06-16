@@ -16,6 +16,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.assignment.cab_booking.entity.UserAccountEntity;
+import com.assignment.cab_booking.mapper.CustomerMapper;
 import com.assignment.cab_booking.model.AccountType;
 import com.assignment.cab_booking.model.dto.CustomerDTO;
 import com.assignment.cab_booking.repository.UserAccountRepository;
@@ -28,7 +29,10 @@ class CustomerServiceImplTest {
 
 	@Mock
 	private BCryptPasswordEncoder passwordEncoder;
-
+	
+	@Mock
+	private CustomerMapper customerMapper;
+	
 	@InjectMocks
 	private CustomerServiceImpl customerServiceImpl;
 
@@ -36,7 +40,6 @@ class CustomerServiceImplTest {
 	void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 	}
-
 
 	@Test
 	public void testMockregisterCustomer() {
@@ -57,6 +60,9 @@ class CustomerServiceImplTest {
 		Mockito.when(passwordEncoder.encode(anyString())).thenReturn("Encrypted Password");
 		Mockito.when(userAccountRepo.save(Mockito.any())).thenReturn(userAccount);
 
+		Mockito.when(customerMapper.mapToEntity(Mockito.any())).thenReturn(userAccount);
+		Mockito.when(customerMapper.mapToDTO(Mockito.any())).thenReturn(registerCustomerDTO);
+		
 		customerServiceImpl.registerCustomer(registerCustomerDTO);
 
 		verify(passwordEncoder, times(1)).encode(Mockito.anyString());
@@ -70,6 +76,8 @@ class CustomerServiceImplTest {
 		expectedCustomerDTO.setLastName("Ranglani666");
 		expectedCustomerDTO.setMobileNumber("7516504514");
 		expectedCustomerDTO.setPassword("aakash12");
+		expectedCustomerDTO.setAccountType(AccountType.CUSTOMER);
+		expectedCustomerDTO.setUserId(321L);
 
 		UserAccountEntity userAccount = new UserAccountEntity();
 		userAccount.setUserId(321L);
@@ -82,6 +90,9 @@ class CustomerServiceImplTest {
 		Mockito.when(passwordEncoder.encode(anyString())).thenReturn("Encrypted Password");
 		Mockito.when(userAccountRepo.save(Mockito.any())).thenReturn(userAccount);
 
+		Mockito.when(customerMapper.mapToEntity(Mockito.any())).thenReturn(userAccount);
+		Mockito.when(customerMapper.mapToDTO(Mockito.any())).thenReturn(expectedCustomerDTO);
+		
 		CustomerDTO actualCustomerDTO = customerServiceImpl.registerCustomer(expectedCustomerDTO);
 		
 		assertEquals(AccountType.CUSTOMER, actualCustomerDTO.getAccountType());

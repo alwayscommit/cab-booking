@@ -11,7 +11,7 @@ public class RideDetails {
 	private Double endLongitude;
 	private Double startLatitude;
 	private Double startLongitude;
-	private Integer numberOfPassengers;
+	private String numberOfPassengers;
 
 	public Double getStartLatitude() {
 		return startLatitude;
@@ -54,11 +54,11 @@ public class RideDetails {
 		this.endLongitude = endLongitude;
 	}
 
-	public Integer getNumberOfPassengers() {
+	public String getNumberOfPassengers() {
 		return numberOfPassengers;
 	}
 
-	public void setNumberOfPassengers(Integer numberOfPassengers) {
+	public void setNumberOfPassengers(String numberOfPassengers) {
 		this.numberOfPassengers = numberOfPassengers;
 	}
 

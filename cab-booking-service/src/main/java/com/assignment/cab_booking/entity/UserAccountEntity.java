@@ -16,7 +16,6 @@ import javax.validation.constraints.Pattern;
 
 import com.assignment.cab_booking.constants.EntityConstants;
 import com.assignment.cab_booking.constants.ValidationConstants;
-import com.assignment.cab_booking.model.AccountType;
 
 @Entity
 @Table(name=EntityConstants.USER_ACCOUNT)

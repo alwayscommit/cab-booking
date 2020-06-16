@@ -1,6 +1,5 @@
 package com.assignment.cab_booking.controller;
 
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.assignment.cab_booking.mapper.CustomerMapper;
 import com.assignment.cab_booking.model.dto.CustomerDTO;
 import com.assignment.cab_booking.model.request.CustomerRequest;
 import com.assignment.cab_booking.model.response.CustomerRest;
@@ -26,29 +26,23 @@ public class CustomerController {
 	private CustomerService customerService;
 
 	@Autowired
-	public CustomerController(CustomerService customerService) {
+	private CustomerMapper customerMapper;
+
+	@Autowired
+	public CustomerController(CustomerService customerService, CustomerMapper customerMapper) {
 		this.customerService = customerService;
+		this.customerMapper = customerMapper;
 	}
 
 	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<CustomerRest> registerDriver(@RequestBody CustomerRequest customerRequest) {
 		LOGGER.info(String.format("Creating Customer with Mobile Number :: %s", customerRequest.getMobileNumber()));
-		CustomerDTO customerDTO = mapToCustomerDTO(customerRequest);
+		CustomerDTO customerDTO = customerMapper.mapToCustomerDTO(customerRequest);
 
 		CustomerDTO savedCustomer = customerService.registerCustomer(customerDTO);
 
-		CustomerRest customerResponse = mapToCustomerResposne(savedCustomer);
+		CustomerRest customerResponse = customerMapper.mapToCustomerResposne(savedCustomer);
 		return new ResponseEntity<CustomerRest>(customerResponse, HttpStatus.CREATED);
-	}
-
-	private CustomerDTO mapToCustomerDTO(CustomerRequest customerRequest) {
-		ModelMapper modelMapper = new ModelMapper();
-		return modelMapper.map(customerRequest, CustomerDTO.class);
-	}
-
-	private CustomerRest mapToCustomerResposne(CustomerDTO savedCustomer) {
-		ModelMapper modelMapper = new ModelMapper();
-		return modelMapper.map(savedCustomer, CustomerRest.class);
 	}
 
 }

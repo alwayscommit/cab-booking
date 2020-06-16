@@ -1,75 +1,101 @@
 {
-	"variables": [],
 	"info": {
+		"_postman_id": "867e417e-5755-4e30-8170-e89eb2b52dda",
 		"name": "Cab-Service",
-		"_postman_id": "3a534fa2-f4a0-4b72-0cb2-e7cfbf704250",
-		"description": "",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "Create Cab Driver",
 			"request": {
-				"url": "localhost:8080/cab-service/cab-driver",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n\t \"mobileNumber\":\"7506500900\",\r\n\t \"password\":\"password\",\r\n\t \"firstName\":\"Skywrath\",\r\n\t \"lastName\":\"Mage\",\r\n\t \"carName\":\"Maruti Suzuki Ciaz\",\r\n\t \"carNumber\":\"MH04LM1111\"\r\n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "localhost:8080/cab-service/cab-driver",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cab-service",
+						"cab-driver"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "Update Cab Driver Location",
 			"request": {
-				"url": "localhost:8080/cab-service/cab-driver/7506500900/location",
 				"method": "PUT",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n\t\"latitude\":19.2272266,\n\t\"longitude\":72.9509195\n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "localhost:8080/cab-service/cab-driver/7506500900/location",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cab-service",
+						"cab-driver",
+						"7506500900",
+						"location"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "Create Customer",
 			"request": {
-				"url": "localhost:8080/cab-service/customer",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n\t \"mobileNumber\":\"7506500594\",\r\n\t \"password\":\"aakash\",\r\n\t \"firstName\":\"Aakash\",\r\n\t \"lastName\":\"Ranglani\"\r\n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "localhost:8080/cab-service/customer",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cab-service",
+						"customer"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "Fetch Available Cab Drivers",
 			"request": {
+				"method": "GET",
+				"header": [],
 				"url": {
 					"raw": "localhost:8080/cab-service/cab-driver/near?latitude=19.2309696&longitude=72.9824377",
 					"host": [
@@ -84,67 +110,90 @@
 					"query": [
 						{
 							"key": "latitude",
-							"value": "19.2309696",
-							"equals": true,
-							"description": ""
+							"value": "19.2309696"
 						},
 						{
 							"key": "longitude",
-							"value": "72.9824377",
-							"equals": true,
-							"description": ""
+							"value": "72.9824377"
 						}
-					],
-					"variable": []
-				},
-				"method": "GET",
-				"header": [],
-				"body": {},
-				"description": ""
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "Fetch Driver Details",
 			"request": {
-				"url": "localhost:8080/cab-service/cab-driver/7506900900",
 				"method": "GET",
 				"header": [],
-				"body": {},
-				"description": ""
+				"url": {
+					"raw": "localhost:8080/cab-service/cab-driver/7506500900",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cab-service",
+						"cab-driver",
+						"7506500900"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "Book a Cab",
 			"request": {
-				"url": "localhost:8080/cab-service/booking",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"startLatitude\":19.2309696,\r\n\t\"startLongitude\":72.9824377,\r\n\t\"endLatitude\":19.1087175,\r\n\t\"endLongitude\":72.1693232,\r\n\t\"customerMobileNumber\":\"7506500594\",\r\n\t\"numberOfPassengers\":\"2\"}"
+					"raw": "{\"startLatitude\":19.2309696,\r\n\t\"startLongitude\":72.9824377,\r\n\t\"endLatitude\":19.1087175,\r\n\t\"endLongitude\":72.1693232,\r\n\t\"customerMobileNumber\":\"7506500594\",\r\n\t\"numberOfPassengers\":\"2\"}",
+					"options": {
+						"raw": {}
+					}
 				},
-				"description": ""
+				"url": {
+					"raw": "localhost:8080/cab-service/cab/booking",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cab-service",
+						"cab",
+						"booking"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "Show All Cab Booking Status",
 			"request": {
-				"url": "localhost:8080/cab-service/cab/booking/status",
 				"method": "GET",
 				"header": [],
-				"body": {},
-				"description": ""
+				"url": {
+					"raw": "localhost:8080/cab-service/cab/booking/status",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cab-service",
+						"cab",
+						"booking",
+						"status"
+					]
+				}
 			},
 			"response": []
 		}
-	]
+	],
+	"protocolProfileBehavior": {}
 }
