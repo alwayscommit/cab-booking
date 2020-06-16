@@ -1,35 +1,25 @@
-Create 5 Driver Accounts
+use cab_service_db; 
+
+SET FOREIGN_KEY_CHECKS = 0; 
+TRUNCATE table car; 
+TRUNCATE table user_account; 
+TRUNCATE table booking;
+SET FOREIGN_KEY_CHECKS = 1;
 
 INSERT INTO user_account VALUES 
-(1, "DRIVER", "2020-06-03", "encryptedPassword", "Aakash", "Ranglani", "7506500500"),
-(2, "DRIVER", "2020-06-04", "encryptedPassword", "Tom", "Jerry", "7506600600"),
-(3, "DRIVER", "2020-06-05", "encryptedPassword", "Mathew", "Hayden", "7506700700"),
-(4, "DRIVER", "2020-06-06", "encryptedPassword", "Vengeful", "Spirit", "7506800800"),
-(5, "DRIVER", "2020-06-07", "encryptedPassword", "Skywrath", "Mage", "7506900900");
-
-
-Create 5 Cars for Driver Accounts
-
-INSERT INTO car VALUES
-(11,"Maruti Suzuki Alto","MH041991","AVAILABLE",19.2094491,72.9455951,1),
-(12,"Ford Figo","MH042002","AVAILABLE",19.2482543,73.0139546,2),
-(13,"Maruti Suzuki Swift","MH041902","AVAILABLE",19.2148211,72.9747739,3),
-(14,"Maruti Wagon R","MH042000","AVAILABLE",19.2230629,72.9629145,4),
-(15,"Maruti Ciaz","MH042020","AVAILABLE",19.2272266,72.9509195,5);
-
-
-//Some available, some not
-INSERT INTO user_account VALUES 
-(1, "DRIVER", "2020-06-03", "encryptedPassword", "Aakash", "Ranglani", "7506500500"),
-(2, "DRIVER", "2020-06-04", "encryptedPassword", "Tom", "Jerry", "7506600600"),
-(3, "DRIVER", "2020-06-05", "encryptedPassword", "Mathew", "Hayden", "7506700700"),
-(4, "DRIVER", "2020-06-06", "encryptedPassword", "Vengeful", "Spirit", "7506800800"),
-(5, "DRIVER", "2020-06-07", "encryptedPassword", "Skywrath", "Mage", "7506900900");
-
+(1, "DRIVER", "2020-06-03", "encryptedPassword", "Bugs", "Bunny", "7506500500"),
+(2, "DRIVER", "2020-06-04", "encryptedPassword", "Daffy", "Duck", "7506600600"),
+(3, "DRIVER", "2020-06-05", "encryptedPassword", "Tom", "Cat", "7506700700"),
+(4, "DRIVER", "2020-06-06", "encryptedPassword", "Homer", "Simpson", "7506800800"),
+(5, "DRIVER", "2020-06-07", "encryptedPassword", "Donald", "Duck", "7506900900"),
+(6, "CUSTOMER", "2020-06-06", "encryptedPassword", "Fred", "Flinstone", "7506500591"),
+(7, "CUSTOMER", "2020-06-03", "encryptedPassword", "Pink", "Panther", "7506500594"),
+(8, "CUSTOMER", "2020-06-06", "encryptedPassword", "Fred", "Flinstone", "7506500592"),
+(9, "CUSTOMER", "2020-06-03", "encryptedPassword", "Pink", "Panther", "7506500593");
 
 INSERT INTO car VALUES
-(11,"Maruti Suzuki Alto","MH041991","AVAILABLE",19.2094491,72.9455951,1),
-(12,"Ford Figo","MH042002","AVAILABLE",19.2482543,73.0139546,2),
-(13,"Maruti Suzuki Swift","MH041902","AVAILABLE",19.2919031,72.9978129,3),
-(14,"Maruti Wagon R","MH042000","BUSY",19.3001690,72.9299875,4),
-(15,"Maruti Ciaz","MH042020","BUSY,19.2272266,72.9509195,5);
+(11,"Maruti Suzuki Alto","MH041991","AVAILABLE",19.2305983,72.9530307,1),
+(12,"Ford Figo","MH042002","AVAILABLE",19.2054958,72.9772409,2),
+(13,"Maruti Suzuki Swift","MH041902","AVAILABLE",19.2535111,72.9781447,3),
+(14,"Maruti Wagon R","MH042000","AVAILABLE",19.1930801,72.9643474,4),
+(15,"Maruti Ciaz","MH042020","AVAILABLE",19.2697256,72.9628893,5);

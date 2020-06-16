@@ -5,9 +5,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.junit.BeforeClass;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,11 +16,8 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.assignment.cab_booking.entity.CarDriverEntity;
 import com.assignment.cab_booking.entity.UserAccountEntity;
 import com.assignment.cab_booking.model.AccountType;
-import com.assignment.cab_booking.model.CarStatus;
-import com.assignment.cab_booking.model.dto.CabDriverDTO;
 import com.assignment.cab_booking.model.dto.CustomerDTO;
 import com.assignment.cab_booking.repository.UserAccountRepository;
 import com.assignment.cab_booking.service.impl.CustomerServiceImpl;
@@ -43,10 +38,6 @@ class CustomerServiceImplTest {
 		MockitoAnnotations.initMocks(this);
 	}
 
-	@BeforeClass
-	public void setup() {
-		this.customerServiceImpl = new CustomerServiceImpl(userAccountRepo, passwordEncoder);
-	}
 
 	@Test
 	public void testMockregisterCustomer() {

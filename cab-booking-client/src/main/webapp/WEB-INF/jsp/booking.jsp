@@ -70,7 +70,7 @@
 
 		var bookingObj = JSON.stringify(bookingDetails);
 		$.ajax({
-			url : "http://localhost:8080/cab-service/booking",
+			url : "http://localhost:8080/cab-service/cab/booking",
 			method : "POST",
 			data : bookingObj,
 			contentType : 'application/json; charset=utf-8',
@@ -94,7 +94,7 @@
 			}) ],
 			view : new ol.View({
 				center : ol.proj.fromLonLat([ 72.9824377, 19.2309696 ]),
-				zoom : 12
+				zoom : 12.5
 			})
 		});
 
@@ -104,7 +104,7 @@
 	function getAllCabStatus() {
 		$
 				.ajax({
-					url : "http://localhost:8080/cab-service/booking/cabs",
+					url : "http://localhost:8080/cab-service/cab/booking/status",
 					method : "GET",
 					dataType : "json",
 					success : function(data) {
@@ -187,11 +187,11 @@
 			<tr>
 				<td>Destination</td>
 				<td><input type="text" id="desitination"
-					value="R-Mall, Mulund, Maharashtra"></td>
+					value=""></td>
 			</tr>
 			<tr>
 				<td>Number of Passengers</td>
-				<td><input type="text" id="passengersNo" value="2"></td>
+				<td><input type="text" id="passengersNo" value=""></td>
 			</tr>
 			<tr colspan="2">
 				<td><input type="button" onclick="findLatLong()"

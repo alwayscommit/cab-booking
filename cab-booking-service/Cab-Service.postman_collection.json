@@ -8,9 +8,9 @@
 	},
 	"item": [
 		{
-			"name": "Create Driver",
+			"name": "Create Cab Driver",
 			"request": {
-				"url": "localhost:8080/cab-service/driver",
+				"url": "localhost:8080/cab-service/cab-driver",
 				"method": "POST",
 				"header": [
 					{
@@ -21,16 +21,16 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\t \"mobileNumber\":\"7506500591\",\r\n\t \"password\":\"aakash\",\r\n\t \"firstName\":\"Aakash\",\r\n\t \"lastName\":\"Ranglani\",\r\n\t \"carName\":\"Maruti Swift\",\r\n\t \"carNumber\":\"MH04LM8666\"\r\n}"
+					"raw": "{\r\n\t \"mobileNumber\":\"7506500900\",\r\n\t \"password\":\"password\",\r\n\t \"firstName\":\"Skywrath\",\r\n\t \"lastName\":\"Mage\",\r\n\t \"carName\":\"Maruti Suzuki Ciaz\",\r\n\t \"carNumber\":\"MH04LM1111\"\r\n}"
 				},
 				"description": ""
 			},
 			"response": []
 		},
 		{
-			"name": "Update Driver Location",
+			"name": "Update Cab Driver Location",
 			"request": {
-				"url": "localhost:8080/cab-service/driver/7506500591/location",
+				"url": "localhost:8080/cab-service/cab-driver/7506500900/location",
 				"method": "PUT",
 				"header": [
 					{
@@ -41,7 +41,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"latitude\":19.2094491,\n\t\"longitude\":72.9455951\n\t\n}"
+					"raw": "{\n\t\"latitude\":19.2272266,\n\t\"longitude\":72.9509195\n}"
 				},
 				"description": ""
 			},
@@ -68,9 +68,35 @@
 			"response": []
 		},
 		{
-			"name": "Fetch available drivers",
+			"name": "Fetch Available Cab Drivers",
 			"request": {
-				"url": "localhost:8080/cab-service/driver",
+				"url": {
+					"raw": "localhost:8080/cab-service/cab-driver/near?latitude=19.2309696&longitude=72.9824377",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cab-service",
+						"cab-driver",
+						"near"
+					],
+					"query": [
+						{
+							"key": "latitude",
+							"value": "19.2309696",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "longitude",
+							"value": "72.9824377",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
 				"method": "GET",
 				"header": [],
 				"body": {},
@@ -79,9 +105,9 @@
 			"response": []
 		},
 		{
-			"name": "Get Driver",
+			"name": "Fetch Driver Details",
 			"request": {
-				"url": "localhost:8080/cab-service/driver/7506500591",
+				"url": "localhost:8080/cab-service/cab-driver/7506900900",
 				"method": "GET",
 				"header": [],
 				"body": {},
@@ -90,7 +116,7 @@
 			"response": []
 		},
 		{
-			"name": "Make Booking",
+			"name": "Book a Cab",
 			"request": {
 				"url": "localhost:8080/cab-service/booking",
 				"method": "POST",
@@ -110,9 +136,9 @@
 			"response": []
 		},
 		{
-			"name": "Get Cabs Summary",
+			"name": "Show All Cab Booking Status",
 			"request": {
-				"url": "localhost:8080/cab-service/booking/cabs",
+				"url": "localhost:8080/cab-service/cab/booking/status",
 				"method": "GET",
 				"header": [],
 				"body": {},

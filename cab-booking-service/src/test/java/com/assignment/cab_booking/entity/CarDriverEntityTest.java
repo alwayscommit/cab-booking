@@ -9,10 +9,13 @@ import javax.validation.ValidatorFactory;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import com.assignment.cab_booking.constants.ValidationConstants;
 import com.assignment.cab_booking.model.CarStatus;
 
+@RunWith(SpringRunner.class)
 class CarDriverEntityTest {
 
 	private static Validator validator;
