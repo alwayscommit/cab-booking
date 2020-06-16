@@ -161,7 +161,6 @@
 
 	function reset() {
 		$('#customerNumber').val('');
-		$('#location').val('');
 		$('#desitination').val('');
 		$('#passengersNo').val('');
 		var map = $('#map').data('map');
