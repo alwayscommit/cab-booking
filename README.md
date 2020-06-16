@@ -1,5 +1,5 @@
 # cab-booking
-An assignment to have the basic functionalities of a cab booking application using Spring, Hibernate, and a bit of frontend...  
+An assignment having some functionalities of a cab booking application built using Spring, Hibernate, and a bit of frontend...  
 ------------------------------------------------------------------------------------------------------------------------------
 
 Prerequisites: Maven, JDK 1.8, MySQL Database
