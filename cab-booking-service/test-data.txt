@@ -1,0 +1,25 @@
+Test 1
+Customer Number: 7506500591 
+Location: Everest World, Thane, Maharashtra
+Destination: R-Mall, Mulund, Maharashtra
+Number of Passengers: 1
+
+Test 2
+Customer Number: 7506500592
+Location: Everest World, Thane, Maharashtra
+Destination: R-City Mall, Ghatkopar, Mumbai, Maharashtra
+Number of Passengers: 2
+
+Test 3
+Customer Number: 7506500593
+Location: Everest World, Thane, Maharashtra
+Destination: Pheonix Mall, Kurla, Mumbai
+Number of Passengers: 3
+
+Test 4
+Customer Number: 7506500594
+Location: Everest World, Thane, Maharashtra
+Destination: Viviana Mall, Thane, Maharashtra
+Number of Passengers: 3
+
+
