@@ -26,14 +26,29 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public CustomerDTO registerCustomer(CustomerDTO customerDTO) {
-		ModelMapper modelMapper = new ModelMapper();
-		UserAccountEntity customerAccount = modelMapper.map(customerDTO, UserAccountEntity.class);
+
+		UserAccountEntity customerAccount = mapToEntity(customerDTO);
+
+		setCustomerDetails(customerAccount, customerDTO);
+
+		UserAccountEntity savedCustomer = userAccountRepo.save(customerAccount);
+		return mapToDTO(savedCustomer);
+	}
+
+	private void setCustomerDetails(UserAccountEntity customerAccount, CustomerDTO customerDTO) {
 		customerAccount.setEncryptedPassword(passwordEncoder.encode(customerDTO.getPassword()));
 		customerAccount.setAccountType(AccountType.CUSTOMER.toString());
 		customerAccount.setCreatedOn(new Date());
-		UserAccountEntity savedCustomer = userAccountRepo.save(customerAccount);
-		CustomerDTO customerDto = modelMapper.map(savedCustomer, CustomerDTO.class);
-		return customerDto;
+	}
+
+	private CustomerDTO mapToDTO(UserAccountEntity savedCustomer) {
+		ModelMapper modelMapper = new ModelMapper();
+		return modelMapper.map(savedCustomer, CustomerDTO.class);
+	}
+
+	private UserAccountEntity mapToEntity(CustomerDTO customerDTO) {
+		ModelMapper modelMapper = new ModelMapper();
+		return modelMapper.map(customerDTO, UserAccountEntity.class);
 	}
 
 }

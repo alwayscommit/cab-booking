@@ -33,14 +33,22 @@ public class CustomerController {
 	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<CustomerRest> registerDriver(@RequestBody CustomerRequest customerRequest) {
 		LOGGER.info(String.format("Creating Customer with Mobile Number :: %s", customerRequest.getMobileNumber()));
-
-		ModelMapper modelMapper = new ModelMapper();
-		CustomerDTO customerDTO = modelMapper.map(customerRequest, CustomerDTO.class);
+		CustomerDTO customerDTO = mapToCustomerDTO(customerRequest);
 
 		CustomerDTO savedCustomer = customerService.registerCustomer(customerDTO);
 
-		CustomerRest customerResponse = modelMapper.map(savedCustomer, CustomerRest.class);
+		CustomerRest customerResponse = mapToCustomerResposne(savedCustomer);
 		return new ResponseEntity<CustomerRest>(customerResponse, HttpStatus.CREATED);
+	}
+
+	private CustomerDTO mapToCustomerDTO(CustomerRequest customerRequest) {
+		ModelMapper modelMapper = new ModelMapper();
+		return modelMapper.map(customerRequest, CustomerDTO.class);
+	}
+
+	private CustomerRest mapToCustomerResposne(CustomerDTO savedCustomer) {
+		ModelMapper modelMapper = new ModelMapper();
+		return modelMapper.map(savedCustomer, CustomerRest.class);
 	}
 
 }

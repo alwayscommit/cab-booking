@@ -3,6 +3,7 @@ package com.assignment.cab_booking.controller;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.assignment.cab_booking.mapper.BookingMapper;
 import com.assignment.cab_booking.model.dto.BookingDTO;
+import com.assignment.cab_booking.model.dto.CabDriverDTO;
 import com.assignment.cab_booking.model.request.BookingRequest;
 import com.assignment.cab_booking.model.response.BookingRest;
+import com.assignment.cab_booking.model.response.CabDriverRest;
 import com.assignment.cab_booking.service.BookingService;
 import com.assignment.cab_booking.view.CabBookingStatus;
 
@@ -42,20 +45,29 @@ public class BookingController {
 	public ResponseEntity<BookingRest> bookCab(@RequestBody BookingRequest bookingRequest) {
 		LOGGER.info(String.format("Booking cab for customer :: %s", bookingRequest.getCustomerMobileNumber()));
 
-		ModelMapper modelMapper = new ModelMapper();
-		modelMapper.addMappings(bookingMapper.bookingReqToDTOMapping());
-		BookingDTO bookingDTO = modelMapper.map(bookingRequest, BookingDTO.class);
+		BookingDTO bookingDTO = mapToBookingDTO(bookingRequest);
 
 		BookingDTO bookedCar = bookingService.bookCab(bookingDTO);
 
-		modelMapper.addMappings(bookingMapper.bookingDTOtoRestMapping());
-		BookingRest bookingResponse = modelMapper.map(bookedCar, BookingRest.class);
+		BookingRest bookingResponse = mapToBookingDTO(bookedCar);
 		return new ResponseEntity<BookingRest>(bookingResponse, HttpStatus.CREATED);
 	}
 
 	@GetMapping("/status")
 	public List<CabBookingStatus> getCabs() {
 		return bookingService.findAllCabBookingStatus();
+	}
+
+	private BookingDTO mapToBookingDTO(BookingRequest bookingRequest) {
+		ModelMapper modelMapper = new ModelMapper();
+		modelMapper.addMappings(bookingMapper.bookingReqToDTOMapping());
+		return modelMapper.map(bookingRequest, BookingDTO.class);
+	}
+
+	private BookingRest mapToBookingDTO(BookingDTO bookedCar) {
+		ModelMapper modelMapper = new ModelMapper();
+		modelMapper.addMappings(bookingMapper.bookingDTOtoRestMapping());
+		return modelMapper.map(bookedCar, BookingRest.class);
 	}
 
 }

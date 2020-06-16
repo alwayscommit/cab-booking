@@ -29,8 +29,8 @@ import com.assignment.cab_booking.model.request.CabDriverRequest;
 import com.assignment.cab_booking.service.CabDriverService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@WebMvcTest(CabController.class)
-class CabControllerTest {
+@WebMvcTest(CabDriverController.class)
+class CabDriverControllerTest {
 
 	private static final String CAB_DRIVER_CONTROLLER_MAPPING = "/cab-driver";
 

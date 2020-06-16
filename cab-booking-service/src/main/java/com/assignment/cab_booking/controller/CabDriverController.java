@@ -29,14 +29,14 @@ import com.assignment.cab_booking.service.CabDriverService;
 
 @RestController
 @RequestMapping("/cab-driver")
-public class CabController {
+public class CabDriverController {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(CabController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CabDriverController.class);
 
 	private CabDriverService driverService;
 
 	@Autowired
-	public CabController(CabDriverService driverService) {
+	public CabDriverController(CabDriverService driverService) {
 		this.driverService = driverService;
 	}
 
@@ -44,17 +44,16 @@ public class CabController {
 	public ResponseEntity<CabDriverRest> registerCabDriver(@RequestBody CabDriverRequest driverRequest) {
 		LOGGER.info(String.format("Creating Cab Driver with Mobile Number :: %s", driverRequest.getMobileNumber()));
 
-		ModelMapper modelMapper = new ModelMapper();
-		CabDriverDTO driverDTO = modelMapper.map(driverRequest, CabDriverDTO.class);
+		CabDriverDTO driverDTO = mapToCabDriverDTO(driverRequest);
 
 		CabDriverDTO savedCabDetails = driverService.registerDriver(driverDTO);
 
-		CabDriverRest cabResponse = modelMapper.map(savedCabDetails, CabDriverRest.class);
+		CabDriverRest cabResponse = mapToCabDriverRest(savedCabDetails);
 
 		return new ResponseEntity<CabDriverRest>(cabResponse, HttpStatus.CREATED);
 	}
 
-	@GetMapping(value="/near", produces = { MediaType.APPLICATION_JSON_VALUE })
+	@GetMapping(value = "/near", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<CabDriverRest>> getNearByAvailableCabDrivers(@RequestParam Double latitude,
 			@RequestParam Double longitude) {
 		LOGGER.info(String.format("Retrieving nearby available cab drivers :: %s, %s", latitude, longitude));
@@ -71,12 +70,12 @@ public class CabController {
 	public ResponseEntity<CabDriverRest> getDriver(@PathVariable String cabDriverNumber) {
 		LOGGER.info(String.format("Retrieving cab driver details ::%s", cabDriverNumber));
 		CabDriverDTO cab = driverService.getDriver(cabDriverNumber);
-		
-		if(cab==null) {
+
+		if (cab == null) {
 			return new ResponseEntity<CabDriverRest>(HttpStatus.NO_CONTENT);
 		}
-		
-		CabDriverRest cabResponse = mapToDriverRest(cab);
+
+		CabDriverRest cabResponse = mapToDriverResponse(cab);
 		return new ResponseEntity<CabDriverRest>(cabResponse, HttpStatus.OK);
 	}
 
@@ -84,14 +83,20 @@ public class CabController {
 	public ResponseEntity<CabDriverRest> updateDriverCarLocation(@PathVariable String cabDriverNumber,
 			@RequestBody LocationRequest locationRequest) {
 		LOGGER.info(String.format("Updating cab driver location ::%s", cabDriverNumber));
-		ModelMapper modelMapper = new ModelMapper();
-		LocationDTO locationDto = modelMapper.map(locationRequest, LocationDTO.class);
+		LocationDTO locationDto = mapToLocationDTO(locationRequest);
+
 		CabDriverDTO driver = driverService.updateDriverCarLocation(cabDriverNumber, locationDto);
-		CabDriverRest driverResponse = mapToDriverRest(driver);
+
+		CabDriverRest driverResponse = mapToDriverResponse(driver);
 		return new ResponseEntity<CabDriverRest>(driverResponse, HttpStatus.OK);
 	}
 
-	private CabDriverRest mapToDriverRest(CabDriverDTO driverDTO) {
+	private LocationDTO mapToLocationDTO(LocationRequest locationRequest) {
+		ModelMapper modelMapper = new ModelMapper();
+		return modelMapper.map(locationRequest, LocationDTO.class);
+	}
+
+	private CabDriverRest mapToDriverResponse(CabDriverDTO driverDTO) {
 		ModelMapper modelMapper = new ModelMapper();
 		return modelMapper.map(driverDTO, CabDriverRest.class);
 	}
@@ -103,4 +108,13 @@ public class CabController {
 		}.getType());
 	}
 
+	private CabDriverDTO mapToCabDriverDTO(CabDriverRequest driverRequest) {
+		ModelMapper modelMapper = new ModelMapper();
+		return modelMapper.map(driverRequest, CabDriverDTO.class);
+	}
+
+	private CabDriverRest mapToCabDriverRest(CabDriverDTO savedCabDetails) {
+		ModelMapper modelMapper = new ModelMapper();
+		return modelMapper.map(savedCabDetails, CabDriverRest.class);
+	}
 }

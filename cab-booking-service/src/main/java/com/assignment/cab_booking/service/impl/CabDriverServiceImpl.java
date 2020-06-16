@@ -1,19 +1,22 @@
 package com.assignment.cab_booking.service.impl;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.modelmapper.convention.MatchingStrategies;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.assignment.cab_booking.constants.ApplicationConstants;
+import com.assignment.cab_booking.constants.ExceptionConstants;
 import com.assignment.cab_booking.entity.CarDriverEntity;
 import com.assignment.cab_booking.entity.UserAccountEntity;
+import com.assignment.cab_booking.exception.CabDriverServiceException;
 import com.assignment.cab_booking.model.AccountType;
 import com.assignment.cab_booking.model.CarStatus;
 import com.assignment.cab_booking.model.dto.CabDriverDTO;
@@ -24,6 +27,8 @@ import com.assignment.cab_booking.service.CabDriverService;
 
 @Service
 public class CabDriverServiceImpl implements CabDriverService {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(CabDriverServiceImpl.class);
 
 	private UserAccountRepository userAccountRepo;
 
@@ -42,20 +47,17 @@ public class CabDriverServiceImpl implements CabDriverService {
 	@Override
 	public CabDriverDTO registerDriver(CabDriverDTO carDriverDTO) {
 
-		ModelMapper modelMapper = new ModelMapper();
-		UserAccountEntity driverAccount = modelMapper.map(carDriverDTO, UserAccountEntity.class);
-		driverAccount.setEncryptedPassword(passwordEncoder.encode(carDriverDTO.getPassword()));
-		driverAccount.setAccountType(AccountType.DRIVER.toString());
-		driverAccount.setCreatedOn(new Date());
-
-		CarDriverEntity carEntity = modelMapper.map(carDriverDTO, CarDriverEntity.class);
-		carEntity.setCarStatus(CarStatus.AVAILABLE.toString());
-		carEntity.setDrivenBy(driverAccount);
+		CarDriverEntity carEntity = setupCarDriverEntity(carDriverDTO);
 
 		CarDriverEntity savedCar = carRepo.save(carEntity);
-		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
-		CabDriverDTO driverResponse = modelMapper.map(savedCar, CabDriverDTO.class);
 
+		if (savedCar == null) {
+			LOGGER.error("Unable to create driver...");
+			throw new CabDriverServiceException(ExceptionConstants.CAB_DRIVER_CREATION_MESSAGE);
+		}
+
+		CabDriverDTO driverResponse = mapToDTO(savedCar);
+		LOGGER.info(String.format("Car %s created successfully...", savedCar.getCarId()));
 		return driverResponse;
 	}
 
@@ -63,23 +65,18 @@ public class CabDriverServiceImpl implements CabDriverService {
 	public List<CabDriverDTO> getNearByAvailableCabDrivers(LocationDTO locationDto) {
 		List<CarDriverEntity> availableCarList = carRepo.findAvailableCabs(locationDto.getLatitude(),
 				locationDto.getLongitude(), ApplicationConstants.SEARCH_RADIUS_IN_KILOMETERS);
-
-		ModelMapper modelMapper = new ModelMapper();
-		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
-		List<CabDriverDTO> availableDriversDTO = modelMapper.map(availableCarList, new TypeToken<List<CabDriverDTO>>() {
-		}.getType());
-		return availableDriversDTO;
+		return mapToDriversDTO(availableCarList);
 	}
 
 	@Override
 	public CabDriverDTO getDriver(String mobileNumber) {
 		UserAccountEntity driverDetails = userAccountRepo.findByMobileNumberAndAccountType(mobileNumber,
 				AccountType.DRIVER.toString());
-		
-		if(driverDetails==null) {
+
+		if (driverDetails == null) {
 			return null;
 		}
-		
+
 		ModelMapper modelMapper = new ModelMapper();
 		CabDriverDTO driverDTO = modelMapper.map(driverDetails, CabDriverDTO.class);
 		return driverDTO;
@@ -90,11 +87,52 @@ public class CabDriverServiceImpl implements CabDriverService {
 		CarDriverEntity carEntity = carRepo.findByDrivenByMobileNumber(driverNumber);
 		carEntity.setLatitude(locationDto.getLatitude());
 		carEntity.setLongitude(locationDto.getLongitude());
-		ModelMapper modelMapper = new ModelMapper();
+
 		CarDriverEntity updatedCarLocation = carRepo.save(carEntity);
-		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
-		CabDriverDTO updatedCarLocationDto = modelMapper.map(updatedCarLocation, CabDriverDTO.class);
-		return updatedCarLocationDto;
+
+		return mapToCabDriverDTO(updatedCarLocation);
 	}
 
+	private CabDriverDTO mapToCabDriverDTO(CarDriverEntity updatedCarLocation) {
+		ModelMapper modelMapper = new ModelMapper();
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
+		return modelMapper.map(updatedCarLocation, CabDriverDTO.class);
+	}
+
+	private UserAccountEntity mapToUserEntity(CabDriverDTO carDriverDTO) {
+		ModelMapper modelMapper = new ModelMapper();
+		return modelMapper.map(carDriverDTO, UserAccountEntity.class);
+	}
+
+	private CarDriverEntity mapToCarEntity(CabDriverDTO carDriverDTO) {
+		ModelMapper modelMapper = new ModelMapper();
+		return modelMapper.map(carDriverDTO, CarDriverEntity.class);
+	}
+
+	private CabDriverDTO mapToDTO(CarDriverEntity savedCar) {
+		ModelMapper modelMapper = new ModelMapper();
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
+		return modelMapper.map(savedCar, CabDriverDTO.class);
+	}
+
+	private CarDriverEntity setupCarDriverEntity(CabDriverDTO carDriverDTO) {
+		// user details
+		UserAccountEntity driverAccount = mapToUserEntity(carDriverDTO);
+		driverAccount.setEncryptedPassword(passwordEncoder.encode(carDriverDTO.getPassword()));
+		driverAccount.setAccountType(AccountType.DRIVER.toString());
+		driverAccount.setCreatedOn(new Date());
+
+		// car details
+		CarDriverEntity carEntity = mapToCarEntity(carDriverDTO);
+		carEntity.setCarStatus(CarStatus.AVAILABLE.toString());
+		carEntity.setDrivenBy(driverAccount);
+		return carEntity;
+	}
+
+	private List<CabDriverDTO> mapToDriversDTO(List<CarDriverEntity> availableCarList) {
+		ModelMapper modelMapper = new ModelMapper();
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
+		return modelMapper.map(availableCarList, new TypeToken<List<CabDriverDTO>>() {
+		}.getType());
+	}
 }

@@ -4,10 +4,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.assignment.cab_booking.constants.ApplicationConstants;
+import com.assignment.cab_booking.constants.ExceptionConstants;
 import com.assignment.cab_booking.entity.BookingEntity;
 import com.assignment.cab_booking.entity.CarDriverEntity;
 import com.assignment.cab_booking.entity.UserAccountEntity;
@@ -26,6 +29,8 @@ import com.assignment.cab_booking.view.CabBookingStatus;
 
 @Service
 public class BookingServiceImpl implements BookingService {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(BookingServiceImpl.class);
 
 	private UserAccountRepository userAccountRepo;
 
@@ -49,44 +54,54 @@ public class BookingServiceImpl implements BookingService {
 
 	@Override
 	public BookingDTO bookCab(BookingDTO bookingDTO) {
-		ModelMapper mapper = new ModelMapper();
-		mapper.addMappings(bookingMapper.bookingDtoToEntity());
-		mapper.addMappings(bookingMapper.bookingEntityToDTOMapping());
-
 		String customerNumber = bookingDTO.getCustomerDto().getMobileNumber();
 
-		if (bookingRepo.findByCustomerDetailsMobileNumberAndState(customerNumber,
-				BookingState.ACTIVE.toString()) != null) {
-			throw new BookingServiceException("Simultaneous bookings are not allowed!");
+		if (customerHasActiveBooking(customerNumber)) {
+			LOGGER.info(String.format("Customer %s already has an active booking...", customerNumber));
+			throw new BookingServiceException(ExceptionConstants.SIMULTANEOUS_BOOKING_MESSAGE);
 		}
 
-		// get user
-		UserAccountEntity customerAccount = userAccountRepo.findByMobileNumberAndAccountType(customerNumber,
-				AccountType.CUSTOMER.toString());
+		UserAccountEntity customerAccount = getCustomerAccount(customerNumber);
 
-		if (customerAccount == null) {
-			throw new BookingServiceException("You are not a registered customer!");
+		// This check will not be there ideally as only logged in users will be able to
+		// access this API.
+		if (accountNotExist(customerAccount)) {
+			throw new BookingServiceException(ExceptionConstants.CUSTOMER_NOT_REGISTERED_MESSAGE);
 		}
 
-		BookingEntity bookingEntity = mapper.map(bookingDTO, BookingEntity.class);
-
+		BookingEntity bookingEntity = mapToBookingEntity(bookingDTO);
 		// find best car
 		CarDriverEntity availableCab = findBestCab(bookingEntity.getStartLatitude(), bookingEntity.getStartLongitude());
 
 		if (availableCab == null) {
-			throw new BookingServiceException("No cabs available! Please try again later.");
+			LOGGER.info("Cabs not found around the required location...");
+			throw new BookingServiceException(ExceptionConstants.NO_CABS_AVAILABLE_MESSAGE);
 		}
 
 		BookingEntity saveBooking = setupBookingDetails(bookingEntity, availableCab, customerAccount);
 
 		BookingEntity bookedCar = bookingRepo.save(saveBooking);
 
-		// Set the car status as busy
-		availableCab.setCarStatus(CarStatus.BUSY.toString());
-		carRepo.save(availableCab);
-
-		BookingDTO bookedCarDto = mapper.map(bookedCar, BookingDTO.class);
+		BookingDTO bookedCarDto = mapToBookingDTO(bookedCar);
 		return bookedCarDto;
+	}
+
+	@Override
+	public List<CabBookingStatus> findAllCabBookingStatus() {
+		return bookingRepo.findCabDetails();
+	}
+
+	private boolean accountNotExist(UserAccountEntity customerAccount) {
+		return customerAccount == null;
+	}
+
+	private UserAccountEntity getCustomerAccount(String customerNumber) {
+		return userAccountRepo.findByMobileNumberAndAccountType(customerNumber, AccountType.CUSTOMER.toString());
+	}
+
+	private boolean customerHasActiveBooking(String customerNumber) {
+		return bookingRepo.findByCustomerDetailsMobileNumberAndState(customerNumber,
+				BookingState.ACTIVE.toString()) != null;
 	}
 
 	private BookingEntity setupBookingDetails(BookingEntity bookingEntity, CarDriverEntity availableCab,
@@ -96,6 +111,7 @@ public class BookingServiceImpl implements BookingService {
 		bookingEntity.setReferenceNo(utils.generatedBookingReference(10));
 		bookingEntity.setBookingTime(LocalDateTime.now().toString());
 		bookingEntity.setState(BookingState.ACTIVE.toString());
+		availableCab.setCarStatus(CarStatus.BUSY.toString());
 		return bookingEntity;
 	}
 
@@ -103,12 +119,19 @@ public class BookingServiceImpl implements BookingService {
 	// of the cabs
 	// Or an in-memory cache like Redis that also supports GeoSpatial Queries.
 	private CarDriverEntity findBestCab(Double latitude, Double longitude) {
+		LOGGER.info("Searching for best cab for the given location...");
 		return carRepo.findBestCab(latitude, longitude, ApplicationConstants.SEARCH_RADIUS_IN_KILOMETERS);
 	}
 
-	@Override
-	public List<CabBookingStatus> findAllCabBookingStatus() {
-		return bookingRepo.findCabDetails();
+	private BookingEntity mapToBookingEntity(BookingDTO bookingDTO) {
+		ModelMapper mapper = new ModelMapper();
+		mapper.addMappings(bookingMapper.bookingDtoToEntity());
+		return mapper.map(bookingDTO, BookingEntity.class);
 	}
 
+	private BookingDTO mapToBookingDTO(BookingEntity bookingEntity) {
+		ModelMapper mapper = new ModelMapper();
+		mapper.addMappings(bookingMapper.bookingEntityToDTOMapping());
+		return mapper.map(bookingEntity, BookingDTO.class);
+	}
 }
