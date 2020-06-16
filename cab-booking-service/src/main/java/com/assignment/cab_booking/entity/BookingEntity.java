@@ -48,7 +48,7 @@ public class BookingEntity {
 	@NotNull(message = ValidationConstants.CAR_DETAILS_MESSAGE)
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "CAR_ID")
-	private CarEntity carEntity;
+	private CarDriverEntity carEntity;
 
 	@NotNull(message = ValidationConstants.CUSTOMER_DETAILS_MESSAGE)
 	@OneToOne(cascade = CascadeType.ALL)
@@ -115,11 +115,11 @@ public class BookingEntity {
 		this.numberOfPassengers = numberOfPassengers;
 	}
 
-	public CarEntity getCarEntity() {
+	public CarDriverEntity getCarEntity() {
 		return carEntity;
 	}
 
-	public void setCarEntity(CarEntity carEntity) {
+	public void setCarEntity(CarDriverEntity carEntity) {
 		this.carEntity = carEntity;
 	}
 

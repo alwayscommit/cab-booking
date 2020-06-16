@@ -19,7 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.assignment.cab_booking.model.AccountType;
 import com.assignment.cab_booking.model.dto.CustomerDTO;
-import com.assignment.cab_booking.model.request.DriverRequest;
+import com.assignment.cab_booking.model.request.CabDriverRequest;
 import com.assignment.cab_booking.service.CustomerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -39,7 +39,7 @@ class CustomerControllerTest {
 
 	@Test
 	public void testCreateDriverMock() throws Exception {
-		DriverRequest driverRequest = new DriverRequest("Aakash", "Audi", "MH04JP0222", "7506500444", "19.231309",
+		CabDriverRequest driverRequest = new CabDriverRequest("Aakash", "Audi", "MH04JP0222", "7506500444", "19.231309",
 				"72.982752");
 
 		CustomerDTO customerDTO = new CustomerDTO(1L, "7506500444", "Aakash", "Ranglani", "aakash",

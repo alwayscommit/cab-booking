@@ -5,7 +5,7 @@ import java.util.Date;
 import com.assignment.cab_booking.model.AccountType;
 import com.assignment.cab_booking.model.CarStatus;
 
-public class CarDriverDTO {
+public class CabDriverDTO {
 
 	private Long userId;//Id from car table
 	private String mobileNumber;
@@ -21,7 +21,7 @@ public class CarDriverDTO {
 	private Double longitude;
 	private Date createdOn;
 	
-	public CarDriverDTO(String mobileNumber, String firstName, String lastName, String password,
+	public CabDriverDTO(String mobileNumber, String firstName, String lastName, String password,
 			AccountType accountType, String carName, CarStatus carStatus, String carNumber, Double latitude,
 			Double longitude, Date createdOn) {
 		this.mobileNumber = mobileNumber;
@@ -53,7 +53,7 @@ public class CarDriverDTO {
 		this.accountType = accountType;
 	}
 
-	public CarDriverDTO() {
+	public CabDriverDTO() {
 	}
 
 	public String getPassword() {

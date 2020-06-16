@@ -8,7 +8,7 @@ public class BookingRest {
 
 	private RideDetails rideDetails;
 	private CustomerRest customerDetails;
-	private DriverRest driverDetails;
+	private CabDriverRest driverDetails;
 
 	public RideDetails getRideDetails() {
 		return rideDetails;
@@ -26,11 +26,11 @@ public class BookingRest {
 		this.customerDetails = customerDetails;
 	}
 
-	public DriverRest getDriverDetails() {
+	public CabDriverRest getDriverDetails() {
 		return driverDetails;
 	}
 
-	public void setDriverDetails(DriverRest driverDetails) {
+	public void setDriverDetails(CabDriverRest driverDetails) {
 		this.driverDetails = driverDetails;
 	}
 

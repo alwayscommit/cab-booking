@@ -12,16 +12,14 @@ public class CustomerRest {
 	private String firstName;
 	private String lastName;
 	private String accountType;
-	private Date createdOn;
 
 	public CustomerRest() {}
 	
-	public CustomerRest(String mobileNumber, String firstName, String lastName, String accountType, Date createdOn) {
+	public CustomerRest(String mobileNumber, String firstName, String lastName, String accountType) {
 		this.mobileNumber = mobileNumber;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.accountType = accountType;
-		this.createdOn = createdOn;
 	}
 
 	public String getMobileNumber() {
@@ -54,14 +52,6 @@ public class CustomerRest {
 
 	public void setAccountType(String accountType) {
 		this.accountType = accountType;
-	}
-
-	public Date getCreatedOn() {
-		return createdOn;
-	}
-
-	public void setCreatedOn(Date createdOn) {
-		this.createdOn = createdOn;
 	}
 
 }

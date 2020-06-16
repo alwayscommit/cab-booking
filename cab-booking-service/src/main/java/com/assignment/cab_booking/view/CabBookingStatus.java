@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(Include.NON_NULL)
-public class CabStatus {
+public class CabBookingStatus {
 
 	private String driverName;
 	private String driverNumber;
@@ -14,7 +14,7 @@ public class CabStatus {
 	private Double carLatitude;
 	private Double carLongitude;
 
-	public CabStatus(String customerName, String customerNumber, String driverName, String driverNumber, 
+	public CabBookingStatus(String customerName, String customerNumber, String driverName, String driverNumber, 
 			String carStatus, Double carLatitude, Double carLongitude) {
 		this.driverName = driverName;
 		this.driverNumber = driverNumber;

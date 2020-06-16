@@ -8,8 +8,6 @@ import com.assignment.cab_booking.entity.UserAccountEntity;
 @Repository
 public interface UserAccountRepository extends CrudRepository<UserAccountEntity, Long> {
 
-	UserAccountEntity findByMobileNumber(String mobileNumber);
-
 	UserAccountEntity findByMobileNumberAndAccountType(String mobileNumber, String accountType);
 	
 }

@@ -18,13 +18,14 @@ public class CabBookingApplication {
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
+
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**").allowedMethods("GET","POST").allowedOrigins("http://localhost:8081");
+				//TODO Re-visit
+				registry.addMapping("/**").allowedMethods("GET", "POST", "PUT").allowedOrigins("*");
 			}
 		};
 	}

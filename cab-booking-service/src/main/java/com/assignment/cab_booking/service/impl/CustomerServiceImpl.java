@@ -1,7 +1,6 @@
 package com.assignment.cab_booking.service.impl;
 
-import java.sql.Date;
-import java.time.Instant;
+import java.util.Date;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,7 +30,7 @@ public class CustomerServiceImpl implements CustomerService {
 		UserAccountEntity customerAccount = modelMapper.map(customerDTO, UserAccountEntity.class);
 		customerAccount.setEncryptedPassword(passwordEncoder.encode(customerDTO.getPassword()));
 		customerAccount.setAccountType(AccountType.CUSTOMER.toString());
-		customerAccount.setCreatedOn(Date.from(Instant.now()));
+		customerAccount.setCreatedOn(new Date());
 		UserAccountEntity savedCustomer = userAccountRepo.save(customerAccount);
 		CustomerDTO customerDto = modelMapper.map(savedCustomer, CustomerDTO.class);
 		return customerDto;

@@ -13,11 +13,11 @@ import org.junit.jupiter.api.Test;
 import com.assignment.cab_booking.constants.ValidationConstants;
 import com.assignment.cab_booking.model.CarStatus;
 
-class CarEntityTest {
+class CarDriverEntityTest {
 
 	private static Validator validator;
 
-	private CarEntity car;
+	private CarDriverEntity car;
 
 	@BeforeAll
 	public static void setup() {
@@ -27,7 +27,7 @@ class CarEntityTest {
 
 	@BeforeEach
 	void contextLoads() {
-		car = new CarEntity();
+		car = new CarDriverEntity();
 		car.setCarName("Ford W");
 		car.setCarNumber("MH04XX1123");
 		car.setCarStatus(CarStatus.AVAILABLE.toString());

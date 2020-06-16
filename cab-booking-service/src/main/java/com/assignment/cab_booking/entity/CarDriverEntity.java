@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = EntityConstants.CAR)
-public class CarEntity {
+public class CarDriverEntity {
 	
 	@Id
 	@GeneratedValue

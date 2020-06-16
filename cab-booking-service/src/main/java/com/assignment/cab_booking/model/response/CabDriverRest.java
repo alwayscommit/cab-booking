@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(Include.NON_NULL)
-public class DriverRest {
+public class CabDriverRest {
 
 	private String mobileNumber;
 	private String firstName;
@@ -16,10 +16,9 @@ public class DriverRest {
 	private String carName;
 	private String carNumber;
 	private CarStatus carStatus;
-	private Date createdOn;
 	private Double latitude;
 	private Double longitude;
-	
+
 	public Double getLatitude() {
 		return latitude;
 	}
@@ -36,14 +35,7 @@ public class DriverRest {
 		this.longitude = longitude;
 	}
 
-	public DriverRest() {}
-	
-	public Date getCreatedOn() {
-		return createdOn;
-	}
-
-	public void setCreatedOn(Date createdOn) {
-		this.createdOn = createdOn;
+	public CabDriverRest() {
 	}
 
 	public String getAccountType() {
@@ -106,7 +98,7 @@ public class DriverRest {
 	public String toString() {
 		return "DriverRest [mobileNumber=" + mobileNumber + ", firstName=" + firstName + ", lastName=" + lastName
 				+ ", accountType=" + accountType + ", carName=" + carName + ", carNumber=" + carNumber + ", carStatus="
-				+ carStatus + ", createdOn=" + createdOn + "]";
+				+ carStatus + "  ]";
 	}
 
 }

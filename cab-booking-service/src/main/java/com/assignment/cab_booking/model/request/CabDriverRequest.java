@@ -1,6 +1,6 @@
 package com.assignment.cab_booking.model.request;
 
-public class DriverRequest {
+public class CabDriverRequest {
 
 	private String mobileNumber;
 	private String password;
@@ -9,7 +9,7 @@ public class DriverRequest {
 	private String carName;
 	private String carNumber;
 
-	public DriverRequest(String mobileNumber, String password, String firstName, String lastName, String carName,
+	public CabDriverRequest(String mobileNumber, String password, String firstName, String lastName, String carName,
 			String carNumber) {
 		this.mobileNumber = mobileNumber;
 		this.password = password;

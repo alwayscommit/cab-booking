@@ -3,8 +3,9 @@ package com.assignment.cab_booking.controller;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,18 +15,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.assignment.cab_booking.entity.BookingEntity;
-import com.assignment.cab_booking.entity.CarEntity;
 import com.assignment.cab_booking.mapper.BookingMapper;
 import com.assignment.cab_booking.model.dto.BookingDTO;
 import com.assignment.cab_booking.model.request.BookingRequest;
 import com.assignment.cab_booking.model.response.BookingRest;
 import com.assignment.cab_booking.service.BookingService;
-import com.assignment.cab_booking.view.CabStatus;
+import com.assignment.cab_booking.view.CabBookingStatus;
 
 @RestController
-@RequestMapping("/booking")
+@RequestMapping("/cab/booking")
 public class BookingController {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(BookingController.class);
 
 	private BookingService bookingService;
 
@@ -38,7 +39,9 @@ public class BookingController {
 	}
 
 	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<BookingRest> registerDriver(@RequestBody BookingRequest bookingRequest) {
+	public ResponseEntity<BookingRest> bookCab(@RequestBody BookingRequest bookingRequest) {
+		LOGGER.info(String.format("Booking cab for customer :: %s", bookingRequest.getCustomerMobileNumber()));
+
 		ModelMapper modelMapper = new ModelMapper();
 		modelMapper.addMappings(bookingMapper.bookingReqToDTOMapping());
 		BookingDTO bookingDTO = modelMapper.map(bookingRequest, BookingDTO.class);
@@ -50,9 +53,9 @@ public class BookingController {
 		return new ResponseEntity<BookingRest>(bookingResponse, HttpStatus.CREATED);
 	}
 
-	@GetMapping("/cabs")
-	public List<CabStatus> getCabs() {
-		return bookingService.findAllCabs();
+	@GetMapping("/status")
+	public List<CabBookingStatus> getCabs() {
+		return bookingService.findAllCabBookingStatus();
 	}
 
 }

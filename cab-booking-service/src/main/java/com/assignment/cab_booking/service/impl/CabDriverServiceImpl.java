@@ -1,7 +1,7 @@
 package com.assignment.cab_booking.service.impl;
 
-import java.sql.Date;
-import java.time.Instant;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -11,27 +11,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.assignment.cab_booking.entity.CarEntity;
+import com.assignment.cab_booking.constants.ApplicationConstants;
+import com.assignment.cab_booking.entity.CarDriverEntity;
 import com.assignment.cab_booking.entity.UserAccountEntity;
 import com.assignment.cab_booking.model.AccountType;
 import com.assignment.cab_booking.model.CarStatus;
-import com.assignment.cab_booking.model.dto.CarDriverDTO;
+import com.assignment.cab_booking.model.dto.CabDriverDTO;
 import com.assignment.cab_booking.model.dto.LocationDTO;
-import com.assignment.cab_booking.repository.CarRepository;
+import com.assignment.cab_booking.repository.CarDriverRepository;
 import com.assignment.cab_booking.repository.UserAccountRepository;
-import com.assignment.cab_booking.service.DriverService;
+import com.assignment.cab_booking.service.CabDriverService;
 
 @Service
-public class DriverServiceImpl implements DriverService {
+public class CabDriverServiceImpl implements CabDriverService {
 
 	private UserAccountRepository userAccountRepo;
 
-	private CarRepository carRepo;
+	private CarDriverRepository carRepo;
 
 	private BCryptPasswordEncoder passwordEncoder;
 
 	@Autowired
-	public DriverServiceImpl(UserAccountRepository userAccountRepo, CarRepository carRepo,
+	public CabDriverServiceImpl(UserAccountRepository userAccountRepo, CarDriverRepository carRepo,
 			BCryptPasswordEncoder passwordEncoder) {
 		this.userAccountRepo = userAccountRepo;
 		this.carRepo = carRepo;
@@ -39,52 +40,60 @@ public class DriverServiceImpl implements DriverService {
 	}
 
 	@Override
-	public CarDriverDTO registerDriver(CarDriverDTO carDriverDTO) {
+	public CabDriverDTO registerDriver(CabDriverDTO carDriverDTO) {
 
 		ModelMapper modelMapper = new ModelMapper();
 		UserAccountEntity driverAccount = modelMapper.map(carDriverDTO, UserAccountEntity.class);
 		driverAccount.setEncryptedPassword(passwordEncoder.encode(carDriverDTO.getPassword()));
 		driverAccount.setAccountType(AccountType.DRIVER.toString());
-		driverAccount.setCreatedOn(Date.from(Instant.now()));
+		driverAccount.setCreatedOn(new Date());
 
-		CarEntity carEntity = modelMapper.map(carDriverDTO, CarEntity.class);
+		CarDriverEntity carEntity = modelMapper.map(carDriverDTO, CarDriverEntity.class);
 		carEntity.setCarStatus(CarStatus.AVAILABLE.toString());
 		carEntity.setDrivenBy(driverAccount);
 
-		CarEntity savedCar = carRepo.save(carEntity);
+		CarDriverEntity savedCar = carRepo.save(carEntity);
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
-		CarDriverDTO driverResponse = modelMapper.map(savedCar, CarDriverDTO.class);
+		CabDriverDTO driverResponse = modelMapper.map(savedCar, CabDriverDTO.class);
 
 		return driverResponse;
 	}
 
 	@Override
-	public List<CarDriverDTO> getAvailableDrivers() {
-		List<CarEntity> availableCarList = carRepo.findAllByCarStatus(CarStatus.AVAILABLE.toString());
+	public List<CabDriverDTO> getNearByAvailableCabDrivers(LocationDTO locationDto) {
+		List<CarDriverEntity> availableCarList = carRepo.findAvailableCabs(locationDto.getLatitude(),
+				locationDto.getLongitude(), ApplicationConstants.SEARCH_RADIUS_IN_KILOMETERS);
+
 		ModelMapper modelMapper = new ModelMapper();
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
-		List<CarDriverDTO> availableDriversDTO = modelMapper.map(availableCarList, new TypeToken<List<CarDriverDTO>>() {
+		List<CabDriverDTO> availableDriversDTO = modelMapper.map(availableCarList, new TypeToken<List<CabDriverDTO>>() {
 		}.getType());
 		return availableDriversDTO;
 	}
 
 	@Override
-	public CarDriverDTO getDriver(String mobileNumber) {
-		UserAccountEntity driverDetails = userAccountRepo.findByMobileNumber(mobileNumber);
+	public CabDriverDTO getDriver(String mobileNumber) {
+		UserAccountEntity driverDetails = userAccountRepo.findByMobileNumberAndAccountType(mobileNumber,
+				AccountType.DRIVER.toString());
+		
+		if(driverDetails==null) {
+			return null;
+		}
+		
 		ModelMapper modelMapper = new ModelMapper();
-		CarDriverDTO driverDTO = modelMapper.map(driverDetails, CarDriverDTO.class);
+		CabDriverDTO driverDTO = modelMapper.map(driverDetails, CabDriverDTO.class);
 		return driverDTO;
 	}
 
 	@Override
-	public CarDriverDTO updateDriverCarLocation(String driverNumber, LocationDTO locationDto) {
-		CarEntity carEntity = carRepo.findByDrivenByMobileNumber(driverNumber);
+	public CabDriverDTO updateDriverCarLocation(String driverNumber, LocationDTO locationDto) {
+		CarDriverEntity carEntity = carRepo.findByDrivenByMobileNumber(driverNumber);
 		carEntity.setLatitude(locationDto.getLatitude());
 		carEntity.setLongitude(locationDto.getLongitude());
 		ModelMapper modelMapper = new ModelMapper();
-		CarEntity updatedCarLocation = carRepo.save(carEntity);
+		CarDriverEntity updatedCarLocation = carRepo.save(carEntity);
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
-		CarDriverDTO updatedCarLocationDto = modelMapper.map(updatedCarLocation, CarDriverDTO.class);
+		CabDriverDTO updatedCarLocationDto = modelMapper.map(updatedCarLocation, CabDriverDTO.class);
 		return updatedCarLocationDto;
 	}
 

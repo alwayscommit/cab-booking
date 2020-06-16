@@ -1,6 +1,8 @@
 package com.assignment.cab_booking.controller;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,6 +21,8 @@ import com.assignment.cab_booking.service.CustomerService;
 @RequestMapping("/customer")
 public class CustomerController {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(CustomerController.class);
+
 	private CustomerService customerService;
 
 	@Autowired
@@ -28,13 +32,14 @@ public class CustomerController {
 
 	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<CustomerRest> registerDriver(@RequestBody CustomerRequest customerRequest) {
+		LOGGER.info(String.format("Creating Customer with Mobile Number :: %s", customerRequest.getMobileNumber()));
+
 		ModelMapper modelMapper = new ModelMapper();
 		CustomerDTO customerDTO = modelMapper.map(customerRequest, CustomerDTO.class);
 
 		CustomerDTO savedCustomer = customerService.registerCustomer(customerDTO);
 
 		CustomerRest customerResponse = modelMapper.map(savedCustomer, CustomerRest.class);
-
 		return new ResponseEntity<CustomerRest>(customerResponse, HttpStatus.CREATED);
 	}
 

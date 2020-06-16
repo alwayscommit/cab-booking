@@ -32,7 +32,7 @@ class BookingEntityTest {
 	void contextLoads() {
 		bookingEntity = new BookingEntity();
 		bookingEntity.setBookingTime(Date.from(Instant.now()).toString());
-		bookingEntity.setCarEntity(new CarEntity());
+		bookingEntity.setCarEntity(new CarDriverEntity());
 		bookingEntity.setCustomerDetails(new UserAccountEntity());
 		bookingEntity.setStartLatitude(19.209449150428703);
 		bookingEntity.setStartLongitude(72.94559519727788);
@@ -40,6 +40,7 @@ class BookingEntityTest {
 		bookingEntity.setEndLongitude(72.94559519727788);
 		bookingEntity.setNumberOfPassengers(2);
 		bookingEntity.setState(BookingState.ACTIVE.toString());
+		bookingEntity.setReferenceNo("abcd1234");
 	}
 
 	@Test

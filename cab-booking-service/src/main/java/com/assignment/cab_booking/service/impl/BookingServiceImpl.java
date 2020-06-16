@@ -7,30 +7,29 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.assignment.cab_booking.constants.ApplicationConstants;
 import com.assignment.cab_booking.entity.BookingEntity;
-import com.assignment.cab_booking.entity.CarEntity;
+import com.assignment.cab_booking.entity.CarDriverEntity;
 import com.assignment.cab_booking.entity.UserAccountEntity;
-import com.assignment.cab_booking.exception.CabServiceException;
+import com.assignment.cab_booking.exception.BookingServiceException;
 import com.assignment.cab_booking.mapper.BookingMapper;
 import com.assignment.cab_booking.model.AccountType;
 import com.assignment.cab_booking.model.BookingState;
 import com.assignment.cab_booking.model.CarStatus;
 import com.assignment.cab_booking.model.dto.BookingDTO;
 import com.assignment.cab_booking.repository.BookingRepository;
-import com.assignment.cab_booking.repository.CarRepository;
+import com.assignment.cab_booking.repository.CarDriverRepository;
 import com.assignment.cab_booking.repository.UserAccountRepository;
 import com.assignment.cab_booking.service.BookingService;
 import com.assignment.cab_booking.utils.Utils;
-import com.assignment.cab_booking.view.CabStatus;
+import com.assignment.cab_booking.view.CabBookingStatus;
 
 @Service
 public class BookingServiceImpl implements BookingService {
 
-	private static final Integer SEARCH_RADIUS = 5;
-
 	private UserAccountRepository userAccountRepo;
 
-	private CarRepository carRepo;
+	private CarDriverRepository carRepo;
 
 	private BookingRepository bookingRepo;
 
@@ -41,7 +40,7 @@ public class BookingServiceImpl implements BookingService {
 	private Utils utils;
 
 	@Autowired
-	public BookingServiceImpl(UserAccountRepository userAccountRepository, CarRepository carRepository,
+	public BookingServiceImpl(UserAccountRepository userAccountRepository, CarDriverRepository carRepository,
 			BookingRepository bookingRepo) {
 		this.userAccountRepo = userAccountRepository;
 		this.carRepo = carRepository;
@@ -58,7 +57,7 @@ public class BookingServiceImpl implements BookingService {
 
 		if (bookingRepo.findByCustomerDetailsMobileNumberAndState(customerNumber,
 				BookingState.ACTIVE.toString()) != null) {
-			throw new CabServiceException("Simultaneous bookings are not allowed!");
+			throw new BookingServiceException("Simultaneous bookings are not allowed!");
 		}
 
 		// get user
@@ -66,16 +65,16 @@ public class BookingServiceImpl implements BookingService {
 				AccountType.CUSTOMER.toString());
 
 		if (customerAccount == null) {
-			throw new CabServiceException("You are not a registered customer!");
+			throw new BookingServiceException("You are not a registered customer!");
 		}
 
 		BookingEntity bookingEntity = mapper.map(bookingDTO, BookingEntity.class);
 
 		// find best car
-		CarEntity availableCab = findCab(bookingEntity.getStartLatitude(), bookingEntity.getStartLongitude());
+		CarDriverEntity availableCab = findBestCab(bookingEntity.getStartLatitude(), bookingEntity.getStartLongitude());
 
 		if (availableCab == null) {
-			throw new CabServiceException("No cabs available! Please try again later.");
+			throw new BookingServiceException("No cabs available! Please try again later.");
 		}
 
 		BookingEntity saveBooking = setupBookingDetails(bookingEntity, availableCab, customerAccount);
@@ -90,7 +89,7 @@ public class BookingServiceImpl implements BookingService {
 		return bookedCarDto;
 	}
 
-	private BookingEntity setupBookingDetails(BookingEntity bookingEntity, CarEntity availableCab,
+	private BookingEntity setupBookingDetails(BookingEntity bookingEntity, CarDriverEntity availableCab,
 			UserAccountEntity customerAccount) {
 		bookingEntity.setCarEntity(availableCab);
 		bookingEntity.setCustomerDetails(customerAccount);
@@ -103,12 +102,12 @@ public class BookingServiceImpl implements BookingService {
 	// Can be replaced with another Microservice that uses Kafka to track locations
 	// of the cabs
 	// Or an in-memory cache like Redis that also supports GeoSpatial Queries.
-	private CarEntity findCab(Double latitude, Double longitude) {
-		return carRepo.findAvailableCarWithinRadius(latitude, longitude, SEARCH_RADIUS);
+	private CarDriverEntity findBestCab(Double latitude, Double longitude) {
+		return carRepo.findBestCab(latitude, longitude, ApplicationConstants.SEARCH_RADIUS_IN_KILOMETERS);
 	}
 
 	@Override
-	public List<CabStatus> findAllCabs() {
+	public List<CabBookingStatus> findAllCabBookingStatus() {
 		return bookingRepo.findCabDetails();
 	}
 

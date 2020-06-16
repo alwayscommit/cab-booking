@@ -9,7 +9,7 @@ public class BookingDTO {
 	private Double startLongitude;
 	private Integer numberOfPassengers;
 	private CustomerDTO customerDto;
-	private CarDriverDTO carDriverDTO;
+	private CabDriverDTO carDriverDTO;
 
 	public Double getEndLatitude() {
 		return endLatitude;
@@ -43,11 +43,11 @@ public class BookingDTO {
 		this.customerDto = customerDto;
 	}
 
-	public CarDriverDTO getCarDriverDTO() {
+	public CabDriverDTO getCarDriverDTO() {
 		return carDriverDTO;
 	}
 
-	public void setCarDriverDTO(CarDriverDTO carDriverDTO) {
+	public void setCarDriverDTO(CabDriverDTO carDriverDTO) {
 		this.carDriverDTO = carDriverDTO;
 	}
 
