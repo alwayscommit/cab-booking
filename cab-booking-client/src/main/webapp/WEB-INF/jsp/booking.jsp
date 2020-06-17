@@ -47,7 +47,6 @@
 										}
 									},
 									error : function(error) {
-
 										alert(error.responseJSON.message);
 									}
 								})
@@ -82,7 +81,11 @@
 				getAllCabStatus();
 			},
 			error : function(error) {
-				alert(error.responseJSON.message);
+				if (error.responseJSON.message == undefined) {
+					alert(error.responseText);
+				} else {
+					alert(error.responseJSON.message);
+				}
 			}
 		})
 
@@ -187,8 +190,7 @@
 			</tr>
 			<tr>
 				<td>Destination</td>
-				<td><input type="text" id="desitination"
-					value=""></td>
+				<td><input type="text" id="desitination" value=""></td>
 			</tr>
 			<tr>
 				<td>Number of Passengers</td>
