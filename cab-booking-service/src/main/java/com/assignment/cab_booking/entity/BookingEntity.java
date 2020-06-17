@@ -20,7 +20,7 @@ import com.assignment.cab_booking.constants.ValidationConstants;
 public class BookingEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = EntityConstants.ID)
 	private Long bookingId;
 
