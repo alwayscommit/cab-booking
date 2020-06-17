@@ -70,7 +70,7 @@
 
 		var bookingObj = JSON.stringify(bookingDetails);
 		$.ajax({
-			url : "http://localhost:8080/cab-service/cab/booking",
+			url : "http://localhost:8080/cab-service/booking",
 			method : "POST",
 			data : bookingObj,
 			contentType : 'application/json; charset=utf-8',
@@ -104,7 +104,7 @@
 	function getAllCabStatus() {
 		$
 				.ajax({
-					url : "http://localhost:8080/cab-service/cab/booking/status",
+					url : "http://localhost:8080/cab-service/booking/status",
 					method : "GET",
 					dataType : "json",
 					success : function(data) {

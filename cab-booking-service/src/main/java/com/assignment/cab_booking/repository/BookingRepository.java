@@ -19,4 +19,6 @@ public interface BookingRepository extends CrudRepository<BookingEntity, Long> {
 
 	BookingEntity findByCustomerDetailsMobileNumberAndState(String customerNumber, String string);
 
+	BookingEntity findByCarEntityDrivenByMobileNumberAndState(String cabDriverNumber, String string);
+
 }

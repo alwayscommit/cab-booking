@@ -76,7 +76,6 @@ public class BookingServiceImpl implements BookingService {
 			throw new BookingServiceException(ExceptionConstants.NO_CABS_AVAILABLE_MESSAGE);
 		}
 
-		
 		BookingEntity saveBooking = setupBookingDetails(bookingDTO, availableCab, customerAccount);
 
 		BookingEntity bookedCar = bookingRepo.save(saveBooking);
@@ -92,14 +91,14 @@ public class BookingServiceImpl implements BookingService {
 	private BookingEntity setupBookingDetails(BookingDTO bookingDTO, CarDriverEntity availableCab,
 			UserAccountEntity customerAccount) {
 		availableCab.setCarStatus(CarStatus.BUSY.toString());
-		
+
 		BookingEntity bookingEntity = bookingMapper.mapToEntity(bookingDTO);
 		bookingEntity.setCarEntity(availableCab);
 		bookingEntity.setCustomerDetails(customerAccount);
 		bookingEntity.setReferenceNo(utils.generatedBookingReference(10));
 		bookingEntity.setBookingTime(LocalDateTime.now().toString());
 		bookingEntity.setState(BookingState.ACTIVE.toString());
-		
+
 		return bookingEntity;
 	}
 
@@ -122,6 +121,24 @@ public class BookingServiceImpl implements BookingService {
 	private CarDriverEntity findBestCab(Double latitude, Double longitude) {
 		LOGGER.info("Searching for best cab for the given location...");
 		return carRepo.findBestCab(latitude, longitude, ApplicationConstants.SEARCH_RADIUS_IN_KILOMETERS);
+	}
+
+	@Override
+	public BookingDTO completeBooking(String cabDriverNumber) {
+		BookingEntity activeBooking = bookingRepo.findByCarEntityDrivenByMobileNumberAndState(cabDriverNumber,
+				BookingState.ACTIVE.toString());
+
+		if (activeBooking == null) {
+			LOGGER.info(String.format("Cab Driver %s does not have an active booking...", cabDriverNumber));
+			throw new BookingServiceException(ExceptionConstants.NO_ACTIVE_BOOKING_MESSAGE);
+		}
+
+		activeBooking.setState(BookingState.COMPLETED.toString());
+		activeBooking.getCarEntity().setCarStatus(CarStatus.AVAILABLE.toString());
+
+		BookingEntity completedBooking = bookingRepo.save(activeBooking);
+
+		return bookingMapper.mapToDTO(completedBooking);
 	}
 
 }

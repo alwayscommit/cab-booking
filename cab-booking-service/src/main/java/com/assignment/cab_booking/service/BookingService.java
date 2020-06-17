@@ -10,5 +10,7 @@ public interface BookingService {
 	BookingDTO bookCab(BookingDTO bookingDTO);
 
 	List<CabBookingStatus> findAllCabBookingStatus();
+
+	BookingDTO completeBooking(String cabDriverNumber);
 	
 }
