@@ -1,5 +1,6 @@
 package com.assignment.cab_booking.view;
 
+import com.assignment.cab_booking.model.CarStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -10,12 +11,12 @@ public class CabBookingStatus {
 	private String driverNumber;
 	private String customerName;
 	private String customerNumber;
-	private String carStatus;
+	private CarStatus carStatus;
 	private Double carLatitude;
 	private Double carLongitude;
 
 	public CabBookingStatus(String customerName, String customerNumber, String driverName, String driverNumber, 
-			String carStatus, Double carLatitude, Double carLongitude) {
+			CarStatus carStatus, Double carLatitude, Double carLongitude) {
 		this.driverName = driverName;
 		this.driverNumber = driverNumber;
 		this.customerName = customerName;
@@ -57,11 +58,11 @@ public class CabBookingStatus {
 		this.customerNumber = customerNumber;
 	}
 
-	public String getCarStatus() {
+	public CarStatus getCarStatus() {
 		return carStatus;
 	}
 
-	public void setCarStatus(String carStatus) {
+	public void setCarStatus(CarStatus carStatus) {
 		this.carStatus = carStatus;
 	}
 

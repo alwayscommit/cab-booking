@@ -1,5 +1,7 @@
 package com.assignment.cab_booking.model.dto;
 
+import com.assignment.cab_booking.model.BookingState;
+
 public class BookingDTO {
 
 	private String referenceNo;
@@ -10,6 +12,15 @@ public class BookingDTO {
 	private String numberOfPassengers;
 	private CustomerDTO customerDto;
 	private CabDriverDTO carDriverDTO;
+	private BookingState bookingState;
+
+	public BookingState getBookingState() {
+		return bookingState;
+	}
+
+	public void setBookingState(BookingState bookingState) {
+		this.bookingState = bookingState;
+	}
 
 	public Double getEndLatitude() {
 		return endLatitude;

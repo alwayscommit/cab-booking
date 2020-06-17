@@ -73,7 +73,7 @@ public class CabDriverServiceImpl implements CabDriverService {
 	@Override
 	public CabDriverDTO getDriver(String mobileNumber) {
 		UserAccountEntity driverDetails = userAccountRepo.findByMobileNumberAndAccountType(mobileNumber,
-				AccountType.DRIVER.toString());
+				AccountType.DRIVER);
 
 		if (driverDetails == null) {
 			return null;
@@ -97,12 +97,12 @@ public class CabDriverServiceImpl implements CabDriverService {
 		// user details
 		UserAccountEntity driverAccount = cabDriverMapper.mapToUserEntity(carDriverDTO);
 		driverAccount.setEncryptedPassword(passwordEncoder.encode(carDriverDTO.getPassword()));
-		driverAccount.setAccountType(AccountType.DRIVER.toString());
+		driverAccount.setAccountType(AccountType.DRIVER);
 		driverAccount.setCreatedOn(new Date());
 
 		// car details
 		CarDriverEntity carEntity = cabDriverMapper.mapToCarEntity(carDriverDTO);
-		carEntity.setCarStatus(CarStatus.AVAILABLE.toString());
+		carEntity.setCarStatus(CarStatus.AVAILABLE);
 		carEntity.setDrivenBy(driverAccount);
 		return carEntity;
 	}

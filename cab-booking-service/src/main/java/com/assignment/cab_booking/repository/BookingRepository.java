@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import com.assignment.cab_booking.entity.BookingEntity;
+import com.assignment.cab_booking.model.BookingState;
 import com.assignment.cab_booking.view.CabBookingStatus;
 
 @Repository
@@ -17,8 +18,8 @@ public interface BookingRepository extends CrudRepository<BookingEntity, Long> {
 			+ "LEFT OUTER JOIN booking.customerDetails customer")
 	List<CabBookingStatus> findCabDetails();
 
-	BookingEntity findByCustomerDetailsMobileNumberAndState(String customerNumber, String string);
+	BookingEntity findByReferenceNo(String cabDriverNumber);
 
-	BookingEntity findByCarEntityDrivenByMobileNumberAndState(String cabDriverNumber, String string);
+	BookingEntity findByCustomerDetailsMobileNumberAndState(String customerNumber, BookingState active);
 
 }

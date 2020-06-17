@@ -14,12 +14,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.assignment.cab_booking.mapper.BookingMapper;
+import com.assignment.cab_booking.model.BookingState;
+import com.assignment.cab_booking.model.BookingStateRequest;
 import com.assignment.cab_booking.model.dto.BookingDTO;
 import com.assignment.cab_booking.model.request.BookingRequest;
 import com.assignment.cab_booking.model.response.BookingRest;
+import com.assignment.cab_booking.model.response.BookingStatusRest;
 import com.assignment.cab_booking.service.BookingService;
 import com.assignment.cab_booking.view.CabBookingStatus;
 
@@ -52,18 +56,19 @@ public class BookingController {
 	}
 	
 	@GetMapping("/status")
-	public List<CabBookingStatus> getCabs() {
-		return bookingService.findAllCabBookingStatus();
+	public ResponseEntity<List<CabBookingStatus>> getCabs() {
+		List<CabBookingStatus> cabStatusList = bookingService.findAllCabBookingStatus();
+		return new ResponseEntity<List<CabBookingStatus>>(cabStatusList, HttpStatus.OK);
 	}
 	
-	@PutMapping(value="/status", consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<BookingRest> completeBooking(@PathVariable String cabDriverNumber) {
-		LOGGER.info(String.format("Assigning completed status for driver cab :: %s", cabDriverNumber));
+/*	@PutMapping(value="/{referenceNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<BookingStatusRest> updateBooking(@PathVariable String referenceNo, @RequestParam BookingStateRequest state) {
+		LOGGER.info(String.format("Assigning completed status for booking referenceNo :: %s", referenceNo));
 		
-		BookingDTO bookedCar = bookingService.completeBooking(cabDriverNumber);
+		BookingDTO bookedCar = bookingService.updateBooking(referenceNo, BookingState.valueOf(state.toString()));
 
-		BookingRest bookingResponse = bookingMapper.mapToRest(bookedCar);
-		return new ResponseEntity<BookingRest>(bookingResponse, HttpStatus.CREATED);
-	}
+		BookingStatusRest bookingStatusResponse = bookingMapper.mapToStatusRest(bookedCar);
+		return new ResponseEntity<BookingStatusRest>(bookingStatusResponse, HttpStatus.OK);
+	}*/
 
 }

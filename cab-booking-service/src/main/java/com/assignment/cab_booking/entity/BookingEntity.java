@@ -3,6 +3,8 @@ package com.assignment.cab_booking.entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,6 +16,7 @@ import javax.validation.constraints.NotNull;
 
 import com.assignment.cab_booking.constants.EntityConstants;
 import com.assignment.cab_booking.constants.ValidationConstants;
+import com.assignment.cab_booking.model.BookingState;
 
 @Entity
 @Table(name = EntityConstants.BOOKING)
@@ -54,9 +57,10 @@ public class BookingEntity {
 	@JoinColumn(name = "CUSTOMER_ID")
 	private UserAccountEntity customerDetails;
 
+	@Enumerated(EnumType.STRING)
 	@NotNull(message = ValidationConstants.BOOKING_STATE_MESSAGE)
 	@Column(name = EntityConstants.STATE)
-	private String state;
+	private BookingState state;
 
 	@NotNull(message = ValidationConstants.BOOKING_TIME_MESSAGE)
 	@Column(name = EntityConstants.BOOKING_TIME)
@@ -130,11 +134,11 @@ public class BookingEntity {
 		this.customerDetails = customerDetails;
 	}
 
-	public String getState() {
+	public BookingState getState() {
 		return state;
 	}
 
-	public void setState(String state) {
+	public void setState(BookingState state) {
 		this.state = state;
 	}
 

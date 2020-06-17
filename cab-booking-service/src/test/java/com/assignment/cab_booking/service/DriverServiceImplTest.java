@@ -6,9 +6,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.junit.BeforeClass;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +15,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.assignment.cab_booking.entity.CarDriverEntity;
@@ -26,7 +23,6 @@ import com.assignment.cab_booking.mapper.CabDriverMapper;
 import com.assignment.cab_booking.model.AccountType;
 import com.assignment.cab_booking.model.CarStatus;
 import com.assignment.cab_booking.model.dto.CabDriverDTO;
-import com.assignment.cab_booking.model.dto.LocationDTO;
 import com.assignment.cab_booking.repository.CarDriverRepository;
 import com.assignment.cab_booking.repository.UserAccountRepository;
 import com.assignment.cab_booking.service.impl.CabDriverServiceImpl;
@@ -129,7 +125,7 @@ class DriverServiceImplTest {
 	@Test
 	public void testGetDriver() {
 
-		Mockito.when(userAccountRepo.findByMobileNumberAndAccountType(Mockito.anyString(), Mockito.anyString()))
+		Mockito.when(userAccountRepo.findByMobileNumberAndAccountType(Mockito.anyString(), Mockito.any()))
 				.thenReturn(mock(UserAccountEntity.class));
 
 		CabDriverDTO expectedAccount = getCabDriverDTOTestData();
@@ -142,30 +138,12 @@ class DriverServiceImplTest {
 		assertEquals(expectedAccount.getMobileNumber(), actualAccount.getMobileNumber());
 	}
 
-	private CarDriverEntity getCarEntityData(long userId, String firstName, String lastName, String mobileNumber,
-			long carId, String carName, String carNumber) {
-		UserAccountEntity userAccount = new UserAccountEntity();
-		userAccount.setUserId(userId);
-		userAccount.setAccountType(AccountType.DRIVER.toString());
-		userAccount.setCreatedOn(new Date());
-		userAccount.setFirstName(firstName);
-		userAccount.setLastName(lastName);
-		userAccount.setMobileNumber(mobileNumber);
-		CarDriverEntity carDriver = new CarDriverEntity();
-		carDriver.setCarId(carId);
-		carDriver.setCarName(carName);
-		carDriver.setCarNumber(carNumber);
-		carDriver.setCarStatus(CarStatus.AVAILABLE.toString());
-		carDriver.setDrivenBy(userAccount);
-		return carDriver;
-	}
-
 	private CarDriverEntity getCarDriverEntityTestData() {
 		CarDriverEntity carDriver = new CarDriverEntity();
 		carDriver.setCarId(321L);
 		carDriver.setCarName("Maruti Swift666");
 		carDriver.setCarNumber("MH04MB22222");
-		carDriver.setCarStatus(CarStatus.AVAILABLE.toString());
+		carDriver.setCarStatus(CarStatus.AVAILABLE);
 		carDriver.setDrivenBy(getUserAccountTestData());
 		return carDriver;
 	}
@@ -173,7 +151,7 @@ class DriverServiceImplTest {
 	private UserAccountEntity getUserAccountTestData() {
 		UserAccountEntity userAccount = new UserAccountEntity();
 		userAccount.setUserId(321L);
-		userAccount.setAccountType(AccountType.DRIVER.toString());
+		userAccount.setAccountType(AccountType.DRIVER);
 		userAccount.setCreatedOn(new Date());
 		userAccount.setFirstName("Aakash666");
 		userAccount.setLastName("Ranglani666");

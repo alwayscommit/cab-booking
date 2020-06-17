@@ -10,6 +10,7 @@ import com.assignment.cab_booking.entity.BookingEntity;
 import com.assignment.cab_booking.model.dto.BookingDTO;
 import com.assignment.cab_booking.model.request.BookingRequest;
 import com.assignment.cab_booking.model.response.BookingRest;
+import com.assignment.cab_booking.model.response.BookingStatusRest;
 
 @Component
 public class BookingMapper {
@@ -36,7 +37,12 @@ public class BookingMapper {
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STANDARD);
 		return modelMapper.map(bookingEntity, BookingDTO.class);
 	}
-
+	
+	public BookingStatusRest mapToStatusRest(BookingDTO bookingDto) {
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STANDARD);
+		return modelMapper.map(bookingDto, BookingStatusRest.class);
+	}
+	
 	private PropertyMap<BookingRequest, BookingDTO> bookingReqToDTO = new PropertyMap<BookingRequest, BookingDTO>() {
 		protected void configure() {
 
@@ -106,6 +112,17 @@ public class BookingMapper {
 
 		}
 	};
+	
+	private PropertyMap<BookingDTO, BookingStatusRest> bookingDtoToStatusRest = new PropertyMap<BookingDTO, BookingStatusRest>() {
+		protected void configure() {
+
+			map().setReferenceNumber(source.getReferenceNo());
+			map().setDriverNumber(source.getCarDriverDTO().getMobileNumber());
+			map().setCarStatus(source.getCarDriverDTO().getCarStatus());
+			map().setBookingState(source.getBookingState());
+			map().setCarNumber(source.getCarDriverDTO().getCarNumber());
+		}
+	};
 
 	public PropertyMap<BookingDTO, BookingRest> bookingDtoToRestMapping() {
 		return bookingDtoToRest;
@@ -122,5 +139,10 @@ public class BookingMapper {
 	public PropertyMap<BookingRequest, BookingDTO> bookingReqToDto() {
 		return bookingReqToDTO;
 	}
+
+	public PropertyMap<BookingDTO, BookingStatusRest> bookingDtoToStatusReq() {
+		return bookingDtoToStatusRest;
+	}
+	
 
 }

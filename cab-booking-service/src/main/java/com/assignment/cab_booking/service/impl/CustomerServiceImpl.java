@@ -43,7 +43,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 	private void setCustomerDetails(UserAccountEntity customerAccount, CustomerDTO customerDTO) {
 		customerAccount.setEncryptedPassword(passwordEncoder.encode(customerDTO.getPassword()));
-		customerAccount.setAccountType(AccountType.CUSTOMER.toString());
+		customerAccount.setAccountType(AccountType.CUSTOMER);
 		customerAccount.setCreatedOn(new Date());
 	}
 

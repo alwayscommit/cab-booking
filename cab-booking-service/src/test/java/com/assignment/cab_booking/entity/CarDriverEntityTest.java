@@ -33,7 +33,7 @@ class CarDriverEntityTest {
 		car = new CarDriverEntity();
 		car.setCarName("Ford W");
 		car.setCarNumber("MH04XX1123");
-		car.setCarStatus(CarStatus.AVAILABLE.toString());
+		car.setCarStatus(CarStatus.AVAILABLE);
 		car.setDrivenBy(new UserAccountEntity());
 	}
 

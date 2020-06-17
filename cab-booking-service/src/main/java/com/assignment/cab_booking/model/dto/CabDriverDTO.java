@@ -92,8 +92,8 @@ public class CabDriverDTO {
 		return carStatus;
 	}
 
-	public void setCarStatus(String carStatus) {
-		this.carStatus = CarStatus.valueOf(carStatus);
+	public void setCarStatus(CarStatus carStatus) {
+		this.carStatus = carStatus;
 	}
 
 	public String getMobileNumber() {

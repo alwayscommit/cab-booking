@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +18,7 @@ import javax.validation.constraints.Pattern;
 
 import com.assignment.cab_booking.constants.EntityConstants;
 import com.assignment.cab_booking.constants.ValidationConstants;
+import com.assignment.cab_booking.model.AccountType;
 
 @Entity
 @Table(name=EntityConstants.USER_ACCOUNT)
@@ -42,9 +45,10 @@ public class UserAccountEntity {
 	@Column(name = EntityConstants.MOBILE_NUMBER, unique = true)
 	private String mobileNumber;
 
+	@Enumerated(EnumType.STRING)
 	@NotNull(message = ValidationConstants.ACCOUNT_TYPE_INVALID_MESSAGE)
 	@Column(name = EntityConstants.ACCOUNT_TYPE)
-	private String accountType;
+	private AccountType accountType;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = EntityConstants.CREATED_ON)
@@ -90,11 +94,11 @@ public class UserAccountEntity {
 		this.mobileNumber = mobileNumber;
 	}
 
-	public String getAccountType() {
+	public AccountType getAccountType() {
 		return accountType;
 	}
 
-	public void setAccountType(String accountType) {
+	public void setAccountType(AccountType accountType) {
 		this.accountType = accountType;
 	}
 

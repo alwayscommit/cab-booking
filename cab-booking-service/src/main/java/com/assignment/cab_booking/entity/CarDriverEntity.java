@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +20,7 @@ import javax.validation.constraints.Size;
 
 import com.assignment.cab_booking.constants.EntityConstants;
 import com.assignment.cab_booking.constants.ValidationConstants;
+import com.assignment.cab_booking.model.CarStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -38,9 +41,10 @@ public class CarDriverEntity {
 	@Column(name = EntityConstants.CAR_NUMBER, unique=true)
 	private String carNumber;
 
+	@Enumerated(EnumType.STRING)
 	@NotNull(message=ValidationConstants.CAR_STATUS_MESSAGE)
 	@Column(name = EntityConstants.CAR_STATUS)
-	private String carStatus;
+	private CarStatus carStatus;
 
 	@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
 	@JoinColumn(name="DRIVEN_BY_ACCOUNT")
@@ -104,11 +108,11 @@ public class CarDriverEntity {
 		this.carNumber = carNumber;
 	}
 
-	public String getCarStatus() {
+	public CarStatus getCarStatus() {
 		return carStatus;
 	}
 
-	public void setCarStatus(String carStatus) {
+	public void setCarStatus(CarStatus carStatus) {
 		this.carStatus = carStatus;
 	}
 

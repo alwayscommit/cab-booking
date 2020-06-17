@@ -51,7 +51,7 @@ class CustomerServiceImplTest {
 
 		UserAccountEntity userAccount = new UserAccountEntity();
 		userAccount.setUserId(321L);
-		userAccount.setAccountType(AccountType.CUSTOMER.toString());
+		userAccount.setAccountType(AccountType.CUSTOMER);
 		userAccount.setCreatedOn(new Date());
 		userAccount.setFirstName("Aakash666");
 		userAccount.setLastName("Ranglani666");
@@ -81,7 +81,7 @@ class CustomerServiceImplTest {
 
 		UserAccountEntity userAccount = new UserAccountEntity();
 		userAccount.setUserId(321L);
-		userAccount.setAccountType(AccountType.CUSTOMER.toString());
+		userAccount.setAccountType(AccountType.CUSTOMER);
 		userAccount.setCreatedOn(new Date());
 		userAccount.setFirstName("Aakash666");
 		userAccount.setLastName("Ranglani666");

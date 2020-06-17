@@ -17,7 +17,8 @@ public class MapperConfig {
 		modelMapper.addMappings(bookingMapper.bookingEntityToDtoMapping());
 		modelMapper.addMappings(bookingMapper.bookingDtoToEntity());
 		modelMapper.addMappings(bookingMapper.bookingReqToDto());
-
+		modelMapper.addMappings(bookingMapper.bookingDtoToStatusReq());
+		
 		return modelMapper;
 	}
 

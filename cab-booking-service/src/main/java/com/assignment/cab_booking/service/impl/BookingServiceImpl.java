@@ -90,14 +90,14 @@ public class BookingServiceImpl implements BookingService {
 
 	private BookingEntity setupBookingDetails(BookingDTO bookingDTO, CarDriverEntity availableCab,
 			UserAccountEntity customerAccount) {
-		availableCab.setCarStatus(CarStatus.BUSY.toString());
+		availableCab.setCarStatus(CarStatus.BUSY);
 
 		BookingEntity bookingEntity = bookingMapper.mapToEntity(bookingDTO);
 		bookingEntity.setCarEntity(availableCab);
 		bookingEntity.setCustomerDetails(customerAccount);
 		bookingEntity.setReferenceNo(utils.generatedBookingReference(10));
 		bookingEntity.setBookingTime(LocalDateTime.now().toString());
-		bookingEntity.setState(BookingState.ACTIVE.toString());
+		bookingEntity.setState(BookingState.ACTIVE);
 
 		return bookingEntity;
 	}
@@ -107,12 +107,12 @@ public class BookingServiceImpl implements BookingService {
 	}
 
 	private UserAccountEntity getCustomerAccount(String customerNumber) {
-		return userAccountRepo.findByMobileNumberAndAccountType(customerNumber, AccountType.CUSTOMER.toString());
+		return userAccountRepo.findByMobileNumberAndAccountType(customerNumber, AccountType.CUSTOMER);
 	}
 
 	private boolean customerHasActiveBooking(String customerNumber) {
 		return bookingRepo.findByCustomerDetailsMobileNumberAndState(customerNumber,
-				BookingState.ACTIVE.toString()) != null;
+				BookingState.ACTIVE) != null;
 	}
 
 	// Can be replaced with another Microservice that uses Kafka to track locations
@@ -124,20 +124,28 @@ public class BookingServiceImpl implements BookingService {
 	}
 
 	@Override
-	public BookingDTO completeBooking(String cabDriverNumber) {
-		BookingEntity activeBooking = bookingRepo.findByCarEntityDrivenByMobileNumberAndState(cabDriverNumber,
-				BookingState.ACTIVE.toString());
+	public BookingDTO updateBooking(String cabDriverNumber, BookingState state) {
+		BookingEntity activeBooking = bookingRepo.findByReferenceNo(cabDriverNumber);
 
 		if (activeBooking == null) {
-			LOGGER.info(String.format("Cab Driver %s does not have an active booking...", cabDriverNumber));
-			throw new BookingServiceException(ExceptionConstants.NO_ACTIVE_BOOKING_MESSAGE);
+			LOGGER.info(String.format("No bookings found for cab driver %s...", cabDriverNumber));
+			throw new BookingServiceException(ExceptionConstants.NO_BOOKINGS_MESSAGE);
 		}
 
-		activeBooking.setState(BookingState.COMPLETED.toString());
-		activeBooking.getCarEntity().setCarStatus(CarStatus.AVAILABLE.toString());
+		if (activeBooking.getState().equals(BookingState.CANCELLED)) {
+			LOGGER.info(String.format("Cancelled booking state cannot be changed %s...", cabDriverNumber));
+			throw new BookingServiceException(ExceptionConstants.CANCELLED_BOOKING_MESSAGE);
+		}
+
+		if (state.equals(BookingState.ACTIVE)) {
+			LOGGER.info(String.format("Cancelled booking state cannot be changed %s...", cabDriverNumber));
+			throw new BookingServiceException(ExceptionConstants.CANCELLED_BOOKING_MESSAGE);
+		}
+
+		activeBooking.setState(state);
+		activeBooking.getCarEntity().setCarStatus(CarStatus.AVAILABLE);
 
 		BookingEntity completedBooking = bookingRepo.save(activeBooking);
-
 		return bookingMapper.mapToDTO(completedBooking);
 	}
 

@@ -11,6 +11,10 @@ public interface ExceptionConstants {
 	public static final String CAB_DRIVER_CREATION_MESSAGE = "Unable to create driver";
 
 	public static final String NO_ACTIVE_BOOKING_MESSAGE = "Cab Driver does not have an active booking";
+
+	public static final String NO_BOOKINGS_MESSAGE = "Cab Driver does not have any bookings";
+
+	public static final String CANCELLED_BOOKING_MESSAGE = "Cancelled booking state cannot be changed";
 	
 	
 }
