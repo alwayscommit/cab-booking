@@ -10,6 +10,8 @@ spring.datasource.url=jdbc:mysql://${MYSQL_HOST:localhost}:3306/cab_service_db
 spring.datasource.username=aakash
 spring.datasource.password=aakash
 
+***There is no need to run the SQL scripts as I have added test-scripts within Flyway itself to intialize database with test data*** 
+
 Steps to run this application
 
 1. Clone the repository
@@ -17,9 +19,8 @@ Steps to run this application
    - The service will start on port 8080
 3. To run the client, Open another console and run the same command "mvn spring-boot:run" inside "cab-booking-client" directory.
    - The client will start on port 8081
-4. Run the SQL commands in "cab-booking-service/sql commands.txt" to insert customers, drivers and cars.
-5. Open web browser and access http://localhost:8081/booking 
-6. You can use the "cab-booking-service/test-data.txt" file to test the application
+4. Open web browser and access http://localhost:8081/booking 
+5. You can use the "cab-booking-service/test-data.txt" file to test the application
 
 --- Points to be noted. ---
 1. The user's default location has been made to point at 19.2309696,72.9824377 (Everest World, Thane, Maharashtra) coordinates since the test data has coordinates around this point.
