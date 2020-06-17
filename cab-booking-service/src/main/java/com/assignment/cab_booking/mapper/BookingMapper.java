@@ -42,12 +42,6 @@ public class BookingMapper {
 
 			// customer's mobile number
 			map().getCustomerDto().setMobileNumber(source.getCustomerMobileNumber());
-/*			map().setStartLatitude(source.getStartLatitude());
-			map().setStartLongitude(source.getStartLongitude());
-			map().setEndLatitude(source.getEndLatitude());
-			map().setEndLongitude(source.getEndLongitude());
-			map().setNumberOfPassengers(source.getNumberOfPassengers());
-*/
 		}
 	};
 

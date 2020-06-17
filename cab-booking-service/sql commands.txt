@@ -1,11 +1,5 @@
 use cab_service_db; 
 
-SET FOREIGN_KEY_CHECKS = 0; 
-TRUNCATE table car; 
-TRUNCATE table user_account; 
-TRUNCATE table booking;
-SET FOREIGN_KEY_CHECKS = 1;
-
 INSERT INTO user_account VALUES 
 (1, "DRIVER", "2020-06-03", "encryptedPassword", "Bugs", "Bunny", "7506500500"),
 (2, "DRIVER", "2020-06-04", "encryptedPassword", "Daffy", "Duck", "7506600600"),
