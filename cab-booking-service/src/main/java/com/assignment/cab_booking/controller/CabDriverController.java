@@ -2,6 +2,8 @@ package com.assignment.cab_booking.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +44,7 @@ public class CabDriverController {
 	}
 
 	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<CabDriverRest> registerCabDriver(@RequestBody CabDriverRequest driverRequest) {
+	public ResponseEntity<CabDriverRest> registerCabDriver(@Valid @RequestBody CabDriverRequest driverRequest) {
 		LOGGER.info(String.format("Creating Cab Driver with Mobile Number :: %s", driverRequest.getMobileNumber()));
 
 		CabDriverDTO driverDTO = cabDriverMapper.mapToDTO(driverRequest);
@@ -82,7 +84,7 @@ public class CabDriverController {
 
 	@PutMapping(path = "/{cabDriverNumber}/location", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<CabDriverRest> updateDriverCarLocation(@PathVariable String cabDriverNumber,
-			@RequestBody LocationRequest locationRequest) {
+			@Valid @RequestBody LocationRequest locationRequest) {
 		LOGGER.info(String.format("Updating cab driver location ::%s", cabDriverNumber));
 		LocationDTO locationDto = cabDriverMapper.mapToLocationDTO(locationRequest);
 

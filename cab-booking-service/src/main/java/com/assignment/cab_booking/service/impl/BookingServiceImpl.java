@@ -91,7 +91,6 @@ public class BookingServiceImpl implements BookingService {
 	private BookingEntity setupBookingDetails(BookingDTO bookingDTO, CarDriverEntity availableCab,
 			UserAccountEntity customerAccount) {
 		availableCab.setCarStatus(CarStatus.BUSY);
-
 		BookingEntity bookingEntity = bookingMapper.mapToEntity(bookingDTO);
 		bookingEntity.setCarEntity(availableCab);
 		bookingEntity.setCustomerDetails(customerAccount);

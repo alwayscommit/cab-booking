@@ -15,6 +15,8 @@ public interface ExceptionConstants {
 	public static final String NO_BOOKINGS_MESSAGE = "Cab Driver does not have any bookings";
 
 	public static final String CANCELLED_BOOKING_MESSAGE = "Cancelled booking state cannot be changed";
+
+	public static final String BAD_REQUEST = "Bad Request";
 	
 	
 }

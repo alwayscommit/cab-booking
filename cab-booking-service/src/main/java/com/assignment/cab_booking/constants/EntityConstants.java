@@ -43,6 +43,8 @@ public interface EntityConstants {
 	public static final String END_LATITUDE = "END_LATITUDE";
 	public static final String END_LONGITUDE = "END_LONGITUDE";
 	public static final String REFERENCE_NO = "REFERENCE_NO";
+	public static final String START_ADDRESS = "START_ADDRESS";
+	public static final String DESTINATION_ADDRESS = "DESTINATION_ADDRESS";
 	
 
 }

@@ -2,6 +2,8 @@ package com.assignment.cab_booking.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,21 +11,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.assignment.cab_booking.mapper.BookingMapper;
-import com.assignment.cab_booking.model.BookingState;
-import com.assignment.cab_booking.model.BookingStateRequest;
 import com.assignment.cab_booking.model.dto.BookingDTO;
 import com.assignment.cab_booking.model.request.BookingRequest;
 import com.assignment.cab_booking.model.response.BookingRest;
-import com.assignment.cab_booking.model.response.BookingStatusRest;
 import com.assignment.cab_booking.service.BookingService;
 import com.assignment.cab_booking.view.CabBookingStatus;
 
@@ -44,7 +40,7 @@ public class BookingController {
 	}
 
 	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<BookingRest> bookCab(@RequestBody BookingRequest bookingRequest) {
+	public ResponseEntity<BookingRest> bookCab(@Valid @RequestBody BookingRequest bookingRequest) {
 		LOGGER.info(String.format("Booking cab for customer :: %s", bookingRequest.getCustomerMobileNumber()));
 		
 		BookingDTO bookingDTO = bookingMapper.mapToDTO(bookingRequest);

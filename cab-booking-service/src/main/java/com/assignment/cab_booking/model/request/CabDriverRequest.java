@@ -1,12 +1,25 @@
 package com.assignment.cab_booking.model.request;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+import com.assignment.cab_booking.constants.ValidationConstants;
+
 public class CabDriverRequest {
 
+	@NotBlank
+	@Size(min=10, max=10, message=ValidationConstants.MOBILE_NUMBER_INVALID_MESSAGE)
 	private String mobileNumber;
+	@NotBlank
 	private String password;
+	@NotBlank
 	private String firstName;
+	@NotBlank
 	private String lastName;
+	@NotBlank
 	private String carName;
+	@NotBlank
+	@Size(min=6, max=10)
 	private String carNumber;
 
 	public CabDriverRequest(String mobileNumber, String password, String firstName, String lastName, String carName,

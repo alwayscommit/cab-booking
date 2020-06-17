@@ -27,7 +27,7 @@ public class BookingMapper {
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STANDARD);
 		return modelMapper.map(bookedCar, BookingRest.class);
 	}
-	
+
 	public BookingEntity mapToEntity(BookingDTO bookingDTO) {
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STANDARD);
 		return modelMapper.map(bookingDTO, BookingEntity.class);
@@ -37,12 +37,12 @@ public class BookingMapper {
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STANDARD);
 		return modelMapper.map(bookingEntity, BookingDTO.class);
 	}
-	
+
 	public BookingStatusRest mapToStatusRest(BookingDTO bookingDto) {
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STANDARD);
 		return modelMapper.map(bookingDto, BookingStatusRest.class);
 	}
-	
+
 	private PropertyMap<BookingRequest, BookingDTO> bookingReqToDTO = new PropertyMap<BookingRequest, BookingDTO>() {
 		protected void configure() {
 
@@ -65,6 +65,8 @@ public class BookingMapper {
 			map().getRideDetails().setReferenceNumber(source.getReferenceNo());
 			map().getRideDetails().setEndLatitude(source.getEndLatitude());
 			map().getRideDetails().setEndLongitude(source.getEndLongitude());
+			map().getRideDetails().setStartAddress(source.getStartAddress());
+			map().getRideDetails().setDestinationAddress(source.getDestinationAddress());
 
 			map().getDriverDetails().setCarName(source.getCarDriverDTO().getCarName());
 			map().getDriverDetails().setCarNumber(source.getCarDriverDTO().getCarNumber());
@@ -95,6 +97,8 @@ public class BookingMapper {
 			map().getCarDriverDTO().setMobileNumber(source.getCarEntity().getDrivenBy().getMobileNumber());
 			map().getCarDriverDTO().setFirstName(source.getCarEntity().getDrivenBy().getFirstName());
 			map().getCarDriverDTO().setLastName(source.getCarEntity().getDrivenBy().getLastName());
+			map().setStartAddress(source.getStartAddress());
+			map().setDestinationAddress(source.getDestinationAddress());
 		}
 	};
 
@@ -112,7 +116,7 @@ public class BookingMapper {
 
 		}
 	};
-	
+
 	private PropertyMap<BookingDTO, BookingStatusRest> bookingDtoToStatusRest = new PropertyMap<BookingDTO, BookingStatusRest>() {
 		protected void configure() {
 
@@ -135,7 +139,7 @@ public class BookingMapper {
 	public PropertyMap<BookingDTO, BookingEntity> bookingDtoToEntity() {
 		return bookingDtoToEntity;
 	}
-	
+
 	public PropertyMap<BookingRequest, BookingDTO> bookingReqToDto() {
 		return bookingReqToDTO;
 	}
@@ -143,6 +147,5 @@ public class BookingMapper {
 	public PropertyMap<BookingDTO, BookingStatusRest> bookingDtoToStatusReq() {
 		return bookingDtoToStatusRest;
 	}
-	
 
 }

@@ -67,6 +67,8 @@
 		bookingDetails.endLatitude = destinationData[0].lat;
 		bookingDetails.customerMobileNumber = $('#customerNumber').val();
 		bookingDetails.numberOfPassengers = $('#passengersNo').val();
+		bookingDetails.startAddress = $('#location').val();
+		bookingDetails.destinationAddress = $('#desitination').val();
 
 		var bookingObj = JSON.stringify(bookingDetails);
 		$.ajax({

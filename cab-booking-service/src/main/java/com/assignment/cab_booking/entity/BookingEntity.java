@@ -70,6 +70,30 @@ public class BookingEntity {
 	@Column(name = EntityConstants.NUMBER_OF_PASSENGERS)
 	private String numberOfPassengers;
 
+	@NotNull(message = ValidationConstants.START_ADDRESS_MESSAGE)
+	@Column(name = EntityConstants.START_ADDRESS)
+	private String startAddress;
+
+	@NotNull(message = ValidationConstants.DESTINATION_ADDRESS_MESSAGE)
+	@Column(name = EntityConstants.DESTINATION_ADDRESS)
+	private String destinationAddress;
+
+	public String getStartAddress() {
+		return startAddress;
+	}
+
+	public void setStartAddress(String startAddress) {
+		this.startAddress = startAddress;
+	}
+
+	public String getDestinationAddress() {
+		return destinationAddress;
+	}
+
+	public void setDestinationAddress(String destinationAddress) {
+		this.destinationAddress = destinationAddress;
+	}
+
 	public Double getStartLatitude() {
 		return startLatitude;
 	}

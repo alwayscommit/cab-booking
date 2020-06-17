@@ -1,5 +1,7 @@
 package com.assignment.cab_booking.controller;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +37,7 @@ public class CustomerController {
 	}
 
 	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<CustomerRest> registerDriver(@RequestBody CustomerRequest customerRequest) {
+	public ResponseEntity<CustomerRest> registerDriver(@Valid @RequestBody CustomerRequest customerRequest) {
 		LOGGER.info(String.format("Creating Customer with Mobile Number :: %s", customerRequest.getMobileNumber()));
 		CustomerDTO customerDTO = customerMapper.mapToCustomerDTO(customerRequest);
 

@@ -13,6 +13,25 @@ public class BookingDTO {
 	private CustomerDTO customerDto;
 	private CabDriverDTO carDriverDTO;
 	private BookingState bookingState;
+	private String startAddress;
+	private String destinationAddress;
+	
+	public String getStartAddress() {
+		return startAddress;
+	}
+
+	public void setStartAddress(String startAddress) {
+		this.startAddress = startAddress;
+	}
+
+	public String getDestinationAddress() {
+		return destinationAddress;
+	}
+
+	public void setDestinationAddress(String destinationAddress) {
+		this.destinationAddress = destinationAddress;
+	}
+
 
 	public BookingState getBookingState() {
 		return bookingState;
