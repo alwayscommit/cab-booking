@@ -35,7 +35,7 @@ class BookingEntityTest {
 	@BeforeEach
 	void contextLoads() {
 		bookingEntity = new BookingEntity();
-		bookingEntity.setBookingTime(Date.from(Instant.now()).toString());
+		bookingEntity.setBookingTime(Date.from(Instant.now()));
 		bookingEntity.setCarEntity(new CarDriverEntity());
 		bookingEntity.setCustomerDetails(new UserAccountEntity());
 		bookingEntity.setStartLatitude(19.209449150428703);

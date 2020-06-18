@@ -1,6 +1,6 @@
 package com.assignment.cab_booking.service.impl;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -19,12 +19,14 @@ import com.assignment.cab_booking.model.AccountType;
 import com.assignment.cab_booking.model.BookingState;
 import com.assignment.cab_booking.model.CarStatus;
 import com.assignment.cab_booking.model.dto.BookingDTO;
+import com.assignment.cab_booking.repository.BookingHistoryRepository;
 import com.assignment.cab_booking.repository.BookingRepository;
 import com.assignment.cab_booking.repository.CarDriverRepository;
 import com.assignment.cab_booking.repository.UserAccountRepository;
 import com.assignment.cab_booking.service.BookingService;
 import com.assignment.cab_booking.utils.Utils;
 import com.assignment.cab_booking.view.CabBookingStatus;
+import com.assignment.cab_booking.view.CustomerBookingHistory;
 
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -38,17 +40,20 @@ public class BookingServiceImpl implements BookingService {
 	private BookingRepository bookingRepo;
 
 	private BookingMapper bookingMapper;
+	
+	private BookingHistoryRepository historyRepo;
 
-	@Autowired
 	private Utils utils;
 
 	@Autowired
 	public BookingServiceImpl(UserAccountRepository userAccountRepository, CarDriverRepository carRepository,
-			BookingRepository bookingRepo, BookingMapper bookingMapper) {
+			BookingRepository bookingRepo, BookingMapper bookingMapper, BookingHistoryRepository historyRepo, Utils utils) {
 		this.userAccountRepo = userAccountRepository;
 		this.carRepo = carRepository;
 		this.bookingRepo = bookingRepo;
 		this.bookingMapper = bookingMapper;
+		this.utils = utils;
+		this.historyRepo = historyRepo;
 	}
 
 	@Override
@@ -95,7 +100,7 @@ public class BookingServiceImpl implements BookingService {
 		bookingEntity.setCarEntity(availableCab);
 		bookingEntity.setCustomerDetails(customerAccount);
 		bookingEntity.setReferenceNo(utils.generatedBookingReference(10));
-		bookingEntity.setBookingTime(LocalDateTime.now().toString());
+		bookingEntity.setBookingTime(new Date());
 		bookingEntity.setState(BookingState.ACTIVE);
 
 		return bookingEntity;
@@ -110,8 +115,7 @@ public class BookingServiceImpl implements BookingService {
 	}
 
 	private boolean customerHasActiveBooking(String customerNumber) {
-		return bookingRepo.findByCustomerDetailsMobileNumberAndState(customerNumber,
-				BookingState.ACTIVE) != null;
+		return bookingRepo.findByCustomerDetailsMobileNumberAndState(customerNumber, BookingState.ACTIVE) != null;
 	}
 
 	// Can be replaced with another Microservice that uses Kafka to track locations
@@ -123,22 +127,12 @@ public class BookingServiceImpl implements BookingService {
 	}
 
 	@Override
-	public BookingDTO updateBooking(String cabDriverNumber, BookingState state) {
-		BookingEntity activeBooking = bookingRepo.findByReferenceNo(cabDriverNumber);
+	public BookingDTO updateBooking(String referenceNo, BookingState state) {
+		BookingEntity activeBooking = bookingRepo.findByReferenceNoAndState(referenceNo, BookingState.ACTIVE);
 
 		if (activeBooking == null) {
-			LOGGER.info(String.format("No bookings found for cab driver %s...", cabDriverNumber));
+			LOGGER.info(String.format("No active booking found for cab driver %s...", referenceNo));
 			throw new BookingServiceException(ExceptionConstants.NO_BOOKINGS_MESSAGE);
-		}
-
-		if (activeBooking.getState().equals(BookingState.CANCELLED)) {
-			LOGGER.info(String.format("Cancelled booking state cannot be changed %s...", cabDriverNumber));
-			throw new BookingServiceException(ExceptionConstants.CANCELLED_BOOKING_MESSAGE);
-		}
-
-		if (state.equals(BookingState.ACTIVE)) {
-			LOGGER.info(String.format("Cancelled booking state cannot be changed %s...", cabDriverNumber));
-			throw new BookingServiceException(ExceptionConstants.CANCELLED_BOOKING_MESSAGE);
 		}
 
 		activeBooking.setState(state);
@@ -146,6 +140,11 @@ public class BookingServiceImpl implements BookingService {
 
 		BookingEntity completedBooking = bookingRepo.save(activeBooking);
 		return bookingMapper.mapToDTO(completedBooking);
+	}
+
+	@Override
+	public List<CustomerBookingHistory> getCustomerBookingHistory(String customerNumber) {
+		return historyRepo.findAllByCustomerNumber(customerNumber);
 	}
 
 }

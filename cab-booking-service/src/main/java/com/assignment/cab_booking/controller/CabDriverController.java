@@ -69,19 +69,6 @@ public class CabDriverController {
 		return new ResponseEntity<List<CabDriverRest>>(availableCabDrivers, HttpStatus.OK);
 	}
 
-	@GetMapping(path = "/{cabDriverNumber}", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<CabDriverRest> getDriver(@PathVariable String cabDriverNumber) {
-		LOGGER.info(String.format("Retrieving cab driver details ::%s", cabDriverNumber));
-		CabDriverDTO cab = driverService.getDriver(cabDriverNumber);
-
-		if (cab == null) {
-			return new ResponseEntity<CabDriverRest>(HttpStatus.NO_CONTENT);
-		}
-
-		CabDriverRest cabResponse = cabDriverMapper.mapToDriverResponse(cab);
-		return new ResponseEntity<CabDriverRest>(cabResponse, HttpStatus.OK);
-	}
-
 	@PutMapping(path = "/{cabDriverNumber}/location", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<CabDriverRest> updateDriverCarLocation(@PathVariable String cabDriverNumber,
 			@Valid @RequestBody LocationRequest locationRequest) {
@@ -94,4 +81,16 @@ public class CabDriverController {
 		return new ResponseEntity<CabDriverRest>(driverResponse, HttpStatus.OK);
 	}
 
+	@GetMapping(path = "/{cabDriverNumber}", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<CabDriverRest> getDriver(@PathVariable String cabDriverNumber) {
+		LOGGER.info(String.format("Retrieving cab driver details ::%s", cabDriverNumber));
+		CabDriverDTO cab = driverService.getDriver(cabDriverNumber);
+
+		if (cab == null) {
+			return new ResponseEntity<CabDriverRest>(HttpStatus.NO_CONTENT);
+		}
+
+		CabDriverRest cabResponse = cabDriverMapper.mapToDriverResponse(cab);
+		return new ResponseEntity<CabDriverRest>(cabResponse, HttpStatus.OK);
+	}
 }

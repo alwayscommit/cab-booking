@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS booking (
 	id BIGINT NOT NULL AUTO_INCREMENT, 
-	booking_time VARCHAR(50) NOT NULL, 
+	booking_time DATETIME NOT NULL, 
 	end_latitude DOUBLE PRECISION NOT NULL, 
 	end_longitude DOUBLE PRECISION NOT NULL, 
 	number_of_passengers VARCHAR(1) NOT NULL, 

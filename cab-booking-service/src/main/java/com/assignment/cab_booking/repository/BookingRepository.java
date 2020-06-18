@@ -18,8 +18,9 @@ public interface BookingRepository extends CrudRepository<BookingEntity, Long> {
 			+ "LEFT OUTER JOIN booking.customerDetails customer")
 	List<CabBookingStatus> findCabDetails();
 
-	BookingEntity findByReferenceNo(String cabDriverNumber);
-
 	BookingEntity findByCustomerDetailsMobileNumberAndState(String customerNumber, BookingState active);
+
+	BookingEntity findByReferenceNoAndState(String referenceNo, BookingState state);
+
 
 }

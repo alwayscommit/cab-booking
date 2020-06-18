@@ -1,5 +1,7 @@
 package com.assignment.cab_booking.entity;
 
+import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -64,7 +66,7 @@ public class BookingEntity {
 
 	@NotNull(message = ValidationConstants.BOOKING_TIME_MESSAGE)
 	@Column(name = EntityConstants.BOOKING_TIME)
-	private String bookingTime;
+	private Date bookingTime;
 
 	@NotNull(message = ValidationConstants.NUMBER_OF_PASSENGERS_MESSAGE)
 	@Column(name = EntityConstants.NUMBER_OF_PASSENGERS)
@@ -166,11 +168,11 @@ public class BookingEntity {
 		this.state = state;
 	}
 
-	public String getBookingTime() {
+	public Date getBookingTime() {
 		return bookingTime;
 	}
 
-	public void setBookingTime(String bookingTime) {
+	public void setBookingTime(Date bookingTime) {
 		this.bookingTime = bookingTime;
 	}
 

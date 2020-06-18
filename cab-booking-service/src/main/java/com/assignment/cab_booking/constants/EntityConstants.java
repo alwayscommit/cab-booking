@@ -45,6 +45,21 @@ public interface EntityConstants {
 	public static final String REFERENCE_NO = "REFERENCE_NO";
 	public static final String START_ADDRESS = "START_ADDRESS";
 	public static final String DESTINATION_ADDRESS = "DESTINATION_ADDRESS";
+
+	//View
+	public static final String VIEW_CUSTOMER_BOOKING_HISTORY = "customer_booking_history";
+	
+	//VIEW Columns
+	public static final String VIEW_DRIVER_NAME = "DRIVER_NAME";
+	public static final String VIEW_DRIVER_NUMBER = "DRIVER_NUMBER";
+	public static final String VIEW_CAR_NAME = "CAR_NAME";
+	public static final String VIEW_CAR_NUMBER = "CAR_NUMBER";
+	public static final String VIEW_START_ADDRESS = "START_ADDRESS";
+	public static final String VIEW_DESTINATION_ADDRESS = "DESTINATION_ADDRESS";
+	public static final String VIEW_NO_OF_PASSENGERS = "NUMBER_OF_PASSENGERS";
+	public static final String VIEW_BOOKING_TIME = "BOOKING_TIME";
+	public static final String VIEW_CUSTOMER_NUMBER = "CUSTOMER_NUMBER";
+	public static final String VIEW_REFERENCE_NO = "REFERENCE_NO";
 	
 
 }
