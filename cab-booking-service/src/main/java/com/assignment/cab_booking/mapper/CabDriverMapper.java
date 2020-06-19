@@ -49,7 +49,7 @@ public class CabDriverMapper {
 	}
 
 	public UserAccountEntity mapToUserEntity(CabDriverDTO carDriverDTO) {
-		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STANDARD);
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
 		return modelMapper.map(carDriverDTO, UserAccountEntity.class);
 	}
 

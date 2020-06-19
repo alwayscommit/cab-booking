@@ -33,6 +33,7 @@ class UserAccountValidationTest {
 	@BeforeEach
 	void contextLoads() {
 		userAccount = new UserAccountEntity();
+		userAccount.setUserId("asacssss22");
 		userAccount.setFirstName("Aakash");
 		userAccount.setLastName("Ranglani");
 		userAccount.setAccountType(AccountType.CUSTOMER);
@@ -91,5 +92,13 @@ class UserAccountValidationTest {
 		assertEquals(ValidationConstants.ACCOUNT_TYPE_INVALID_MESSAGE,
 				validator.validate(this.userAccount).iterator().next().getMessage());
 	}
+	
+	@Test
+	public void invalidUserIdTest() {
+		userAccount.setUserId(null);
+		assertEquals(ValidationConstants.USER_ID_INVALID_MESSAGE,
+				validator.validate(this.userAccount).iterator().next().getMessage());
+	}
+
 
 }

@@ -1,5 +1,6 @@
 package com.assignment.cab_booking.model.response;
 
+import com.assignment.cab_booking.model.AccountType;
 import com.assignment.cab_booking.model.CarStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -7,15 +8,26 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonInclude(Include.NON_NULL)
 public class CabDriverRest {
 
+	private String userId;
+	private String carId;
 	private String mobileNumber;
 	private String firstName;
 	private String lastName;
-	private String accountType;
+	private AccountType accountType;
 	private String carName;
 	private String carNumber;
 	private CarStatus carStatus;
 	private Double latitude;
 	private Double longitude;
+	
+
+	public String getCarId() {
+		return carId;
+	}
+
+	public void setCarId(String carId) {
+		this.carId = carId;
+	}
 
 	public Double getLatitude() {
 		return latitude;
@@ -36,11 +48,19 @@ public class CabDriverRest {
 	public CabDriverRest() {
 	}
 
-	public String getAccountType() {
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public AccountType getAccountType() {
 		return accountType;
 	}
 
-	public void setAccountType(String accountType) {
+	public void setAccountType(AccountType accountType) {
 		this.accountType = accountType;
 	}
 
@@ -90,13 +110,6 @@ public class CabDriverRest {
 
 	public void setCarNumber(String carNumber) {
 		this.carNumber = carNumber;
-	}
-
-	@Override
-	public String toString() {
-		return "DriverRest [mobileNumber=" + mobileNumber + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", accountType=" + accountType + ", carName=" + carName + ", carNumber=" + carNumber + ", carStatus="
-				+ carStatus + "  ]";
 	}
 
 }

@@ -7,34 +7,27 @@ import com.assignment.cab_booking.model.CarStatus;
 
 public class CabDriverDTO {
 
-	private Long userId;//Id from car table
+	private long id;
+	private String userId;// Id from car table
 	private String mobileNumber;
 	private String firstName;
 	private String lastName;
 	private String password;
 	private AccountType accountType;
-	private Long carId;
+	private String carId;
 	private String carName;
 	private CarStatus carStatus;
 	private String carNumber;
 	private Double latitude;
 	private Double longitude;
 	private Date createdOn;
-	
-	public CabDriverDTO(String mobileNumber, String firstName, String lastName, String password,
-			AccountType accountType, String carName, CarStatus carStatus, String carNumber, Double latitude,
-			Double longitude, Date createdOn) {
-		this.mobileNumber = mobileNumber;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.password = password;
-		this.accountType = accountType;
-		this.carName = carName;
-		this.carStatus = carStatus;
-		this.carNumber = carNumber;
-		this.latitude = latitude;
-		this.longitude = longitude;
-		this.createdOn = createdOn;
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public Date getCreatedOn() {
@@ -128,28 +121,20 @@ public class CabDriverDTO {
 		this.longitude = longitude;
 	}
 
-	public Long getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 
-	public Long getCarId() {
+	public String getCarId() {
 		return carId;
 	}
 
-	public void setCarId(Long carId) {
+	public void setCarId(String carId) {
 		this.carId = carId;
-	}
-
-	@Override
-	public String toString() {
-		return "DriverDTO [userId=" + userId + ", mobileNumber=" + mobileNumber + ", firstName=" + firstName
-				+ ", lastName=" + lastName + ", password=" + password + ", accountType=" + accountType + ", carId="
-				+ carId + ", carName=" + carName + ", carStatus=" + carStatus + ", carNumber=" + carNumber
-				+ ", latitude=" + latitude + ", longitude=" + longitude + ", createdOn=" + createdOn + "]";
 	}
 
 }

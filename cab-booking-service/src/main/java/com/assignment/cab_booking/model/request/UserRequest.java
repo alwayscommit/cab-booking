@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 
 import com.assignment.cab_booking.constants.ValidationConstants;
 
-public class CustomerRequest {
+public class UserRequest {
 
 	@NotNull
 	@Size(min=10, max=10, message=ValidationConstants.MOBILE_NUMBER_INVALID_MESSAGE)
@@ -18,9 +18,9 @@ public class CustomerRequest {
 	@NotBlank
 	private String lastName;
 	
-	public CustomerRequest() {}
+	public UserRequest() {}
 
-	public CustomerRequest(String mobileNumber, String password, String firstName, String lastName) {
+	public UserRequest(String mobileNumber, String password, String firstName, String lastName) {
 		super();
 		this.mobileNumber = mobileNumber;
 		this.password = password;

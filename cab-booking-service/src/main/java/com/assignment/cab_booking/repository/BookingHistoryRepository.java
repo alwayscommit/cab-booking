@@ -10,6 +10,6 @@ import com.assignment.cab_booking.view.CustomerBookingHistory;
 @Repository
 public interface BookingHistoryRepository extends CrudRepository<CustomerBookingHistory, String>{
 
-	List<CustomerBookingHistory> findAllByCustomerNumber(String customerNumber);
+	List<CustomerBookingHistory> findAllByCustomerUserId(String customerUserId);
 
 }

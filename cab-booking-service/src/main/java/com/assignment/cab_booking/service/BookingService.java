@@ -15,6 +15,6 @@ public interface BookingService {
 
 	BookingDTO updateBooking(String referenceNo, BookingState state);
 
-	List<CustomerBookingHistory> getCustomerBookingHistory(String customerNumber);
+	List<CustomerBookingHistory> getCustomerBookingHistory(String userId);
 	
 }

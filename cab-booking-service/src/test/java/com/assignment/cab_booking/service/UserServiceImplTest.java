@@ -16,13 +16,14 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.assignment.cab_booking.entity.UserAccountEntity;
-import com.assignment.cab_booking.mapper.CustomerMapper;
+import com.assignment.cab_booking.mapper.UserMapper;
 import com.assignment.cab_booking.model.AccountType;
-import com.assignment.cab_booking.model.dto.CustomerDTO;
+import com.assignment.cab_booking.model.dto.UserDTO;
 import com.assignment.cab_booking.repository.UserAccountRepository;
-import com.assignment.cab_booking.service.impl.CustomerServiceImpl;
+import com.assignment.cab_booking.service.impl.UserServiceImpl;
+import com.assignment.cab_booking.utils.ApplicationUtils;
 
-class CustomerServiceImplTest {
+class UserServiceImplTest {
 
 	@Mock
 	private UserAccountRepository userAccountRepo;
@@ -31,10 +32,13 @@ class CustomerServiceImplTest {
 	private BCryptPasswordEncoder passwordEncoder;
 	
 	@Mock
-	private CustomerMapper customerMapper;
+	private UserMapper customerMapper;
+	
+	@Mock
+	private ApplicationUtils utils;
 	
 	@InjectMocks
-	private CustomerServiceImpl customerServiceImpl;
+	private UserServiceImpl customerServiceImpl;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -43,14 +47,14 @@ class CustomerServiceImplTest {
 
 	@Test
 	public void testMockregisterCustomer() {
-		CustomerDTO registerCustomerDTO = new CustomerDTO();
+		UserDTO registerCustomerDTO = new UserDTO();
 		registerCustomerDTO.setFirstName("Aakash666");
 		registerCustomerDTO.setLastName("Ranglani666");
 		registerCustomerDTO.setMobileNumber("7516504514");
 		registerCustomerDTO.setPassword("aakash12");
 
 		UserAccountEntity userAccount = new UserAccountEntity();
-		userAccount.setUserId(321L);
+		userAccount.setUserId("acdvda111");
 		userAccount.setAccountType(AccountType.CUSTOMER);
 		userAccount.setCreatedOn(new Date());
 		userAccount.setFirstName("Aakash666");
@@ -62,6 +66,7 @@ class CustomerServiceImplTest {
 
 		Mockito.when(customerMapper.mapToEntity(Mockito.any())).thenReturn(userAccount);
 		Mockito.when(customerMapper.mapToDTO(Mockito.any())).thenReturn(registerCustomerDTO);
+		Mockito.when(utils.generateUserId(10)).thenReturn("acdvda111");
 		
 		customerServiceImpl.registerCustomer(registerCustomerDTO);
 
@@ -71,16 +76,16 @@ class CustomerServiceImplTest {
 
 	@Test
 	public void testRegisterCustomer() {
-		CustomerDTO expectedCustomerDTO = new CustomerDTO();
+		UserDTO expectedCustomerDTO = new UserDTO();
 		expectedCustomerDTO.setFirstName("Aakash666");
 		expectedCustomerDTO.setLastName("Ranglani666");
 		expectedCustomerDTO.setMobileNumber("7516504514");
 		expectedCustomerDTO.setPassword("aakash12");
 		expectedCustomerDTO.setAccountType(AccountType.CUSTOMER);
-		expectedCustomerDTO.setUserId(321L);
+		expectedCustomerDTO.setUserId("string1234");
 
 		UserAccountEntity userAccount = new UserAccountEntity();
-		userAccount.setUserId(321L);
+		userAccount.setUserId("string1234");
 		userAccount.setAccountType(AccountType.CUSTOMER);
 		userAccount.setCreatedOn(new Date());
 		userAccount.setFirstName("Aakash666");
@@ -92,11 +97,12 @@ class CustomerServiceImplTest {
 
 		Mockito.when(customerMapper.mapToEntity(Mockito.any())).thenReturn(userAccount);
 		Mockito.when(customerMapper.mapToDTO(Mockito.any())).thenReturn(expectedCustomerDTO);
+		Mockito.when(utils.generateUserId(10)).thenReturn("string1234");
 		
-		CustomerDTO actualCustomerDTO = customerServiceImpl.registerCustomer(expectedCustomerDTO);
+		UserDTO actualCustomerDTO = customerServiceImpl.registerCustomer(expectedCustomerDTO);
 		
 		assertEquals(AccountType.CUSTOMER, actualCustomerDTO.getAccountType());
-		assertEquals(userAccount.getUserId().longValue(), actualCustomerDTO.getUserId().longValue());
+		assertEquals(userAccount.getUserId(), actualCustomerDTO.getUserId());
 		assertEquals(expectedCustomerDTO.getFirstName(), actualCustomerDTO.getFirstName());
 		assertEquals(expectedCustomerDTO.getLastName(), actualCustomerDTO.getLastName());
 	}

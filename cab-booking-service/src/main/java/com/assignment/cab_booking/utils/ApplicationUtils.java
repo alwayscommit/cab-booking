@@ -6,12 +6,20 @@ import java.util.Random;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Utils {
+public class ApplicationUtils {
 
 	private final Random RANDOM = new SecureRandom();
 	private String ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-	public String generatedBookingReference(int length) {
+	public String generateBookingReference(int length) {
+		return generateString(length);
+	}
+	
+	public String generateUserId(int length) {
+		return generateString(length);
+	}
+	
+	public String generateCarId(int length) {
 		return generateString(length);
 	}
 

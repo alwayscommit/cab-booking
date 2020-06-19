@@ -1,5 +1,6 @@
 
-Create OR REPLACE VIEW customer_booking_history AS SELECT booking.reference_no, customer.mobile_number AS customer_number, booking.booking_time, booking.start_address, booking.destination_address, 
+Create OR REPLACE VIEW customer_booking_history AS SELECT customer.user_id AS customer_user_id, booking.reference_no,
+booking.booking_time, booking.start_address, booking.destination_address, 
 booking.number_of_passengers, car.car_name, car.car_number, driver.mobile_number AS driver_number, 
 CONCAT(driver.first_name, ' ', driver.last_name) AS driver_name 
 FROM booking 

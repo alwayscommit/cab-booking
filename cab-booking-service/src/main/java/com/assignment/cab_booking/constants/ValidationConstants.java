@@ -31,5 +31,6 @@ public interface ValidationConstants {
 	public static final String BOOKING_REFERENE_MESSAGE = "Booking reference cannot be null";
 	public static final String START_ADDRESS_MESSAGE = "start address cannot be null";
 	public static final String DESTINATION_ADDRESS_MESSAGE = "destination address cannot be null";
+	public static final String USER_ID_INVALID_MESSAGE = "UserId cannot be null";
 	
 }

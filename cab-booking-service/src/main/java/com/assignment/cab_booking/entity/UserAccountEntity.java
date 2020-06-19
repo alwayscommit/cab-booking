@@ -21,13 +21,17 @@ import com.assignment.cab_booking.constants.ValidationConstants;
 import com.assignment.cab_booking.model.AccountType;
 
 @Entity
-@Table(name=EntityConstants.USER_ACCOUNT)
+@Table(name = EntityConstants.USER_ACCOUNT)
 public class UserAccountEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = EntityConstants.ID)
-	private Long userId;
+	private Long Id;
+
+	@NotEmpty(message = ValidationConstants.USER_ID_INVALID_MESSAGE)
+	@Column(name = EntityConstants.USER_ID, unique = true)
+	private String userId;
 
 	@NotEmpty(message = ValidationConstants.FIRST_NAME_INVALID_MESSAGE)
 	@Column(name = EntityConstants.FIRST_NAME)
@@ -54,11 +58,19 @@ public class UserAccountEntity {
 	@Column(name = EntityConstants.CREATED_ON)
 	private Date createdOn;
 
-	public Long getUserId() {
+	public Long getId() {
+		return Id;
+	}
+
+	public void setId(Long id) {
+		Id = id;
+	}
+
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 

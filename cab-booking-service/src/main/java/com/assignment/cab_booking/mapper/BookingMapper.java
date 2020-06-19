@@ -47,7 +47,7 @@ public class BookingMapper {
 		protected void configure() {
 
 			// customer's mobile number
-			map().getCustomerDto().setMobileNumber(source.getCustomerMobileNumber());
+			map().getCustomerDto().setUserId(source.getCustomerUserId());
 		}
 	};
 

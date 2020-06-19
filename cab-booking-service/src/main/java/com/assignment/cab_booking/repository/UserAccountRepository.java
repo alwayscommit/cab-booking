@@ -9,6 +9,9 @@ import com.assignment.cab_booking.model.AccountType;
 @Repository
 public interface UserAccountRepository extends CrudRepository<UserAccountEntity, Long> {
 
-	UserAccountEntity findByMobileNumberAndAccountType(String mobileNumber, AccountType driver);
+	//Login purpose
+	UserAccountEntity findByMobileNumber(String mobileNumber);
+
+	UserAccountEntity findByUserIdAndAccountType(String driverId, AccountType driver);
 	
 }

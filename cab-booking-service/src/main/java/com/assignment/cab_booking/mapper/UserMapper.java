@@ -6,32 +6,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.assignment.cab_booking.entity.UserAccountEntity;
-import com.assignment.cab_booking.model.dto.CustomerDTO;
-import com.assignment.cab_booking.model.request.CustomerRequest;
-import com.assignment.cab_booking.model.response.CustomerRest;
+import com.assignment.cab_booking.model.dto.UserDTO;
+import com.assignment.cab_booking.model.request.UserRequest;
+import com.assignment.cab_booking.model.response.UserRest;
 
 @Component
-public class CustomerMapper {
+public class UserMapper {
 
 	@Autowired
 	private ModelMapper modelMapper;
 
-	public CustomerDTO mapToCustomerDTO(CustomerRequest customerRequest) {
+	public UserDTO mapToCustomerDTO(UserRequest customerRequest) {
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STANDARD);
-		return modelMapper.map(customerRequest, CustomerDTO.class);
+		return modelMapper.map(customerRequest, UserDTO.class);
 	}
 
-	public CustomerRest mapToCustomerResposne(CustomerDTO savedCustomer) {
+	public UserRest mapToCustomerResposne(UserDTO savedCustomer) {
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STANDARD);
-		return modelMapper.map(savedCustomer, CustomerRest.class);
+		return modelMapper.map(savedCustomer, UserRest.class);
 	}
 	
-	public CustomerDTO mapToDTO(UserAccountEntity savedCustomer) {
+	public UserDTO mapToDTO(UserAccountEntity userEntity) {
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STANDARD);
-		return modelMapper.map(savedCustomer, CustomerDTO.class);
+		return modelMapper.map(userEntity, UserDTO.class);
 	}
 
-	public UserAccountEntity mapToEntity(CustomerDTO customerDTO) {
+	public UserAccountEntity mapToEntity(UserDTO customerDTO) {
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STANDARD);
 		return modelMapper.map(customerDTO, UserAccountEntity.class);
 	}

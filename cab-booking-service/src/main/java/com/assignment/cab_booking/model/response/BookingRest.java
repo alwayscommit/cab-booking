@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 public class BookingRest {
 
 	private RideDetails rideDetails;
-	private CustomerRest customerDetails;
+	private UserRest customerDetails;
 	private CabDriverRest driverDetails;
 
 	public RideDetails getRideDetails() {
@@ -18,11 +18,11 @@ public class BookingRest {
 		this.rideDetails = rideDetails;
 	}
 
-	public CustomerRest getCustomerDetails() {
+	public UserRest getCustomerDetails() {
 		return customerDetails;
 	}
 
-	public void setCustomerDetails(CustomerRest customerDetails) {
+	public void setCustomerDetails(UserRest customerDetails) {
 		this.customerDetails = customerDetails;
 	}
 

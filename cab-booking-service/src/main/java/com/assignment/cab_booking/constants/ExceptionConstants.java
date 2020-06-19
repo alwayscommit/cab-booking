@@ -21,4 +21,6 @@ public interface ExceptionConstants {
 	public static final String BAD_ENUM_BOOKING_STATUS_REQUEST = "Status change request accepts only COMPLETED/CANCELLED enum values";
 
 	public static final String INACTIVE_BOOKING_MESSAGE = "You can only change status of ACTIVE booking";
+
+	public static final String MOBILE_NUMBER_NOT_FOUND_EXCEPTION = "Mobile Number not registered";
 }

@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS booking (
 
 CREATE TABLE IF NOT EXISTS car (
 	id BIGINT NOT NULL AUTO_INCREMENT, 
+	car_id VARCHAR(10) NOT NULL, 
 	car_name VARCHAR(50), 
 	car_number VARCHAR(10), 
 	car_status VARCHAR(20) NOT NULL, 
@@ -27,6 +28,7 @@ CREATE TABLE IF NOT EXISTS car (
 
 CREATE TABLE IF NOT EXISTS user_account (
 	id BIGINT NOT NULL AUTO_INCREMENT, 
+	user_id VARCHAR(10) NOT NULL, 
 	account_type VARCHAR(20) NOT NULL, 
 	created_on DATE, 
 	encrypted_password VARCHAR(255), 

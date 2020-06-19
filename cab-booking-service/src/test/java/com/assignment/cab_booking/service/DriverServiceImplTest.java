@@ -26,6 +26,7 @@ import com.assignment.cab_booking.model.dto.CabDriverDTO;
 import com.assignment.cab_booking.repository.CarDriverRepository;
 import com.assignment.cab_booking.repository.UserAccountRepository;
 import com.assignment.cab_booking.service.impl.CabDriverServiceImpl;
+import com.assignment.cab_booking.utils.ApplicationUtils;
 
 class DriverServiceImplTest {
 
@@ -40,6 +41,9 @@ class DriverServiceImplTest {
 
 	@Mock
 	private CabDriverMapper cabDriverMapper;
+	
+	@Mock
+	private ApplicationUtils utils;
 
 	@InjectMocks
 	private CabDriverServiceImpl driverServiceImpl;
@@ -51,7 +55,7 @@ class DriverServiceImplTest {
 
 	@BeforeClass
 	public void setup() {
-		this.driverServiceImpl = new CabDriverServiceImpl(userAccountRepo, carRepo, passwordEncoder, cabDriverMapper);
+		this.driverServiceImpl = new CabDriverServiceImpl(userAccountRepo, carRepo, passwordEncoder, cabDriverMapper, utils);
 	}
 
 	@Test
@@ -61,6 +65,7 @@ class DriverServiceImplTest {
 		Mockito.when(carRepo.save(Mockito.any())).thenReturn(getCarDriverEntityTestData());
 		Mockito.when(cabDriverMapper.mapToUserEntity(Mockito.any())).thenReturn(getUserAccountTestData());
 		Mockito.when(cabDriverMapper.mapToCarEntity(Mockito.any())).thenReturn(getCarDriverEntityTestData());
+		Mockito.when(utils.generateUserId(10)).thenReturn("acdvda111");
 
 		driverServiceImpl.registerDriver(mock(CabDriverDTO.class));
 
@@ -76,6 +81,7 @@ class DriverServiceImplTest {
 
 		CabDriverDTO carDriverDTO = getCabDriverDTOTestData();
 
+		Mockito.when(utils.generateUserId(10)).thenReturn("String1234");
 		Mockito.when(passwordEncoder.encode(anyString())).thenReturn("Encrypted Password");
 		Mockito.when(carRepo.save(Mockito.any())).thenReturn(mock(CarDriverEntity.class));
 		Mockito.when(cabDriverMapper.mapToUserEntity(Mockito.any())).thenReturn(getUserAccountTestData());
@@ -85,8 +91,8 @@ class DriverServiceImplTest {
 		CabDriverDTO actualCarDriver = driverServiceImpl.registerDriver(carDriverDTO);
 
 		assertEquals(AccountType.DRIVER, actualCarDriver.getAccountType());
-		assertEquals(carDriverDTO.getUserId().longValue(), actualCarDriver.getUserId().longValue());
-		assertEquals(carDriverDTO.getCarId().longValue(), actualCarDriver.getCarId().longValue());
+		assertEquals(carDriverDTO.getUserId(), actualCarDriver.getUserId());
+		assertEquals(carDriverDTO.getCarId(), actualCarDriver.getCarId());
 		verify(passwordEncoder, times(1)).encode(Mockito.any());
 		verify(carRepo, times(1)).save(Mockito.any());
 		verify(cabDriverMapper, times(1)).mapToUserEntity(Mockito.any());
@@ -125,7 +131,7 @@ class DriverServiceImplTest {
 	@Test
 	public void testGetDriver() {
 
-		Mockito.when(userAccountRepo.findByMobileNumberAndAccountType(Mockito.anyString(), Mockito.any()))
+		Mockito.when(userAccountRepo.findByUserIdAndAccountType(Mockito.anyString(), Mockito.any()))
 				.thenReturn(mock(UserAccountEntity.class));
 
 		CabDriverDTO expectedAccount = getCabDriverDTOTestData();
@@ -133,14 +139,14 @@ class DriverServiceImplTest {
 
 		CabDriverDTO actualAccount = driverServiceImpl.getDriver("7516504514");
 
-		assertEquals(expectedAccount.getUserId().longValue(), actualAccount.getUserId().longValue());
+		assertEquals(expectedAccount.getUserId(), actualAccount.getUserId());
 		assertEquals(expectedAccount.getFirstName(), actualAccount.getFirstName());
 		assertEquals(expectedAccount.getMobileNumber(), actualAccount.getMobileNumber());
 	}
 
 	private CarDriverEntity getCarDriverEntityTestData() {
 		CarDriverEntity carDriver = new CarDriverEntity();
-		carDriver.setCarId(321L);
+		carDriver.setCarId("String1234");
 		carDriver.setCarName("Maruti Swift666");
 		carDriver.setCarNumber("MH04MB22222");
 		carDriver.setCarStatus(CarStatus.AVAILABLE);
@@ -150,7 +156,7 @@ class DriverServiceImplTest {
 
 	private UserAccountEntity getUserAccountTestData() {
 		UserAccountEntity userAccount = new UserAccountEntity();
-		userAccount.setUserId(321L);
+		userAccount.setUserId("String1234");
 		userAccount.setAccountType(AccountType.DRIVER);
 		userAccount.setCreatedOn(new Date());
 		userAccount.setFirstName("Aakash666");
@@ -162,8 +168,8 @@ class DriverServiceImplTest {
 	private CabDriverDTO getCabDriverDTOTestData() {
 		CabDriverDTO carDriverDTO = new CabDriverDTO();
 		carDriverDTO.setAccountType(AccountType.DRIVER);
-		carDriverDTO.setUserId(123L);
-		carDriverDTO.setCarId(123L);
+		carDriverDTO.setUserId("String1234");
+		carDriverDTO.setCarId("aaaacssd22");
 		carDriverDTO.setCarName("Maruti Swift666");
 		carDriverDTO.setFirstName("Aakash666");
 		carDriverDTO.setLastName("Ranglani666");

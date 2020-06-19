@@ -30,8 +30,11 @@ public class CarDriverEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = EntityConstants.ID)
-	private Long carId;
-
+	private Long id;
+	
+	@Column(name = EntityConstants.CAR_ID, unique=true)
+	private String carId;
+	
 	@NotEmpty(message=ValidationConstants.CAR_NAME_MESSAGE)
 	@Column(name = EntityConstants.CAR_NAME)
 	private String carName;
@@ -84,11 +87,11 @@ public class CarDriverEntity {
 		this.longitude = longitude;
 	}
 
-	public Long getCarId() {
+	public String getCarId() {
 		return carId;
 	}
 
-	public void setCarId(Long carId) {
+	public void setCarId(String carId) {
 		this.carId = carId;
 	}
 
@@ -122,6 +125,14 @@ public class CarDriverEntity {
 
 	public void setDrivenBy(UserAccountEntity drivenBy) {
 		this.drivenBy = drivenBy;
+	}
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 }

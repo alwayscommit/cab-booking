@@ -16,24 +16,25 @@ import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.assignment.cab_booking.mapper.CustomerMapper;
+import com.assignment.cab_booking.mapper.UserMapper;
 import com.assignment.cab_booking.model.AccountType;
-import com.assignment.cab_booking.model.dto.CustomerDTO;
-import com.assignment.cab_booking.model.request.CabDriverRequest;
-import com.assignment.cab_booking.model.request.CustomerRequest;
-import com.assignment.cab_booking.model.response.CustomerRest;
-import com.assignment.cab_booking.service.CustomerService;
+import com.assignment.cab_booking.model.dto.UserDTO;
+import com.assignment.cab_booking.model.request.UserRequest;
+import com.assignment.cab_booking.model.response.UserRest;
+import com.assignment.cab_booking.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@WebMvcTest(CustomerController.class)
-class CustomerControllerTest {
+@WebMvcTest(UserController.class)
+@AutoConfigureMockMvc(addFilters = false)
+class UserControllerTest {
 
-	private static final String CUSTOMER_CONTROLLER_MAPPING = "/customer";
+	private static final String CUSTOMER_CONTROLLER_MAPPING = "/user";
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -42,13 +43,13 @@ class CustomerControllerTest {
 	private ObjectMapper objectMapper;
 
 	@MockBean
-	private CustomerMapper customerMapper;
+	private UserMapper customerMapper;
 
 	@MockBean
-	private CustomerService customerService;
+	private UserService customerService;
 	
 	@InjectMocks
-	private CustomerControllerTest customerControllerTest;
+	private UserControllerTest customerControllerTest;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -57,11 +58,11 @@ class CustomerControllerTest {
 
 	@Test
 	public void testCreateDriverMock() throws Exception {
-		Mockito.when(customerService.registerCustomer(Mockito.any())).thenReturn(mock(CustomerDTO.class));
-		Mockito.when(customerMapper.mapToCustomerDTO(Mockito.any())).thenReturn(mock(CustomerDTO.class));
+		Mockito.when(customerService.registerCustomer(Mockito.any())).thenReturn(mock(UserDTO.class));
+		Mockito.when(customerMapper.mapToCustomerDTO(Mockito.any())).thenReturn(mock(UserDTO.class));
 		Mockito.when(customerMapper.mapToCustomerResposne(Mockito.any())).thenReturn(customerRestData());
 
-		this.mockMvc.perform(post(CUSTOMER_CONTROLLER_MAPPING).contentType(MediaType.APPLICATION_JSON)
+		this.mockMvc.perform(post(CUSTOMER_CONTROLLER_MAPPING+"/customer").contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(customerRequestTestData()))).andExpect(status().isCreated());
 		
 		verify(customerService, times(1)).registerCustomer(Mockito.any());
@@ -71,16 +72,16 @@ class CustomerControllerTest {
 
 	@Test
 	public void testCreateDriver() throws Exception {
-		CustomerDTO customerDto = new CustomerDTO(1L, "7506500591", "Aakash", "Ranglani", "aakash",
+		UserDTO customerDto = new UserDTO("aasscc22aa", "7506500591", "Aakash", "Ranglani", "aakash",
 				AccountType.CUSTOMER, 19.231309, 72.982752, new Date());
 
 		Mockito.when(customerService.registerCustomer(Mockito.any())).thenReturn(customerDto);
 		
-		Mockito.when(customerMapper.mapToCustomerDTO(Mockito.any())).thenReturn(mock(CustomerDTO.class));
+		Mockito.when(customerMapper.mapToCustomerDTO(Mockito.any())).thenReturn(mock(UserDTO.class));
 		Mockito.when(customerMapper.mapToCustomerResposne(Mockito.any())).thenReturn(customerRestData());
 
 		this.mockMvc
-				.perform(post(CUSTOMER_CONTROLLER_MAPPING).contentType(MediaType.APPLICATION_JSON)
+				.perform(post(CUSTOMER_CONTROLLER_MAPPING+"/customer").contentType(MediaType.APPLICATION_JSON)
 						.content(objectMapper.writeValueAsString(customerDto)))
 				.andExpect(status().isCreated())
 				.andExpect(jsonPath("$.firstName", CoreMatchers.is(customerDto.getFirstName())))
@@ -88,8 +89,8 @@ class CustomerControllerTest {
 				.andExpect(jsonPath("$.lastName", CoreMatchers.is(customerDto.getLastName())));
 	}
 
-	private CustomerRest customerRestData() {
-		CustomerRest customerRest = new CustomerRest();
+	private UserRest customerRestData() {
+		UserRest customerRest = new UserRest();
 		customerRest.setAccountType(AccountType.DRIVER.toString());
 		customerRest.setFirstName("Aakash");
 		customerRest.setLastName("Ranglani");
@@ -97,8 +98,8 @@ class CustomerControllerTest {
 		return customerRest;
 	}
 	
-	private CustomerRequest customerRequestTestData() {
-		CustomerRequest customerRequest = new CustomerRequest();
+	private UserRequest customerRequestTestData() {
+		UserRequest customerRequest = new UserRequest();
 		customerRequest.setFirstName("Aakash");
 		customerRequest.setLastName("Ranglani");
 		customerRequest.setMobileNumber("7506500591");

@@ -48,7 +48,7 @@ public class BookingController {
 
 	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<BookingRest> bookCab(@Valid @RequestBody BookingRequest bookingRequest) {
-		LOGGER.info(String.format("Booking cab for customer :: %s", bookingRequest.getCustomerMobileNumber()));
+		LOGGER.info(String.format("Booking cab for customer :: %s", bookingRequest.getCustomerUserId()));
 		BookingDTO bookingDTO = bookingMapper.mapToDTO(bookingRequest);
 
 		BookingDTO bookedCar = bookingService.bookCab(bookingDTO);
@@ -62,10 +62,10 @@ public class BookingController {
 		List<CabBookingStatus> cabStatusList = bookingService.findAllCabBookingStatus();
 		return new ResponseEntity<List<CabBookingStatus>>(cabStatusList, HttpStatus.OK);
 	}
-	
-	@GetMapping("/customer/{customerNumber}/history")
-	public ResponseEntity<List<CustomerBookingHistory>> getCustomerBookingHistory(@PathVariable String customerNumber) {
-		List<CustomerBookingHistory> bookingHistory = bookingService.getCustomerBookingHistory(customerNumber);
+
+	@GetMapping("/customer/{userId}/history")
+	public ResponseEntity<List<CustomerBookingHistory>> getCustomerBookingHistory(@PathVariable String userId) {
+		List<CustomerBookingHistory> bookingHistory = bookingService.getCustomerBookingHistory(userId);
 		return new ResponseEntity<List<CustomerBookingHistory>>(bookingHistory, HttpStatus.OK);
 	}
 

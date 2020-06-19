@@ -1,7 +1,5 @@
 package com.assignment.cab_booking.view;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -19,8 +17,8 @@ public class CustomerBookingHistory {
 	@Id
 	@Column(name = EntityConstants.VIEW_REFERENCE_NO)
 	private String referenceNo;
-	@Column(name = EntityConstants.VIEW_CUSTOMER_NUMBER)
-	private String customerNumber;
+	@Column(name = EntityConstants.VIEW_CUSTOMER_USER_ID)
+	private String customerUserId;
 	@Column(name = EntityConstants.VIEW_CAR_NAME)
 	private String carName;
 	@Column(name = EntityConstants.VIEW_CAR_NUMBER)
@@ -50,6 +48,14 @@ public class CustomerBookingHistory {
 		this.endLocation = endLocation;
 		this.numberOfPassengers = numberOfPassengers;
 		this.bookingDate = bookingDate;
+	}
+
+	public String getReferenceNo() {
+		return referenceNo;
+	}
+
+	public void setReferenceNo(String referenceNo) {
+		this.referenceNo = referenceNo;
 	}
 
 	public String getCarName() {

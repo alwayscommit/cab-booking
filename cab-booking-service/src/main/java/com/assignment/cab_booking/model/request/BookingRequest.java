@@ -30,7 +30,8 @@ public class BookingRequest {
 	private Double endLongitude;
 
 	@NotBlank
-	private String customerMobileNumber;
+	private String customerUserId;
+	
 	@NotBlank
 	@Max(4)
 	private String numberOfPassengers;
@@ -87,12 +88,12 @@ public class BookingRequest {
 		this.endLongitude = endLongitude;
 	}
 
-	public String getCustomerMobileNumber() {
-		return customerMobileNumber;
+	public String getCustomerUserId() {
+		return customerUserId;
 	}
 
-	public void setCustomerMobileNumber(String customerMobileNumber) {
-		this.customerMobileNumber = customerMobileNumber;
+	public void setCustomerUserId(String customerUserId) {
+		this.customerUserId = customerUserId;
 	}
 
 	public String getNumberOfPassengers() {

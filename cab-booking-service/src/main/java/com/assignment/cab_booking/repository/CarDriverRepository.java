@@ -22,6 +22,6 @@ public interface CarDriverRepository extends CrudRepository<CarDriverEntity, Lon
 	@Query(value = "SELECT *, ( 6371 * acos ( cos ( radians(?1) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(?2) ) + sin ( radians(?1) ) * sin( radians( latitude ) ) ) ) AS distance FROM car HAVING distance < ?3 AND car_status='AVAILABLE' LIMIT 10;", nativeQuery = true)
 	List<CarDriverEntity> findAvailableCabs(Double latitude, Double longitude, Integer kilometers);
 
-	CarDriverEntity findByDrivenByMobileNumber(String driverNumber);
+	CarDriverEntity findByDrivenByUserId(String driverId);
 
 }

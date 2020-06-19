@@ -45,6 +45,8 @@ class BookingEntityTest {
 		bookingEntity.setNumberOfPassengers("2");
 		bookingEntity.setState(BookingState.ACTIVE);
 		bookingEntity.setReferenceNo("abcd1234");
+		bookingEntity.setDestinationAddress("bye world");
+		bookingEntity.setStartAddress("hello world");
 	}
 
 	@Test

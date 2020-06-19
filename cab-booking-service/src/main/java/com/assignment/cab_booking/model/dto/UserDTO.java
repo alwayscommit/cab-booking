@@ -4,9 +4,9 @@ import java.util.Date;
 
 import com.assignment.cab_booking.model.AccountType;
 
-public class CustomerDTO {
+public class UserDTO {
 
-	private Long userId;
+	private String userId;
 	private String mobileNumber;
 	private String firstName;
 	private String lastName;
@@ -14,12 +14,12 @@ public class CustomerDTO {
 	private AccountType accountType;
 	private Date createdOn;
 
-	public CustomerDTO() {
+	public UserDTO() {
 	}
 
-	public CustomerDTO(Long id, String mobileNumber, String firstName, String lastName, String password,
+	public UserDTO(String userId, String mobileNumber, String firstName, String lastName, String password,
 			AccountType accountType, Double latitude, Double longitude, Date createdOn) {
-		this.userId = id;
+		this.userId = userId;
 		this.mobileNumber = mobileNumber;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -28,12 +28,12 @@ public class CustomerDTO {
 		this.createdOn = createdOn;
 	}
 
-	public Long getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Long id) {
-		this.userId = id;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public String getMobileNumber() {

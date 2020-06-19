@@ -29,5 +29,10 @@ public class CabBookingApplication {
 			}
 		};
 	}
+	
+	@Bean
+	public SpringAppContext springAppContext() {
+		return new SpringAppContext();
+	}
 
 }

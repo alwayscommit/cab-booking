@@ -3,7 +3,6 @@ package com.assignment.cab_booking.service.impl;
 import java.util.Date;
 import java.util.List;
 
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,7 @@ import com.assignment.cab_booking.model.dto.LocationDTO;
 import com.assignment.cab_booking.repository.CarDriverRepository;
 import com.assignment.cab_booking.repository.UserAccountRepository;
 import com.assignment.cab_booking.service.CabDriverService;
+import com.assignment.cab_booking.utils.ApplicationUtils;
 
 @Service
 public class CabDriverServiceImpl implements CabDriverService {
@@ -35,15 +35,18 @@ public class CabDriverServiceImpl implements CabDriverService {
 
 	private BCryptPasswordEncoder passwordEncoder;
 
+	private ApplicationUtils utils;
+
 	private CabDriverMapper cabDriverMapper;
 
 	@Autowired
 	public CabDriverServiceImpl(UserAccountRepository userAccountRepo, CarDriverRepository carRepo,
-			BCryptPasswordEncoder passwordEncoder, CabDriverMapper cabDriverMapper) {
+			BCryptPasswordEncoder passwordEncoder, CabDriverMapper cabDriverMapper, ApplicationUtils utils) {
 		this.userAccountRepo = userAccountRepo;
 		this.carRepo = carRepo;
 		this.passwordEncoder = passwordEncoder;
 		this.cabDriverMapper = cabDriverMapper;
+		this.utils = utils;
 	}
 
 	@Override
@@ -71,8 +74,8 @@ public class CabDriverServiceImpl implements CabDriverService {
 	}
 
 	@Override
-	public CabDriverDTO getDriver(String mobileNumber) {
-		UserAccountEntity driverDetails = userAccountRepo.findByMobileNumberAndAccountType(mobileNumber,
+	public CabDriverDTO getDriver(String driverId) {
+		UserAccountEntity driverDetails = userAccountRepo.findByUserIdAndAccountType(driverId,
 				AccountType.DRIVER);
 
 		if (driverDetails == null) {
@@ -83,8 +86,8 @@ public class CabDriverServiceImpl implements CabDriverService {
 	}
 
 	@Override
-	public CabDriverDTO updateDriverCarLocation(String driverNumber, LocationDTO locationDto) {
-		CarDriverEntity carEntity = carRepo.findByDrivenByMobileNumber(driverNumber);
+	public CabDriverDTO updateDriverCarLocation(String driverId, LocationDTO locationDto) {
+		CarDriverEntity carEntity = carRepo.findByDrivenByUserId(driverId);
 		carEntity.setLatitude(locationDto.getLatitude());
 		carEntity.setLongitude(locationDto.getLongitude());
 
@@ -96,12 +99,14 @@ public class CabDriverServiceImpl implements CabDriverService {
 	private CarDriverEntity setupCarDriverEntity(CabDriverDTO carDriverDTO) {
 		// user details
 		UserAccountEntity driverAccount = cabDriverMapper.mapToUserEntity(carDriverDTO);
+		driverAccount.setUserId(utils.generateUserId(ApplicationConstants.USER_ID_LENGTH));
 		driverAccount.setEncryptedPassword(passwordEncoder.encode(carDriverDTO.getPassword()));
 		driverAccount.setAccountType(AccountType.DRIVER);
 		driverAccount.setCreatedOn(new Date());
 
 		// car details
 		CarDriverEntity carEntity = cabDriverMapper.mapToCarEntity(carDriverDTO);
+		carEntity.setCarId(utils.generateCarId(ApplicationConstants.CAR_ID_LENGTH));
 		carEntity.setCarStatus(CarStatus.AVAILABLE);
 		carEntity.setDrivenBy(driverAccount);
 		return carEntity;
