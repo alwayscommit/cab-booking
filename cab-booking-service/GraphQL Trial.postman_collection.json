@@ -1,0 +1,104 @@
+{
+	"info": {
+		"_postman_id": "2cd41791-2c53-471c-bba4-9351012911ef",
+		"name": "GraphQL Trial",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "mutations",
+			"item": [
+				{
+					"name": "createUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation createUser ($mobileNumber: String!, $password: String!, $firstName: String!, $lastName: String!) {\n    createUser (mobileNumber: $mobileNumber, password: $password, firstName: $firstName, lastName: $lastName) {\n        firstName\n        lastName\n        mobileNumber\n        accountType\n        createdOn\n    }\n}",
+								"variables": "{\n  \"mobileNumber\": \"\",\n  \"password\": \"\",\n  \"firstName\": \"\",\n  \"lastName\": \"\"\n}"
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/cab-service/graphql",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cab-service",
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "queries",
+			"item": [
+				{
+					"name": "getUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query getUser ($mobileNumber: String) {\n    getUser (mobileNumber: $mobileNumber) {\n        firstName\n        lastName\n        mobileNumber\n        accountType\n        createdOn\n    }\n}",
+								"variables": "{\n  \"mobileNumber\": \"7506500591\"\n}"
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/cab-service/graphql",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cab-service",
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "e75d529d-a5c4-44f5-b83b-815ee52b51cc",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "c3bfd289-1182-4703-b39a-8335099bf3e1",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "cd6d080d-2271-4c8a-b758-0b9c1b014bd6",
+			"key": "url",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

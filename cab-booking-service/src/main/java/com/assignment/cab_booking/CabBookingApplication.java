@@ -20,7 +20,7 @@ public class CabBookingApplication {
 	}
 
 	@Bean
-	public WebMvcConfigurer corsConfigurer() {
+	public WebMvcConfigurer corsConfigurerCabBooking() {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {

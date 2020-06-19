@@ -27,6 +27,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		.antMatchers(HttpMethod.POST, "/user/customer").permitAll()
 		.antMatchers(HttpMethod.POST, "/cab-driver").permitAll()
 		.antMatchers(HttpMethod.POST, "/login").permitAll()
+		.antMatchers(HttpMethod.POST, "/graphql").permitAll()
 		.anyRequest().authenticated().and().addFilter(getAuthenticationFilter())
 		.addFilter(new AuthorizationFilter(authenticationManager())).sessionManagement()
 		.sessionCreationPolicy(SessionCreationPolicy.STATELESS);

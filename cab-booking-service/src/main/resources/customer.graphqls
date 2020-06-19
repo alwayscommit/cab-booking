@@ -1,0 +1,19 @@
+type UserDTO {
+
+firstName: String,
+lastName: String,
+mobileNumber: String,
+accountType: String,
+createdOn: String
+
+}
+
+
+type Query {
+getUser(mobileNumber: String):UserDTO
+}
+
+type Mutation {
+createUser(mobileNumber: String!, password: String!, firstName: String!, lastName: String!):UserDTO
+}
+

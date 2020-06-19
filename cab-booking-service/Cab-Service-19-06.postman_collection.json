@@ -1,0 +1,311 @@
+{
+	"info": {
+		"_postman_id": "5042a599-321f-42d9-a28e-5d0203f02365",
+		"name": "Cab-Service-19-06",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Customer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t \"mobileNumber\":\"9987799777\",\r\n\t \"password\":\"password\",\r\n\t \"firstName\":\"X-Men\",\r\n\t \"lastName\":\"Wolverine\"\r\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/cab-service/user/customer",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cab-service",
+						"user",
+						"customer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Cab Driver",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t \"mobileNumber\":\"7506500888\",\r\n\t \"password\":\"password\",\r\n\t \"firstName\":\"Skywrath\",\r\n\t \"lastName\":\"Mage\",\r\n\t \"carName\":\"Maruti Suzuki Ciaz\",\r\n\t \"carNumber\":\"MH04LM1222\"\r\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/cab-service/cab-driver",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cab-service",
+						"cab-driver"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"mobileNumber\":\"9987799777\",\n\t\"password\":\"password\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/cab-service/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cab-service",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Cab Driver Location",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NTA2NTAwODg4IiwiZXhwIjoxNTkzNDA2Mzk1fQ.FGWeazaEWlGMQHMrwPna9-VS9d6hOgoZLHmU5SKqHW-VSQFBGKu4SF64OxHUR13bGL0o_GBdKq-pSRSZV8J_Ng"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"latitude\":19.2272266,\n\t\"longitude\":72.9509195\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/cab-service/cab-driver/G0maOlfEQi/location",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cab-service",
+						"cab-driver",
+						"G0maOlfEQi",
+						"location"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RQ-2 Fetch Available Cab Drivers",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NTA2NTAwODg4IiwiZXhwIjoxNTkzNDA2Mzk1fQ.FGWeazaEWlGMQHMrwPna9-VS9d6hOgoZLHmU5SKqHW-VSQFBGKu4SF64OxHUR13bGL0o_GBdKq-pSRSZV8J_Ng"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/cab-service/cab-driver/near?latitude=19.2309696&longitude=72.9824377",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cab-service",
+						"cab-driver",
+						"near"
+					],
+					"query": [
+						{
+							"key": "latitude",
+							"value": "19.2309696"
+						},
+						{
+							"key": "longitude",
+							"value": "72.9824377"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fetch Driver Details",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NTA2NTAwODg4IiwiZXhwIjoxNTkzNDA2Mzk1fQ.FGWeazaEWlGMQHMrwPna9-VS9d6hOgoZLHmU5SKqHW-VSQFBGKu4SF64OxHUR13bGL0o_GBdKq-pSRSZV8J_Ng"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/cab-service/cab-driver/fR3STEsnQ0",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cab-service",
+						"cab-driver",
+						"fR3STEsnQ0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RQ-1 Book a Cab",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5OTg3Nzk5Nzc3IiwiZXhwIjoxNTkzNDA3MjE0fQ.zTpV-Yq7SNcpte6rgXPu9nT_5JThb-9uOhybM4q3_fYF1_SIupSsBqpFNWgnG4WFTVBwbNocgsphfQJzgsqdng"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"startLatitude\":19.2309696,\r\n\t\"startLongitude\":72.9824377,\r\n\t\"endLatitude\":19.1087175,\r\n\t\"endLongitude\":72.1693232,\r\n\t\"customerUserId\":\"fR3STEsnQ0\",\r\n\t\"numberOfPassengers\":\"3\",\r\n\t\"startAddress\":\"Everest World, Thane, Maharashtra\",\r\n\t\"destinationAddress\":\"R-Mall, Mulund, Maharashtra\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/cab-service/booking",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cab-service",
+						"booking"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Show All Cab Booking Status",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NTA2NTAwODg4IiwiZXhwIjoxNTkzNDQwMDQ1fQ.IXO9VW0HeF-wI9wP1LDVgZE5Mhej74Hbp0dKNz_CKEp89NWnt7f0Vczg9OXFCn3zvpOTKjOjNTC3miupnM-8YA"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/cab-service/booking/status",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cab-service",
+						"booking",
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Booking Status",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3NTA2NTAwODg4IiwiZXhwIjoxNTkzNDQwMDQ1fQ.IXO9VW0HeF-wI9wP1LDVgZE5Mhej74Hbp0dKNz_CKEp89NWnt7f0Vczg9OXFCn3zvpOTKjOjNTC3miupnM-8YA"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/cab-service/booking/7dBDhWfFhb?state=COMPLETED",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cab-service",
+						"booking",
+						"7dBDhWfFhb"
+					],
+					"query": [
+						{
+							"key": "state",
+							"value": "COMPLETED"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RQ-3 Fetch Past Bookings",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5OTg3Nzk5Nzc3IiwiZXhwIjoxNTkzNDA3MjE0fQ.zTpV-Yq7SNcpte6rgXPu9nT_5JThb-9uOhybM4q3_fYF1_SIupSsBqpFNWgnG4WFTVBwbNocgsphfQJzgsqdng"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/cab-service/booking/customer/RHXu84x9g1/history",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cab-service",
+						"booking",
+						"customer",
+						"RHXu84x9g1",
+						"history"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

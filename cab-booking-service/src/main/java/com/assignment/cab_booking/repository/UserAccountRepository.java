@@ -12,6 +12,6 @@ public interface UserAccountRepository extends CrudRepository<UserAccountEntity,
 	//Login purpose
 	UserAccountEntity findByMobileNumber(String mobileNumber);
 
-	UserAccountEntity findByUserIdAndAccountType(String driverId, AccountType driver);
+	UserAccountEntity findByUserIdAndAccountType(String userId, AccountType driver);
 	
 }
