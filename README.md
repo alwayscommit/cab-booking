@@ -21,8 +21,10 @@ Steps to run this application
 1. Clone/Download the repository
 2. To run the service, Run "mvn spring-boot:run" command inside "cab-booking-service" directory using a command prompt.
    - The service will start on port 8080
-3. Use the Postman Collection "Cab-Service-19-06.postman_collection.json" to test the REST APIs
-   The APIs which are a part of the assignment are labled as "RQ-#", rest are supporting APIs. 
+3. Use the Postman Collection "Cab-Service-19-06.postman_collection.json" to test the REST APIs.
+   - The APIs which are a part of the assignment are labled as "RQ-#", rest are supporting APIs. 
+
+
 
 - The Postman Collection "GraphQL Trial.postman_collection.json" file has a basic create/fetch user functionality implemented using GraphQL approach. 
 
