@@ -16,7 +16,7 @@ spring.datasource.password=aakash
 
 ***There is no need to run the SQL scripts as I have added test-scripts within Flyway itself to intialize database with test data*** 
 
-Steps to run this application
+***Steps to run this application***
 
 1. Clone/Download the repository
 2. To run the service, Run "mvn spring-boot:run" command inside "cab-booking-service" directory using a command prompt.
