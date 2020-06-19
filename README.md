@@ -1,6 +1,6 @@
 # cab-booking
 
-**** IMPORTANT NOTE: Please ignore the "cab-client" project as it is not configured to run with Authentication & Authorization. It can be used in the MASTER branch, where the cab-service project is without any API security. **** 
+***IMPORTANT NOTE: Please ignore the "cab-client" project as it is not configured to run with Authentication & Authorization. It can be used in the MASTER branch, where the cab-service project is without any API security.***
 
 -----------------------------------------------------------------------------------------------------------------------------------
 An assignment having some functionalities of a cab booking application built using Spring Boot, Hibernate, MySQL, and some basic API security features implemented using Spring Security and JWT. 
