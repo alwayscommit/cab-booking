@@ -26,6 +26,8 @@ Steps to run this application
 
 - The Postman Collection "GraphQL Trial.postman_collection.json" file has a basic create/fetch user functionality implemented using GraphQL approach. 
 
+---------------------------------------------------------------------------------------------------------------------------
+
 You can make use the following steps to test all the APIs, using ""Cab-Service-19-06.postman_collection.json" Postman collection
 
 1. Create Cab Driver -> Create a Cab Driver, which returns a carId and a unique userId identifying this driver
